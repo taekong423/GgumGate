@@ -67,7 +67,7 @@ public class ButtonData
 
     public float GetAxisFunction()
     {
-        if (_KeyAxis.Count <= 0)
+        if (_KeyAxis == null || _KeyAxis.Count <= 0)
             return 0.0f;
 
         for (int i = 0; i < _KeyAxis.Count; i++)
