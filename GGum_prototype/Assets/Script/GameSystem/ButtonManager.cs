@@ -32,9 +32,12 @@ public class ButtonData
         _KeyAxis.Add(func);
     }
 
+
+    //EButtonCode - Down, Press, Up
+
     public bool GetButtonDown()
     {
-        if (_keyCodes.Count <= 0)
+        if (_keyCodes.Count <= 0 && _keyNames.Count <= 0)
             return false;
 
         for (int i = 0; i < _keyCodes.Count; i++)
@@ -45,9 +48,72 @@ public class ButtonData
             }
         }
 
+        for (int i = 0; i < _keyNames.Count; i++)
+        {
+            if (Input.GetKeyDown(_keyNames[i]))
+            {
+                return true;
+            }
+        }
+
+
         return false;
 
     }
+
+    public bool GetButtonPress()
+    {
+        if (_keyCodes.Count <= 0 && _keyNames.Count <= 0)
+            return false;
+
+        for (int i = 0; i < _keyCodes.Count; i++)
+        {
+            if (Input.GetKey(_keyCodes[i]))
+            {
+                return true;
+            }
+        }
+
+        for (int i = 0; i < _keyNames.Count; i++)
+        {
+            if (Input.GetKey(_keyNames[i]))
+            {
+                return true;
+            }
+        }
+
+
+        return false;
+
+    }
+
+    public bool GetButtonUp()
+    {
+        if (_keyCodes.Count <= 0 && _keyNames.Count <= 0)
+            return false;
+
+        for (int i = 0; i < _keyCodes.Count; i++)
+        {
+            if (Input.GetKeyUp(_keyCodes[i]))
+            {
+                return true;
+            }
+        }
+
+        for (int i = 0; i < _keyNames.Count; i++)
+        {
+            if (Input.GetKeyUp(_keyNames[i]))
+            {
+                return true;
+            }
+        }
+
+
+        return false;
+
+    }
+
+    //Axis
 
     public float GetAxis()
     {
@@ -125,6 +191,22 @@ public class ButtonManager : MonoBehaviour {
         return null;
     }
 
+    ButtonData GetButtonData(string buttonName)
+    {
+        if (_buttonDatas.Length <= 0)
+            return null;
+
+        for (int i = 0; i < _buttonDatas.Length; i++)
+        {
+            if (_buttonDatas[i]._buttonName == buttonName)
+            {
+                return _buttonDatas[i];
+            }
+        }
+
+        return null;
+    }
+
     public void RegisterAxis(EButtonCode buttonCode, ButtonData.AxisFunction func)
     {
         ButtonData data = GetButtonData(buttonCode);
@@ -138,6 +220,8 @@ public class ButtonManager : MonoBehaviour {
         data.RegisterAxis(func);
     }
 
+    //EButtonCode - Down, Press, Up
+
     public bool GetButtonDown(EButtonCode buttonCode)
     {
         ButtonData data = GetButtonData(buttonCode);
@@ -150,6 +234,75 @@ public class ButtonManager : MonoBehaviour {
 
         return data.GetButtonDown();
     }
+
+    public bool GetButtonPress(EButtonCode buttonCode)
+    {
+        ButtonData data = GetButtonData(buttonCode);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return false;
+        }
+
+        return data.GetButtonPress();
+    }
+
+    public bool GetButtonUp(EButtonCode buttonCode)
+    {
+        ButtonData data = GetButtonData(buttonCode);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return false;
+        }
+
+        return data.GetButtonUp();
+    }
+
+    //String - Down, Press, Up
+
+    public bool GetButtonDown(string buttonName)
+    {
+        ButtonData data = GetButtonData(buttonName);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return false;
+        }
+
+        return data.GetButtonDown();
+    }
+
+    public bool GetButtonPress(string buttonName)
+    {
+        ButtonData data = GetButtonData(buttonName);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return false;
+        }
+
+        return data.GetButtonPress();
+    }
+
+    public bool GetButtonUp(string buttonName)
+    {
+        ButtonData data = GetButtonData(buttonName);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return false;
+        }
+
+        return data.GetButtonUp();
+    }
+
+    //Axis
 
     public float GetButtonAxis(EButtonCode buttonCode)
     {

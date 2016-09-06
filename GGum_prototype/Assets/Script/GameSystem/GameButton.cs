@@ -19,29 +19,29 @@ public class GameButton {
 
     public bool ButtonPress(EButtonCode buttonCode)
     {
-        return false;
+        return _buttonManager.GetButtonPress(buttonCode);
     }
 
     public bool ButtonUp(EButtonCode buttonCode)
     {
-        return false;
+        return _buttonManager.GetButtonUp(buttonCode);
     }
 
     //ButtonName : String
 
     public bool ButtonDown(string buttonName)
     {
-        return false;
+        return _buttonManager.GetButtonDown(buttonName);
     }
 
     public bool ButtonPress(string buttonName)
     {
-        return false;
+        return _buttonManager.GetButtonPress(buttonName);
     }
 
     public bool ButtonUp(string buttonName)
     {
-        return false;
+        return _buttonManager.GetButtonUp(buttonName);
     }
 
 

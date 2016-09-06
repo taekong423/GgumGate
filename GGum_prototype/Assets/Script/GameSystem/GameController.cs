@@ -62,6 +62,8 @@ public class GameController {
     }
 
 
+    //Axis
+
     public float ButtonAxis(EButtonCode buttonCode)
     {
         return _gameButton.ButtonAxis(buttonCode);
