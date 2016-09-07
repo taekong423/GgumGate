@@ -18,11 +18,12 @@ public class Character : MonoBehaviour {
     [SerializeField]
     private float jumpForce;
 
-
-    public Transform attackPosition;
+    public Rigidbody2D rb;
+    public Collider2D hitBox;
+    public Transform attackBox;
     public GameObject effect;
-    public GameObject hitBox;
     public GameObject bullet;
+    public GameObject container;
     public State state;
 
     public int MaxHP { get { return maxHP; } set { maxHP = value; } }
@@ -36,16 +37,34 @@ public class Character : MonoBehaviour {
 
 
 
-    public void MoveHorizontal(float axis)
+    public void Move(Axis axis, float keyValue)
     {
-        transform.Translate(Vector2.right * axis * moveSpeed * Time.fixedDeltaTime);
+        if (axis == Axis.Horizontal)
+        {
+            transform.Translate(Vector2.right * keyValue * moveSpeed * Time.fixedDeltaTime);
+        }
+        else if (axis == Axis.Vertical)
+        {
+            transform.Translate(Vector2.up * keyValue * moveSpeed * Time.fixedDeltaTime);
+        }
+        
     }
 
-    public void MoveVertical(float axis)
+    public void Jump()
     {
-        transform.Translate(Vector2.up * axis * moveSpeed * Time.fixedDeltaTime);
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+        else
+            Debug.Log("Null Rigidbody...");
     }
 
+    public void Shoot()
+    {
+        Instantiate(bullet, attackBox.position, attackBox.rotation);
+    }
 
     public void OnHit(HitInfo hitInfo)
     {

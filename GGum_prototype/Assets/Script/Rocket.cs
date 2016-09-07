@@ -10,6 +10,8 @@ public class Rocket : MonoBehaviour
     {
         // Destroy the rocket after 2 seconds if it doesn't get destroyed before then.
         Destroy(gameObject, 2);
+        
+        GetComponent<Rigidbody2D>().velocity = Vector2.right * 100;
     }
 
 

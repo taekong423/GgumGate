@@ -10,6 +10,12 @@ public enum State
     Dead,
 }
 
+public enum Axis
+{
+    Horizontal,
+    Vertical
+}
+
 public struct HitInfo
 {
     public string name;
