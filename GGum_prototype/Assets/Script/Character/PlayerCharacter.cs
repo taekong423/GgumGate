@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerCharacter : Character {
 
+    bool jump;
+
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
@@ -10,21 +12,24 @@ public class PlayerCharacter : Character {
 	
 	// Update is called once per frame
 	void Update () {
-        float x = GameController.This.ButtonAxis(EButtonCode.MoveX);
-        if (x > 0)
-            container.transform.rotation = Quaternion.Euler(0, 0, 0);
-        else if (x < 0)
-            container.transform.rotation = Quaternion.Euler(0, 180, 0);
 
-        Move(Axis.Horizontal, x);
+        jump = GameController.This.ButtonDown(EButtonCode.Jump);
 
-
-        //bool jump = GameController.This.ButtonDown(EButtonCode.Jump);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            Jump();
+        
 
         if (Input.GetKeyDown(KeyCode.C))
             Shoot();
 	}
+
+    void FixedUpdate()
+    {
+        float x = GameController.This.ButtonAxis(EButtonCode.MoveX);
+
+        Flip(x);
+
+        Move(Axis.Horizontal, x);
+
+        if (jump)
+            Jump();
+    }
 }

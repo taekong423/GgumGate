@@ -18,8 +18,10 @@ public class Character : MonoBehaviour {
     [SerializeField]
     private float jumpForce;
 
-    public Rigidbody2D rb;
-    public Collider2D hitBox;
+    protected bool onGround;
+
+    public Rigidbody2D m_rigidbody;
+    public BoxCollider2D m_collider;
     public Transform attackBox;
     public GameObject effect;
     public GameObject bullet;
@@ -47,15 +49,22 @@ public class Character : MonoBehaviour {
         {
             transform.Translate(Vector2.up * keyValue * moveSpeed * Time.fixedDeltaTime);
         }
-        
+    }
+
+    public void Flip(float dir)
+    {
+        if (dir > 0)
+            container.transform.rotation = Quaternion.Euler(0, 0, 0);
+        else if (dir < 0)
+            container.transform.rotation = Quaternion.Euler(0, 180, 0);
     }
 
     public void Jump()
     {
-        if (rb != null)
+        if (m_rigidbody != null)
         {
-            rb.velocity = Vector2.zero;
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            m_rigidbody.velocity = Vector2.zero;
+            m_rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
         else
             Debug.Log("Null Rigidbody...");
