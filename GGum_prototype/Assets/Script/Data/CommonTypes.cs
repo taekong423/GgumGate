@@ -16,6 +16,13 @@ public enum Axis
     Vertical
 }
 
+public enum MoveType
+{
+    Once,
+    PingPong,
+    Random,
+}
+
 public struct HitInfo
 {
     public string name;
