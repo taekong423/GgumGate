@@ -3,6 +3,10 @@ using System.Collections;
 
 public class Character : MonoBehaviour {
 
+    [Header("Status Setting")]
+    [SerializeField]
+    private string m_name;
+
     [SerializeField]
     private int maxHP;
     private int currentHP;
@@ -12,34 +16,45 @@ public class Character : MonoBehaviour {
     [SerializeField]
     private int attackDamage;
     [SerializeField]
-    private float attackRange;
+    private int attackCount;
+
+    [SerializeField]
+    private float attackSpeed;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
     private float jumpForce;
 
+    
     protected bool onGround;
+    protected Rigidbody2D m_rigidbody;
+    protected BoxCollider2D m_collider;
+    protected State state;
 
-    public Rigidbody2D m_rigidbody;
-    public BoxCollider2D m_collider;
+
+    [Header("Object Setting")]
     public Transform attackBox;
     public GameObject effect;
     public GameObject bullet;
     public GameObject container;
-    public State state;
+    
+
+    public string Name { get { return m_name; } set { m_name = value; } }
 
     public int MaxHP { get { return maxHP; } set { maxHP = value; } }
     public int CurrentHP { get { return currentHP; } set { currentHP = value; } }
     public int MaxShield { get { return maxShield; } set { maxShield = value; } }
     public int CurrentShield { get { return currentShield; } set { currentShield = value; } }
     public int AttackDamage { get { return attackDamage; } set { attackDamage = value; } }
-    public float AttackRange { get { return attackRange; } set { attackRange = value; } }
+    public int AttackCount { get { return attackCount; } set { attackCount = value; } }
+
+    public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
 
 
-    public void Move(Axis axis, float keyValue)
+    protected void Move(Axis axis, float keyValue)
     {
         if (axis == Axis.Horizontal)
         {
@@ -51,7 +66,7 @@ public class Character : MonoBehaviour {
         }
     }
 
-    public void Flip(float dir)
+    protected void Flip(float dir)
     {
         if (dir > 0)
             container.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -59,7 +74,7 @@ public class Character : MonoBehaviour {
             container.transform.rotation = Quaternion.Euler(0, 180, 0);
     }
 
-    public void Jump()
+    protected void Jump()
     {
         if (m_rigidbody != null)
         {
@@ -70,12 +85,15 @@ public class Character : MonoBehaviour {
             Debug.Log("Null Rigidbody...");
     }
 
-    public void Shoot()
+    virtual protected void Attack(HitInfo hitInfo) { }
+
+    protected void CreateBullet(HitInfo hitInfo)
     {
-        Instantiate(bullet, attackBox.position, attackBox.rotation);
+        GameObject obj = (GameObject)Instantiate(bullet, attackBox.position, attackBox.rotation);
+        obj.GetComponent<Bullet>().HitInfo = hitInfo;
     }
 
-    public void OnHit(HitInfo hitInfo)
+    protected void OnHit(HitInfo hitInfo)
     {
         if (state != State.Dead)
         {
@@ -112,6 +130,4 @@ public class Character : MonoBehaviour {
             }
         }
     }
-
-    
 }

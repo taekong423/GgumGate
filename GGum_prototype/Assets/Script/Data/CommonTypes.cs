@@ -27,4 +27,10 @@ public struct HitInfo
 {
     public string name;
     public int damage;
+
+    public HitInfo(string name = "default", int damage = 0)
+    {
+        this.name = name;
+        this.damage = damage;
+    }
 }

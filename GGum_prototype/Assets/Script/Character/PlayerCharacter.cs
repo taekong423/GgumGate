@@ -3,22 +3,25 @@ using System.Collections;
 
 public class PlayerCharacter : Character {
 
-    bool jump;
+    private float invincibleTime;
+    private bool canShoot = true;
 
 	// Use this for initialization
 	void Start () {
-        rb = GetComponent<Rigidbody2D>();
+        m_rigidbody = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        jump = GameController.This.ButtonDown(EButtonCode.Jump);
+        if (GameController.This.ButtonDown(EButtonCode.Jump))
+            Jump();
 
-        
 
-        if (Input.GetKeyDown(KeyCode.C))
-            Shoot();
+        if (GameController.This.ButtonPress(EButtonCode.Attack) && canShoot)
+        {
+            StartCoroutine(Shoot());
+        }
 	}
 
     void FixedUpdate()
@@ -28,8 +31,26 @@ public class PlayerCharacter : Character {
         Flip(x);
 
         Move(Axis.Horizontal, x);
+    }
 
-        if (jump)
-            Jump();
+    private float GetAttackSpeed(float attackSpeed)
+    {
+        if (attackSpeed <= 0)
+            return 1.0f;
+        else
+            return 1.0f / attackSpeed;
+    }
+
+    protected override void Attack(HitInfo hitInfo)
+    {
+        CreateBullet(hitInfo);
+    }
+
+    IEnumerator Shoot()
+    {
+        canShoot = false;
+        Attack(new HitInfo(Name, AttackDamage));
+        yield return new WaitForSeconds(GetAttackSpeed(AttackSpeed));
+        canShoot = true;
     }
 }

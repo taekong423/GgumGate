@@ -69,7 +69,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Bullet.cs" />
+    <Compile Include="Assets\Script\Bullet\Bullet.cs" />
+    <Compile Include="Assets\Script\Bullet\Figure.cs" />
     <Compile Include="Assets\Script\CameraController.cs" />
     <Compile Include="Assets\Script\CameraTrigger.cs" />
     <Compile Include="Assets\Script\Character\Character.cs" />
