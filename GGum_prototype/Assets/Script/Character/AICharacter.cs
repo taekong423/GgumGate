@@ -32,13 +32,12 @@ public class AICharacter : Character {
             return false;
     }
 
-    public float dist2;
 
     protected bool GoToTarget(Vector3 targetPoint)
     {
 
         float dist = Vector3.Distance(targetPoint, transform.position);
-        dist2 = dist;
+
         if (dist <= 15.0f)
             return true;
 
@@ -48,6 +47,7 @@ public class AICharacter : Character {
         float dirX = dir.x / Mathf.Abs(dir.x);
 
         Move(Axis.Horizontal, dirX);
+        Flip(dirX);
 
         return false;
     }
