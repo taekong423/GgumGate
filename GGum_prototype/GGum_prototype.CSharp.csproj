@@ -73,6 +73,9 @@
     <Compile Include="Assets\Script\CollisionTrigger.cs" />
     <Compile Include="Assets\Script\Data\CommonTypes.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Script\Enemy\Squirrel.cs" />
+    <Compile Include="Assets\Script\Enemy\TutoEnemy.cs" />
+    <Compile Include="Assets\Script\Enemy\TutoSquirrel.cs" />
     <Compile Include="Assets\Script\GameSystem\ButtonManager.cs" />
     <Compile Include="Assets\Script\GameSystem\GameButton.cs" />
     <Compile Include="Assets\Script\GameSystem\GameController.cs" />
