@@ -25,12 +25,12 @@ public enum MoveType
 
 public struct HitInfo
 {
-    public string name;
+    public GameObject attacker;
     public int damage;
 
-    public HitInfo(string name = "default", int damage = 0)
+    public HitInfo(GameObject attacker = null, int damage = 0)
     {
-        this.name = name;
+        this.attacker = attacker;
         this.damage = damage;
     }
 }
