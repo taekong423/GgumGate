@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
-    private HitInfo hitInfo;
+    protected HitInfo hitInfo;
 
     protected float destroyTime = 2.0f;
 
