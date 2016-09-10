@@ -7,6 +7,8 @@ public class Squirrel : Enemy {
     protected override IEnumerator InitState()
     {
         state = State.Idle;
+        _hitinfo.name = "Squirrel";
+        _hitinfo.damage = 1;
 
         NextState();
         StartCoroutine(Search());
@@ -16,23 +18,27 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator IdleState()
     {
+        _anim.SetTrigger("Idle");
+        
+
         while (state == State.Idle)
         {
-
-            if (_currentMoveDleay <= 0.0f)
+            if (!Search(_player.transform, _attackRange))
             {
-                _currentMoveDleay = _moveDelay;
+                if (_currentMoveDleay <= 0.0f)
+                {
 
-                if (_wayPoints.Length != 0)
-                    _target = _wayPoints[_numWayPoint];
+                    _currentMoveDleay = _moveDelay;
+                    if (_wayPoints.Length != 0)
+                        _target = _wayPoints[_numWayPoint];
 
-                state = State.Move;
+                    state = State.Move;
+                }
+                else
+                {
+                    _currentMoveDleay -= Time.fixedDeltaTime;
+                }
             }
-            else
-            {
-                _currentMoveDleay -= Time.fixedDeltaTime;
-            }
-
             yield return null;
 
         }
@@ -44,6 +50,7 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator MoveState()
     {
+        _anim.SetTrigger("Move");
 
         while (state == State.Move)
         {
@@ -67,6 +74,15 @@ public class Squirrel : Enemy {
         yield return null;
     }
 
+    protected override IEnumerator AttackState()
+    {
+        _anim.SetTrigger("Attack");
+
+        Attack(_hitinfo);
+
+        yield return null;
+    }
+
     protected override IEnumerator HitState()
     {
 
@@ -81,6 +97,11 @@ public class Squirrel : Enemy {
 
 
         yield return null;
+    }
+
+    protected override void Attack(HitInfo hitInfo)
+    {
+        _player.OnHit(hitInfo);
     }
 
 }

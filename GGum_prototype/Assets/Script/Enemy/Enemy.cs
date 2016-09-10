@@ -4,11 +4,16 @@ using System.Reflection;
 
 public class Enemy : AICharacter {
 
+    protected Animator _anim;
+    protected HitInfo _hitinfo;
+
+
+    public float AttackDelay = 1.0f;
 
 	// Use this for initialization
 	void Awake () {
         _player = GameObject.FindObjectOfType<PlayerCharacter>();
-        state = State.Idle;
+        _anim = GetComponentInChildren<Animator>();
 	}
 
     void OnEnable()
@@ -57,27 +62,66 @@ public class Enemy : AICharacter {
 
     protected virtual IEnumerator Search()
     {
+        float attackDelay = 0;
+
         while (state != State.Dead)
         {
-            if (state != State.Attack && state != State.Hit)
+            if (state == State.Idle || state == State.Move)
             {
 
-                if (Search(_player.transform, _detectionRange))
+                if (Search(_player.transform, _attackRange))
                 {
-                    _currentMoveDleay = _moveDelay;
-                    _target = _player.transform;
+                    if (attackDelay <= 0.0f)
+                    {
+                        state = State.Attack;
+                        attackDelay = AttackDelay;
+                    }
+                    else
+                        attackDelay -= Time.deltaTime;
+
+                }
+                else if (Search(_player.transform, _detectionRange))
+                {
+
                     state = State.Move;
+                    attackDelay = AttackDelay;
+                    _target = _player.transform;
+                    _currentMoveDleay = _moveDelay;
+
                 }
                 else
                 {
-                    if (_target == _player.transform)
+                    attackDelay = AttackDelay;
+
+                    if (_target == _player.transform && _wayPoints.Length != 0)
                     {
-                        if (_wayPoints.Length != 0)
+
                             _target = _wayPoints[_numWayPoint];
                     }
+
                 }
 
             }
+
+            //if (state != State.Attack && state != State.Hit)
+            //{
+
+            //    if (Search(_player.transform, _detectionRange))
+            //    {
+            //        _currentMoveDleay = _moveDelay;
+            //        _target = _player.transform;
+            //        state = State.Move;
+            //    }
+            //    else
+            //    {
+            //        if (_target == _player.transform)
+            //        {
+            //            if (_wayPoints.Length != 0)
+            //                _target = _wayPoints[_numWayPoint];
+            //        }
+            //    }
+
+            //}
 
             yield return null;
         }
@@ -85,7 +129,7 @@ public class Enemy : AICharacter {
         yield return null;
     }
 
-    protected void NextState()
+    public void NextState()
     {
         string methodName = state.ToString() + "State";
         MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);

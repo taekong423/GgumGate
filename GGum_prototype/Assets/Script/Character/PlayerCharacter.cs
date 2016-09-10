@@ -8,6 +8,7 @@ public class PlayerCharacter : Character {
 
 	// Use this for initialization
 	void Start () {
+        CurrentHP = MaxHP;
         m_rigidbody = GetComponent<Rigidbody2D>();
 	}
 	

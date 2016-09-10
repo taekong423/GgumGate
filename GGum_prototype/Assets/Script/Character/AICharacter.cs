@@ -7,7 +7,9 @@ public class AICharacter : Character {
 
     [Header("AI Setting")]
     [SerializeField]
-    protected float _detectionRange = 1.0f;
+    protected float _detectionRange = 100.0f;
+
+    protected float _attackRange = 20.0f;
 
     protected PlayerCharacter _player;
     protected Transform _target;

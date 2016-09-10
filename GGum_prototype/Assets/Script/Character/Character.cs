@@ -52,7 +52,7 @@ public class Character : MonoBehaviour {
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
-
+    public State CurrentState { get { return state; } set { state = value; } }
 
     protected void Move(Axis axis, float keyValue)
     {
@@ -93,7 +93,7 @@ public class Character : MonoBehaviour {
         obj.GetComponent<Bullet>().HitInfo = hitInfo;
     }
 
-    protected void OnHit(HitInfo hitInfo)
+    public void OnHit(HitInfo hitInfo)
     {
         if (state != State.Dead)
         {
@@ -105,6 +105,8 @@ public class Character : MonoBehaviour {
             {
                 CalcDamage(ref currentHP, ref damage);
             }
+
+            Debug.Log("Shield = " + CurrentShield + "HP = " + CurrentHP);
 
             if (currentHP <= 0)
             {
