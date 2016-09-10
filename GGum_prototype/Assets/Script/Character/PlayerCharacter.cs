@@ -50,7 +50,7 @@ public class PlayerCharacter : Character {
     IEnumerator Shoot()
     {
         canShoot = false;
-        Attack(new HitInfo(Name, AttackDamage));
+        Attack(new HitInfo(gameObject, AttackDamage));
         yield return new WaitForSeconds(GetAttackSpeed(AttackSpeed));
         canShoot = true;
     }

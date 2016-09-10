@@ -5,7 +5,7 @@ public class Character : MonoBehaviour {
 
     [Header("Status Setting")]
     [SerializeField]
-    private string m_name;
+    private string id;
 
     [SerializeField]
     private int maxHP;
@@ -15,8 +15,6 @@ public class Character : MonoBehaviour {
     private int currentShield;
     [SerializeField]
     private int attackDamage;
-    [SerializeField]
-    private int attackCount;
 
     [SerializeField]
     private float attackSpeed;
@@ -39,14 +37,13 @@ public class Character : MonoBehaviour {
     public GameObject container;
     
 
-    public string Name { get { return m_name; } set { m_name = value; } }
+    public string Id { get { return id; } set { id = value; } }
 
     public int MaxHP { get { return maxHP; } set { maxHP = value; } }
     public int CurrentHP { get { return currentHP; } set { currentHP = value; } }
     public int MaxShield { get { return maxShield; } set { maxShield = value; } }
     public int CurrentShield { get { return currentShield; } set { currentShield = value; } }
     public int AttackDamage { get { return attackDamage; } set { attackDamage = value; } }
-    public int AttackCount { get { return attackCount; } set { attackCount = value; } }
 
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
