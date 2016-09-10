@@ -7,6 +7,7 @@ public class Enemy : AICharacter {
     protected Animator _anim;
     protected HitInfo _hitinfo;
 
+    protected bool _isHitEffectDelay = false;
 
     public float AttackDelay = 1.0f;
 
@@ -14,11 +15,17 @@ public class Enemy : AICharacter {
 	void Awake () {
         _player = GameObject.FindObjectOfType<PlayerCharacter>();
         _anim = GetComponentInChildren<Animator>();
+        hitFunc = Hit;
 	}
 
     void OnEnable()
     {
         StartCoroutine(InitState());
+    }
+
+    protected virtual void Hit()
+    {
+
     }
 
     protected virtual IEnumerator InitState()
@@ -102,26 +109,6 @@ public class Enemy : AICharacter {
                 }
 
             }
-
-            //if (state != State.Attack && state != State.Hit)
-            //{
-
-            //    if (Search(_player.transform, _detectionRange))
-            //    {
-            //        _currentMoveDleay = _moveDelay;
-            //        _target = _player.transform;
-            //        state = State.Move;
-            //    }
-            //    else
-            //    {
-            //        if (_target == _player.transform)
-            //        {
-            //            if (_wayPoints.Length != 0)
-            //                _target = _wayPoints[_numWayPoint];
-            //        }
-            //    }
-
-            //}
 
             yield return null;
         }

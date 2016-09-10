@@ -23,7 +23,9 @@ public class Character : MonoBehaviour {
     [SerializeField]
     private float jumpForce;
 
-    
+    protected delegate void HitFunc();
+    protected HitFunc hitFunc;
+
     protected bool onGround;
     protected Rigidbody2D m_rigidbody;
     protected BoxCollider2D m_collider;
@@ -110,6 +112,9 @@ public class Character : MonoBehaviour {
                 // When Dead
                 state = State.Dead;
             }
+
+            hitFunc();
+
         }
     }
 
