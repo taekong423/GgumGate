@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Reflection;
 
 public class Character : MonoBehaviour {
 
@@ -24,7 +25,7 @@ public class Character : MonoBehaviour {
     private float jumpForce;
 
     
-    protected bool onGround;
+    protected bool onGround = false;
     protected Rigidbody2D m_rigidbody;
     protected BoxCollider2D m_collider;
     protected State state;
@@ -35,6 +36,7 @@ public class Character : MonoBehaviour {
     public GameObject effect;
     public GameObject bullet;
     public GameObject container;
+    public Animator animator;
     
 
     public string Id { get { return id; } set { id = value; } }
@@ -126,5 +128,12 @@ public class Character : MonoBehaviour {
                 point = 0;
             }
         }
+    }
+
+    protected void NextState()
+    {
+        string methodName = state.ToString() + "State";
+        MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+        StartCoroutine((IEnumerator)info.Invoke(this, null));
     }
 }

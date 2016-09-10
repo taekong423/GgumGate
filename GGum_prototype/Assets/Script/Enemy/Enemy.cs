@@ -84,7 +84,7 @@ public class Enemy : AICharacter {
 
         yield return null;
     }
-
+    /*
     protected void NextState()
     {
         string methodName = state.ToString() + "State";
@@ -92,5 +92,5 @@ public class Enemy : AICharacter {
 
         StartCoroutine((IEnumerator)info.Invoke(this, null));
     }
-
+    */
 }
