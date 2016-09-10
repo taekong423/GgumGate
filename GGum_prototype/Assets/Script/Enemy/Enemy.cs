@@ -57,7 +57,30 @@ public class Enemy : AICharacter {
 
     protected virtual IEnumerator Search()
     {
+        while (state != State.Dead)
+        {
+            if (state != State.Attack && state != State.Hit)
+            {
 
+                if (Search(_player.transform, _detectionRange))
+                {
+                    _currentMoveDleay = _moveDelay;
+                    _target = _player.transform;
+                    state = State.Move;
+                }
+                else
+                {
+                    if (_target == _player.transform)
+                    {
+                        if (_wayPoints.Length != 0)
+                            _target = _wayPoints[_numWayPoint];
+                    }
+                }
+
+            }
+
+            yield return null;
+        }
 
         yield return null;
     }
