@@ -9,6 +9,7 @@ public class AICharacter : Character {
     [SerializeField]
     protected float _detectionRange = 100.0f;
 
+    [SerializeField]
     protected float _attackRange = 20.0f;
 
     protected PlayerCharacter _player;
@@ -58,7 +59,7 @@ public class AICharacter : Character {
 
     protected void SetWayPointNum()
     {
-        Debug.Log("SetPoint");
+        Debug.Log("SetPoint, PreTarget = " + _target.gameObject.name);
         switch (_moveType)
         {
             case MoveType.Once:

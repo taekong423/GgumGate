@@ -7,17 +7,18 @@ public class Squirrel : Enemy {
     protected override IEnumerator InitState()
     {
         state = State.Idle;
-        _hitinfo.name = "Squirrel";
+        _hitinfo.attacker = gameObject;
         _hitinfo.damage = 1;
+
+        yield return null;
 
         NextState();
         StartCoroutine(Search());
-
-        yield return null;
     }
 
     protected override IEnumerator IdleState()
     {
+        Debug.Log("Idle");
         _anim.SetTrigger("Idle");
         
 
@@ -27,7 +28,6 @@ public class Squirrel : Enemy {
             {
                 if (_currentMoveDleay <= 0.0f)
                 {
-
                     _currentMoveDleay = _moveDelay;
                     if (_wayPoints.Length != 0)
                         _target = _wayPoints[_numWayPoint];
@@ -50,6 +50,7 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator MoveState()
     {
+        Debug.Log("Move1");
         _anim.SetTrigger("Move");
 
         while (state == State.Move)
