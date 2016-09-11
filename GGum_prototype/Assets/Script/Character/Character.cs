@@ -115,7 +115,7 @@ public class Character : MonoBehaviour {
                 // When Dead
                 state = State.Dead;
             }
-            if(_hitFunc != null)
+            else if(_hitFunc != null)
                 _hitFunc();
 
         }
