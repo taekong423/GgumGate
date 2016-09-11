@@ -23,7 +23,7 @@ public class Squirrel : Enemy {
     protected override IEnumerator IdleState()
     {
         Debug.Log("Idle");
-        _anim.SetTrigger("Idle");
+        animator.SetTrigger("Idle");
         
 
         while (state == State.Idle)
@@ -55,7 +55,7 @@ public class Squirrel : Enemy {
     protected override IEnumerator MoveState()
     {
         Debug.Log("Move1");
-        _anim.SetTrigger("Move");
+        animator.SetTrigger("Move");
 
         while (state == State.Move)
         {
@@ -81,7 +81,7 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator AttackState()
     {
-        _anim.SetTrigger("Attack");
+        animator.SetTrigger("Attack");
 
         Attack(_hitinfo);
 
@@ -90,7 +90,7 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator HitState()
     {
-        _anim.SetTrigger("Sturn");
+        animator.SetTrigger("Sturn");
 
         float hitDelay = 0;
 
