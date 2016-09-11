@@ -54,7 +54,7 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator MoveState()
     {
-        Debug.Log("Move1");
+        Debug.Log("Move");
         animator.SetTrigger("Move");
 
         while (state == State.Move)
@@ -64,9 +64,12 @@ public class Squirrel : Enemy {
                 //도착.
                 if (GoToTarget(_target.position))
                 {
-                    SetWayPointNum();
-                    _target = _wayPoints[_numWayPoint];
-                    state = State.Idle;
+                    if (_target != _player.transform)
+                    {
+                        SetWayPointNum();
+                        _target = _wayPoints[_numWayPoint];
+                        state = State.Idle;
+                    }
                 }
 
             }
@@ -81,6 +84,8 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator AttackState()
     {
+        Debug.Log("Attack");
+
         animator.SetTrigger("Attack");
 
         Attack(_hitinfo);
@@ -90,6 +95,7 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator HitState()
     {
+        Debug.Log("Hit");
         animator.SetTrigger("Sturn");
 
         float hitDelay = 0;
@@ -114,8 +120,20 @@ public class Squirrel : Enemy {
 
     protected override IEnumerator DeadState()
     {
+        Debug.Log("Dead");
 
+        animator.SetTrigger("Dead");
 
+        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<CircleCollider2D>().enabled = false;
+        m_rigidbody.gravityScale = 0;
+
+        while (state == State.Dead)
+        {
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
 
         yield return null;
     }

@@ -12,13 +12,20 @@ public class Enemy : AICharacter {
 
     // Use this for initialization
     void Awake () {
-        animator = GetComponentInChildren<Animator>();
-        _player = GameObject.FindObjectOfType<PlayerCharacter>();
+        InitCharacter();
 	}
 
     void OnEnable()
     {
-        StartCoroutine(InitState());
+        NextState();
+        //StartCoroutine(InitState());
+    }
+
+    protected override void InitCharacter()
+    {
+        base.InitCharacter();
+        animator = GetComponentInChildren<Animator>();
+        _player = GameObject.FindObjectOfType<PlayerCharacter>();
     }
 
     protected virtual IEnumerator Search()

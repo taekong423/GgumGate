@@ -44,8 +44,6 @@ public class AICharacter : Character {
         if (dist <= 15.0f)
             return true;
 
-        Debug.Log("Move");
-
         Vector3 dir = targetPoint - transform.position;
         float dirX = dir.x / Mathf.Abs(dir.x);
 
