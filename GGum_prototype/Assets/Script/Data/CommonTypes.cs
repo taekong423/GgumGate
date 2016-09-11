@@ -3,6 +3,7 @@ using System.Collections;
 
 public enum State
 {
+    Init,
     Idle,
     Move,
     Attack,

@@ -23,13 +23,7 @@ public class PlayerCharacter : Character
     // Use this for initialization
     void Start()
     {
-        CurrentHP = MaxHP;
-        m_rigidbody = GetComponent<Rigidbody2D>();
-        m_collider = GetComponent<BoxCollider2D>();
-        layerMask = LayerMask.GetMask("Ground");
-        rayLength = 1.0f;
-        rayPosX = 2.1f;
-        rayPosY = 11.5f;
+        InitCharacter();
     }
 
     // Update is called once per frame
@@ -37,6 +31,7 @@ public class PlayerCharacter : Character
     {
         onGround = GroundCheck();
         KeyInput();
+        
     }
 
     void FixedUpdate()
@@ -54,6 +49,17 @@ public class PlayerCharacter : Character
         //Gizmos.DrawLine(rayPosCenter, rayPosCenter - new Vector3(0, y + rayLength, 0));
         Gizmos.DrawLine(rayPosRight, rayPosRight - new Vector3(0, rayPosY + rayLength, 0));
         Gizmos.DrawLine(rayPosLeft, rayPosLeft - new Vector3(0, rayPosY + rayLength, 0));
+    }
+
+    protected override void InitCharacter()
+    {
+        base.InitCharacter();
+
+        m_collider = GetComponent<BoxCollider2D>();
+        layerMask = LayerMask.GetMask("Ground");
+        rayLength = 1.0f;
+        rayPosX = 2.1f;
+        rayPosY = 11.5f;
     }
 
     private void KeyInput()

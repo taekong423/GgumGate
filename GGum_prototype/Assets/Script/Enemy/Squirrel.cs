@@ -125,7 +125,7 @@ public class Squirrel : Enemy {
         _player.OnHit(hitInfo);
     }
 
-    protected override void Hit()
+    protected override void HitFunc()
     {
         if (state != State.Hit && !_isHitEffectDelay)
         {

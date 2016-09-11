@@ -25,7 +25,7 @@ public class Character : MonoBehaviour {
     private float jumpForce;
 
 
-    protected bool onGround = false;
+    protected bool onGround;
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
     protected State state;
@@ -52,6 +52,20 @@ public class Character : MonoBehaviour {
     public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
     public State CurrentState { get { return state; } set { state = value; } }
+
+
+    protected virtual void InitCharacter()
+    {
+        currentHP = maxHP;
+        currentShield = maxShield;
+        onGround = false;
+        m_rigidbody = GetComponent<Rigidbody2D>();
+
+        if (currentHP > 0)
+            state = State.Init;
+        else
+            state = State.Dead;
+    }
 
     protected void Move(Axis axis, float keyValue)
     {
@@ -134,10 +148,7 @@ public class Character : MonoBehaviour {
         }
     }
 
-    protected virtual void HitFunc()
-    {
-
-    }
+    protected virtual void HitFunc() { }
 
     protected virtual IEnumerator InitState()
     {
