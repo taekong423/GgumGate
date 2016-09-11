@@ -76,7 +76,6 @@
     <Compile Include="Assets\Script\CameraTrigger.cs" />
     <Compile Include="Assets\Script\Character\AICharacter.cs" />
     <Compile Include="Assets\Script\Character\Character.cs" />
-    <Compile Include="Assets\Script\Character\JumpTest.cs" />
     <Compile Include="Assets\Script\Character\PlayerCharacter.cs" />
     <Compile Include="Assets\Script\CollisionTrigger.cs" />
     <Compile Include="Assets\Script\Data\CommonTypes.cs" />

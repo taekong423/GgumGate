@@ -8,7 +8,8 @@ public class PlayerCharacter : Character
 
     private int jumpCounter;
     private float invincibleTime;
-    private bool canShoot = true;
+    private bool canShoot;
+    private bool canClimb;
     private float hAxis;
     private float vAxis;
     private LayerMask layerMask;
@@ -41,6 +42,14 @@ public class PlayerCharacter : Character
 
         Flip(hAxis);
         Move(Axis.Horizontal, hAxis);
+
+        if (canClimb && vAxis != 0)
+        {
+            m_rigidbody.isKinematic = true;
+            m_rigidbody.gravityScale = 0;
+            m_rigidbody.velocity = Vector2.zero;
+            Move(Axis.Vertical, vAxis);
+        }
     }
 
     void OnDrawGizmos()
@@ -55,11 +64,26 @@ public class PlayerCharacter : Character
     {
         base.InitCharacter();
 
+        canClimb = false;
+        canShoot = true;
+        onGround = false;
         m_collider = GetComponent<BoxCollider2D>();
         layerMask = LayerMask.GetMask("Ground");
         rayLength = 1.0f;
         rayPosX = 2.1f;
         rayPosY = 11.5f;
+    }
+
+    private int GetRawAxis(float value)
+    {
+        if (value > 0)
+        {
+            return 1;
+        }
+        else if (value < 0)
+            return -1;
+        else
+            return 0;
     }
 
     private void KeyInput()
@@ -69,18 +93,26 @@ public class PlayerCharacter : Character
             if (onGround)
             {
                 jumpCounter = 0;
-                m_rigidbody.gravityScale = 20;
+                m_rigidbody.gravityScale = 10;
+            }
+
+            if (canClimb)
+            {
+                jumpCounter = 0;
+                canClimb = false;
+                m_rigidbody.isKinematic = false;
             }
 
             if (jumpCounter < maxJumps)
             {
+                m_rigidbody.velocity = Vector2.zero;
                 Jump();
                 m_rigidbody.gravityScale = 50;
                 jumpCounter++;
             }
         }
 
-        if (GameController.This.ButtonPress(EButtonCode.Attack) && canShoot)
+        if (GameController.This.ButtonPress(EButtonCode.Attack) && canShoot && !canClimb)
         {
             StartCoroutine(Shoot());
         }
@@ -104,7 +136,8 @@ public class PlayerCharacter : Character
         }
         else
         {
-            m_rigidbody.gravityScale = 50;
+            if (!canClimb)
+                m_rigidbody.gravityScale = 50;
             return false;
         }
     }
@@ -135,5 +168,36 @@ public class PlayerCharacter : Character
 
         yield return new WaitForSeconds(GetAttackSpeed(AttackSpeed));
         canShoot = true;
+    }
+
+    void OnTriggerEnter2D (Collider2D other)
+    {
+        if (m_collider.IsTouchingLayers(LayerMask.GetMask("Ladder")))
+        {
+            
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
+        {
+            if (!canClimb)
+            {
+                Debug.Log("OnLadder");
+                canClimb = true;
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
+        {
+            if (canClimb)
+            {
+                Debug.Log("OnLadder");
+                canClimb = false;
+                m_rigidbody.isKinematic = false;
+                m_rigidbody.gravityScale = 50;
+                jumpCounter = 0;
+            }
+        }
     }
 }
