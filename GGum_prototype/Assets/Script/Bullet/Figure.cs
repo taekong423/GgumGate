@@ -5,9 +5,8 @@ public class Figure : Bullet {
 
 	// Use this for initialization
 	void Start () {
-        hitInfo.attacker = gameObject;
-        hitInfo.damage = 1;
-
+        hitData.attacker = gameObject;
+        hitData.damage = 1;
         SelfDestroy();
 	}
 	
@@ -21,7 +20,7 @@ public class Figure : Bullet {
         if (other.tag == "Enemy")
         {
             Debug.Log("Hit Enemy");
-            other.GetComponent<Enemy>().OnHit(hitInfo);
+            other.GetComponent<Enemy>().OnHit(hitData);
             Destroy(gameObject);
         }
     }

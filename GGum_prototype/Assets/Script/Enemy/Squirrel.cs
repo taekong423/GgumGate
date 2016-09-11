@@ -120,7 +120,7 @@ public class Squirrel : Enemy {
         yield return null;
     }
 
-    protected override void Attack(HitInfo hitInfo)
+    protected override void Attack(HitData hitInfo)
     {
         _player.OnHit(hitInfo);
     }

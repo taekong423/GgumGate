@@ -23,12 +23,12 @@ public enum MoveType
     Random,
 }
 
-public struct HitInfo
+public struct HitData
 {
     public GameObject attacker;
     public int damage;
 
-    public HitInfo(GameObject attacker = null, int damage = 0)
+    public HitData(GameObject attacker = null, int damage = 0)
     {
         this.attacker = attacker;
         this.damage = damage;

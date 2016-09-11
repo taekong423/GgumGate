@@ -4,7 +4,7 @@ using System.Reflection;
 
 public class Enemy : AICharacter {
 
-    protected HitInfo _hitinfo;
+    protected HitData _hitinfo;
 
     protected bool _isHitEffectDelay = false;
 
@@ -12,7 +12,6 @@ public class Enemy : AICharacter {
 
     // Use this for initialization
     void Awake () {
-        _hitFunc = Hit;
         animator = GetComponentInChildren<Animator>();
         _player = GameObject.FindObjectOfType<PlayerCharacter>();
 	}
@@ -20,45 +19,6 @@ public class Enemy : AICharacter {
     void OnEnable()
     {
         StartCoroutine(InitState());
-    }
-
-    protected virtual IEnumerator InitState()
-    {
-
-        yield return null;
-    }
-
-    protected virtual IEnumerator IdleState()
-    {
-        
-        yield return null;
-    }
-
-    protected virtual IEnumerator MoveState()
-    {
-
-        yield return null;
-    }
-
-    protected virtual IEnumerator AttackState()
-    {
-        yield return null;
-    }
-
-    protected virtual IEnumerator HitState()
-    {
-
-
-
-        yield return null;
-    }
-
-    protected virtual IEnumerator DeadState()
-    {
-
-
-
-        yield return null;
     }
 
     protected virtual IEnumerator Search()
@@ -109,19 +69,4 @@ public class Enemy : AICharacter {
 
         yield return null;
     }
-
-    protected virtual void Hit()
-    {
-
-    }
-
-    /*
-    protected void NextState()
-    {
-        string methodName = state.ToString() + "State";
-        MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
-
-        StartCoroutine((IEnumerator)info.Invoke(this, null));
-    }
-    */
 }

@@ -117,7 +117,7 @@ public class PlayerCharacter : Character
             return 1.0f / attackSpeed;
     }
 
-    protected override void Attack(HitInfo hitInfo)
+    protected override void Attack(HitData hitInfo)
     {
         CreateBullet(hitInfo);
     }
@@ -125,7 +125,7 @@ public class PlayerCharacter : Character
     IEnumerator Shoot()
     {
         canShoot = false;
-        Attack(new HitInfo(gameObject, AttackDamage));
+        Attack(new HitData(gameObject, AttackDamage));
 
         yield return new WaitForSeconds(GetAttackSpeed(AttackSpeed));
         canShoot = true;

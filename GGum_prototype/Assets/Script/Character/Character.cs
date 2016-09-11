@@ -25,9 +25,6 @@ public class Character : MonoBehaviour {
     private float jumpForce;
 
 
-    protected delegate void HitFunc();
-    protected HitFunc _hitFunc;
-
     protected bool onGround = false;
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
@@ -87,15 +84,15 @@ public class Character : MonoBehaviour {
             Debug.Log("Null Rigidbody...");
     }
 
-    virtual protected void Attack(HitInfo hitInfo) { }
+    virtual protected void Attack(HitData hitInfo) { }
 
-    protected void CreateBullet(HitInfo hitInfo)
+    protected void CreateBullet(HitData hitInfo)
     {
         GameObject obj = (GameObject)Instantiate(bullet, attackBox.position, attackBox.rotation);
-        obj.GetComponent<Bullet>().HitInfo = hitInfo;
+        obj.GetComponent<Bullet>().pHitData = hitInfo;
     }
 
-    public void OnHit(HitInfo hitInfo)
+    public void OnHit(HitData hitInfo)
     {
         if (state != State.Dead)
         {
@@ -115,9 +112,8 @@ public class Character : MonoBehaviour {
                 // When Dead
                 state = State.Dead;
             }
-            else if(_hitFunc != null)
-                _hitFunc();
-
+            else
+                HitFunc();
         }
     }
 
@@ -136,6 +132,41 @@ public class Character : MonoBehaviour {
                 point = 0;
             }
         }
+    }
+
+    protected virtual void HitFunc()
+    {
+
+    }
+
+    protected virtual IEnumerator InitState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator IdleState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator MoveState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator AttackState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator HitState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator DeadState()
+    {
+        yield return null;
     }
 
     protected void NextState()
