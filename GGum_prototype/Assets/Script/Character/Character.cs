@@ -30,7 +30,7 @@ public class Character : MonoBehaviour {
 
     protected bool onGround = false;
     protected Rigidbody2D m_rigidbody;
-    protected BoxCollider2D m_collider;
+    protected Collider2D m_collider;
     protected State state;
 
 
