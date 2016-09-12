@@ -3,39 +3,38 @@ using System.Collections;
 
 public class CollisionTrigger : MonoBehaviour {
 
-	private CircleCollider2D playerCollider;
+	private Collider2D playerCollider;
+
 	[SerializeField]
-	private BoxCollider2D platformCollider;
+	private Collider2D platformCollider;
 	[SerializeField]
-	private BoxCollider2D platformTrigger;
+	private Collider2D platformTrigger;
 
 	// Use this for initialization
 	void Start () {
-
-		playerCollider = GameObject.Find("Player").GetComponent< CircleCollider2D> ();
-		Physics2D.IgnoreCollision(platformCollider,platformTrigger,true);
-
-	
+		playerCollider = GameObject.FindWithTag("Player").GetComponent<Collider2D> ();
+		Physics2D.IgnoreCollision(platformCollider, platformTrigger, true);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.gameObject.name == "Player")
+		if(other.gameObject.tag == "Player")
 		{
 			Debug.LogWarning(0);
-			Physics2D.IgnoreCollision(platformCollider,playerCollider,true);
+			Physics2D.IgnoreCollision(platformCollider, playerCollider, true);
 		}
 	}
 	void OnTriggerExit2D(Collider2D other)
 	{
-		if(other.gameObject.name == "Player")
+		if(other.gameObject.tag == "Player")
 		{
 			Debug.LogWarning(0);
-			Physics2D.IgnoreCollision(platformCollider,playerCollider,false);
+			Physics2D.IgnoreCollision(platformCollider, playerCollider, false);
 		}
 	}
 }

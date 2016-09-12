@@ -17,7 +17,6 @@ public class PlayerCharacter : Character
     private Vector3 rayPosCenter;
     private Vector3 rayPosRight;
     private Vector3 rayPosLeft;
-    private CircleCollider2D cc;
     private GameObject ladder;
 
     float rayPosX;
@@ -47,10 +46,10 @@ public class PlayerCharacter : Character
 
         if (canClimb && vAxis != 0)
         {
-            m_rigidbody.isKinematic = true;
-            //m_rigidbody.gravityScale = 0;
+            m_rigidbody.gravityScale = 0;
             m_rigidbody.velocity = Vector2.zero;
             gameObject.transform.position = new Vector3(ladder.transform.position.x, gameObject.transform.position.y, 0);
+            ladder.GetComponent<LadderCollisionTrigger>().IgnorePlatform(true);
             Move(Axis.Vertical, vAxis);
         }
         else
@@ -74,12 +73,13 @@ public class PlayerCharacter : Character
         canClimb = false;
         canShoot = true;
         onGround = false;
-        m_collider = GetComponent<BoxCollider2D>();
-        cc = GetComponent<CircleCollider2D>();
+        m_collider = GetComponent<CircleCollider2D>();
         layerMask = LayerMask.GetMask("Ground");
         rayLength = 2.5f;
         rayPosX = 2.1f;
         rayPosY = 10.0f;
+
+        //Physics2D.IgnoreCollision(m_collider, cc, true);
     }
 
     private int GetRawAxis(float value)
@@ -108,7 +108,6 @@ public class PlayerCharacter : Character
             {
                 jumpCounter = 0;
                 canClimb = false;
-                m_rigidbody.isKinematic = false;
             }
 
             if (jumpCounter < maxJumps)
@@ -144,7 +143,8 @@ public class PlayerCharacter : Character
         }
         else
         {
-            m_rigidbody.gravityScale = 50;
+            if (!canClimb)
+                m_rigidbody.gravityScale = 50;
             return false;
         }
     }
@@ -177,32 +177,27 @@ public class PlayerCharacter : Character
         canShoot = true;
     }
 
-    private bool CheckColliderByLayer(string layerName, Collider2D other, out GameObject otherObject)
+    private bool CheckColliderByLayer(string layerName, Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer(layerName))
         {
-            otherObject = other.gameObject;
             return true;
         }
         else
         {
-            otherObject = null;
             return false;
         }
     }
 
     void OnTriggerEnter2D (Collider2D other)
     {
-        if (m_collider.IsTouchingLayers(LayerMask.GetMask("Ladder")))
-        {
-            
-        }
-        if (CheckColliderByLayer("Ladder", other, out ladder))
+        if (CheckColliderByLayer("Ladder", other))
         {
             if (!canClimb)
             {
                 Debug.Log("OnLadder");
                 canClimb = true;
+                ladder = other.gameObject;
             }
         }
     }
@@ -215,7 +210,6 @@ public class PlayerCharacter : Character
             {
                 Debug.Log("OffLadder");
                 canClimb = false;
-                m_rigidbody.isKinematic = false;
                 m_rigidbody.gravityScale = 50;
                 jumpCounter = 0;
             }

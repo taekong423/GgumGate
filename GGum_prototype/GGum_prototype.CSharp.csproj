@@ -86,6 +86,7 @@
     <Compile Include="Assets\Script\GameSystem\ButtonManager.cs" />
     <Compile Include="Assets\Script\GameSystem\GameButton.cs" />
     <Compile Include="Assets\Script\GameSystem\GameController.cs" />
+    <Compile Include="Assets\Script\LadderCollisionTrigger.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\PlayerAnimation.cs" />
     <Compile Include="Assets\Script\PlayerAttackPoint.cs" />
