@@ -17,6 +17,8 @@ public class PlayerCharacter : Character
     private Vector3 rayPosCenter;
     private Vector3 rayPosRight;
     private Vector3 rayPosLeft;
+    private CircleCollider2D cc;
+    private GameObject ladder;
 
     float rayPosX;
     float rayPosY;
@@ -41,14 +43,19 @@ public class PlayerCharacter : Character
         vAxis = GameController.This.ButtonAxis(EButtonCode.MoveY);
 
         Flip(hAxis);
-        Move(Axis.Horizontal, hAxis);
+
 
         if (canClimb && vAxis != 0)
         {
             m_rigidbody.isKinematic = true;
-            m_rigidbody.gravityScale = 0;
+            //m_rigidbody.gravityScale = 0;
             m_rigidbody.velocity = Vector2.zero;
+            gameObject.transform.position = new Vector3(ladder.transform.position.x, gameObject.transform.position.y, 0);
             Move(Axis.Vertical, vAxis);
+        }
+        else
+        {
+            Move(Axis.Horizontal, hAxis);
         }
     }
 
@@ -56,8 +63,8 @@ public class PlayerCharacter : Character
     {
         Gizmos.color = Color.red;
         //Gizmos.DrawLine(rayPosCenter, rayPosCenter - new Vector3(0, y + rayLength, 0));
-        Gizmos.DrawLine(rayPosRight, rayPosRight - new Vector3(0, rayPosY + rayLength, 0));
-        Gizmos.DrawLine(rayPosLeft, rayPosLeft - new Vector3(0, rayPosY + rayLength, 0));
+        Gizmos.DrawLine(rayPosRight, rayPosRight - new Vector3(0, rayLength, 0));
+        Gizmos.DrawLine(rayPosLeft, rayPosLeft - new Vector3(0, rayLength, 0));
     }
 
     protected override void InitCharacter()
@@ -68,10 +75,11 @@ public class PlayerCharacter : Character
         canShoot = true;
         onGround = false;
         m_collider = GetComponent<BoxCollider2D>();
+        cc = GetComponent<CircleCollider2D>();
         layerMask = LayerMask.GetMask("Ground");
-        rayLength = 1.0f;
+        rayLength = 2.5f;
         rayPosX = 2.1f;
-        rayPosY = 11.5f;
+        rayPosY = 10.0f;
     }
 
     private int GetRawAxis(float value)
@@ -126,7 +134,7 @@ public class PlayerCharacter : Character
 
     private bool GroundCheck()
     {
-        rayPosCenter = transform.position;
+        rayPosCenter = transform.position + new Vector3(0, -rayPosY, 0);
         rayPosRight = rayPosCenter + new Vector3(rayPosX, 0, 0);
         rayPosLeft = rayPosCenter + new Vector3(-rayPosX, 0, 0);
         if (IsGround(rayPosLeft) || IsGround(rayPosRight))
@@ -136,15 +144,14 @@ public class PlayerCharacter : Character
         }
         else
         {
-            if (!canClimb)
-                m_rigidbody.gravityScale = 50;
+            m_rigidbody.gravityScale = 50;
             return false;
         }
     }
 
     private bool IsGround(Vector3 originPos)
     {
-        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.down, rayPosY + rayLength, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.down, rayLength, layerMask);
         return (hit.collider != null);
     }
 
@@ -170,13 +177,27 @@ public class PlayerCharacter : Character
         canShoot = true;
     }
 
+    private bool CheckColliderByLayer(string layerName, Collider2D other, out GameObject otherObject)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer(layerName))
+        {
+            otherObject = other.gameObject;
+            return true;
+        }
+        else
+        {
+            otherObject = null;
+            return false;
+        }
+    }
+
     void OnTriggerEnter2D (Collider2D other)
     {
         if (m_collider.IsTouchingLayers(LayerMask.GetMask("Ladder")))
         {
             
         }
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
+        if (CheckColliderByLayer("Ladder", other, out ladder))
         {
             if (!canClimb)
             {
@@ -192,7 +213,7 @@ public class PlayerCharacter : Character
         {
             if (canClimb)
             {
-                Debug.Log("OnLadder");
+                Debug.Log("OffLadder");
                 canClimb = false;
                 m_rigidbody.isKinematic = false;
                 m_rigidbody.gravityScale = 50;
