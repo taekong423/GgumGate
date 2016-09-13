@@ -25,6 +25,7 @@ public class Character : MonoBehaviour {
     private float jumpForce;
 
 
+    protected bool isStop;
     protected bool onGround;
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
@@ -38,6 +39,8 @@ public class Character : MonoBehaviour {
     public GameObject container;
     public Animator animator;
     
+
+    public bool IsStop { get { return isStop; } set { isStop = value; } }
 
     public string Id { get { return id; } set { id = value; } }
 
