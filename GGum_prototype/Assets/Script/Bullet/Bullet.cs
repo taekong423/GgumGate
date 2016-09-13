@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
-    private HitInfo hitInfo;
+    protected HitData hitData;
 
     protected float destroyTime = 2.0f;
 
@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     public float bulletSpeed;
     public GameObject effect;
 
-    public HitInfo HitInfo { get { return hitInfo; } set { hitInfo = value; } }
+    public HitData pHitData { get { return hitData; } set { hitData = value; } }
 
 
     protected void Move()

@@ -7,7 +7,10 @@ public class AICharacter : Character {
 
     [Header("AI Setting")]
     [SerializeField]
-    protected float _detectionRange = 1.0f;
+    protected float _detectionRange = 100.0f;
+
+    [SerializeField]
+    protected float _attackRange = 20.0f;
 
     protected PlayerCharacter _player;
     protected Transform _target;
@@ -41,8 +44,6 @@ public class AICharacter : Character {
         if (dist <= 15.0f)
             return true;
 
-        Debug.Log("Move");
-
         Vector3 dir = targetPoint - transform.position;
         float dirX = dir.x / Mathf.Abs(dir.x);
 
@@ -56,7 +57,7 @@ public class AICharacter : Character {
 
     protected void SetWayPointNum()
     {
-        Debug.Log("SetPoint");
+        Debug.Log("SetPoint, PreTarget = " + _target.gameObject.name);
         switch (_moveType)
         {
             case MoveType.Once:

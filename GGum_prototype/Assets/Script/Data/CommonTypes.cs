@@ -3,6 +3,7 @@ using System.Collections;
 
 public enum State
 {
+    Init,
     Idle,
     Move,
     Attack,
@@ -23,14 +24,14 @@ public enum MoveType
     Random,
 }
 
-public struct HitInfo
+public struct HitData
 {
-    public string name;
+    public GameObject attacker;
     public int damage;
 
-    public HitInfo(string name = "default", int damage = 0)
+    public HitData(GameObject attacker = null, int damage = 0)
     {
-        this.name = name;
+        this.attacker = attacker;
         this.damage = damage;
     }
 }

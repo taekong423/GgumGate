@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Reflection;
 
 public class Character : MonoBehaviour {
 
     [Header("Status Setting")]
     [SerializeField]
-    private string m_name;
+    private string id;
 
     [SerializeField]
     private int maxHP;
@@ -15,8 +16,6 @@ public class Character : MonoBehaviour {
     private int currentShield;
     [SerializeField]
     private int attackDamage;
-    [SerializeField]
-    private int attackCount;
 
     [SerializeField]
     private float attackSpeed;
@@ -25,10 +24,10 @@ public class Character : MonoBehaviour {
     [SerializeField]
     private float jumpForce;
 
-    
+
     protected bool onGround;
     protected Rigidbody2D m_rigidbody;
-    protected BoxCollider2D m_collider;
+    protected Collider2D m_collider;
     protected State state;
 
 
@@ -37,22 +36,36 @@ public class Character : MonoBehaviour {
     public GameObject effect;
     public GameObject bullet;
     public GameObject container;
+    public Animator animator;
     
 
-    public string Name { get { return m_name; } set { m_name = value; } }
+    public string Id { get { return id; } set { id = value; } }
 
     public int MaxHP { get { return maxHP; } set { maxHP = value; } }
     public int CurrentHP { get { return currentHP; } set { currentHP = value; } }
     public int MaxShield { get { return maxShield; } set { maxShield = value; } }
     public int CurrentShield { get { return currentShield; } set { currentShield = value; } }
     public int AttackDamage { get { return attackDamage; } set { attackDamage = value; } }
-    public int AttackCount { get { return attackCount; } set { attackCount = value; } }
 
     public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
     public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
+    public State CurrentState { get { return state; } set { state = value; } }
 
+
+    protected virtual void InitCharacter()
+    {
+        currentHP = maxHP;
+        currentShield = maxShield;
+        onGround = false;
+        m_rigidbody = GetComponent<Rigidbody2D>();
+
+        if (currentHP > 0)
+            state = State.Init;
+        else
+            state = State.Dead;
+    }
 
     protected void Move(Axis axis, float keyValue)
     {
@@ -85,15 +98,15 @@ public class Character : MonoBehaviour {
             Debug.Log("Null Rigidbody...");
     }
 
-    virtual protected void Attack(HitInfo hitInfo) { }
+    virtual protected void Attack(HitData hitInfo) { }
 
-    protected void CreateBullet(HitInfo hitInfo)
+    protected void CreateBullet(HitData hitInfo)
     {
         GameObject obj = (GameObject)Instantiate(bullet, attackBox.position, attackBox.rotation);
-        obj.GetComponent<Bullet>().HitInfo = hitInfo;
+        obj.GetComponent<Bullet>().pHitData = hitInfo;
     }
 
-    protected void OnHit(HitInfo hitInfo)
+    public void OnHit(HitData hitInfo)
     {
         if (state != State.Dead)
         {
@@ -106,11 +119,15 @@ public class Character : MonoBehaviour {
                 CalcDamage(ref currentHP, ref damage);
             }
 
+            Debug.Log("Shield = " + CurrentShield + "HP = " + CurrentHP);
+
             if (currentHP <= 0)
             {
                 // When Dead
                 state = State.Dead;
             }
+            else
+                HitFunc();
         }
     }
 
@@ -129,5 +146,44 @@ public class Character : MonoBehaviour {
                 point = 0;
             }
         }
+    }
+
+    protected virtual void HitFunc() { }
+
+    protected virtual IEnumerator InitState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator IdleState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator MoveState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator AttackState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator HitState()
+    {
+        yield return null;
+    }
+
+    protected virtual IEnumerator DeadState()
+    {
+        yield return null;
+    }
+
+    protected void NextState()
+    {
+        string methodName = state.ToString() + "State";
+        MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+        StartCoroutine((IEnumerator)info.Invoke(this, null));
     }
 }

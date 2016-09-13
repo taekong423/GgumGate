@@ -5,6 +5,8 @@ public class Figure : Bullet {
 
 	// Use this for initialization
 	void Start () {
+        hitData.attacker = gameObject;
+        hitData.damage = 1;
         SelfDestroy();
 	}
 	
@@ -15,6 +17,11 @@ public class Figure : Bullet {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-
+        if (other.tag == "Enemy")
+        {
+            Debug.Log("Hit Enemy");
+            other.GetComponent<Enemy>().OnHit(hitData);
+            Destroy(gameObject);
+        }
     }
 }
