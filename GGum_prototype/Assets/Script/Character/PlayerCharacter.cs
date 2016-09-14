@@ -22,6 +22,8 @@ public class PlayerCharacter : Character
     float rayPosX;
     float rayPosY;
 
+    CameraController cc;
+
     // Use this for initialization
     void Start()
     {
@@ -79,7 +81,7 @@ public class PlayerCharacter : Character
         rayPosX = 2.1f;
         rayPosY = 10.0f;
 
-        //Physics2D.IgnoreCollision(m_collider, cc, true);
+        cc = Camera.main.GetComponent<CameraController>();
     }
 
     private int GetRawAxis(float value)
@@ -122,6 +124,21 @@ public class PlayerCharacter : Character
         if (GameController.This.ButtonPress(EButtonCode.Attack) && canShoot && !canClimb)
         {
             StartCoroutine(Shoot());
+        }
+
+        if (Input.GetKeyDown("1"))
+        {
+            cc.ShakeCamera(true);
+        }
+
+        if (Input.GetKeyDown("2"))
+        {
+            cc.ShakeCamera(false);
+        }
+
+        if (Input.GetKeyDown("3"))
+        {
+            cc.ShakeCamera(2.0f);
         }
     }
 
