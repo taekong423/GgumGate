@@ -240,7 +240,7 @@ public class PlayerCharacter : Character
         rayPosRight = rayPosCenter + new Vector3(rayPosX, 0, 0);
         rayPosLeft = rayPosCenter + new Vector3(-rayPosX, 0, 0);
 
-        if (IsGround(rayPosLeft) || IsGround(rayPosRight))
+        if (IsGround(rayPosLeft, rayLength) || IsGround(rayPosRight, rayLength))
         {
             return true;
         }
@@ -248,12 +248,6 @@ public class PlayerCharacter : Character
         {
             return false;
         }
-    }
-
-    private bool IsGround(Vector3 originPos)
-    {
-        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.down, rayLength, layerMask);
-        return (hit.collider != null);
     }
 
     private float GetAttackSpeed(float attackSpeed)

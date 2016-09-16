@@ -151,6 +151,12 @@ public class Character : MonoBehaviour {
         }
     }
 
+    protected bool IsGround(Vector2 originPos, float rayLength)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.down, rayLength, LayerMask.GetMask("Ground"));
+        return (hit.collider != null);
+    }
+
     protected virtual void HitFunc() { }
 
     protected virtual IEnumerator InitState()
