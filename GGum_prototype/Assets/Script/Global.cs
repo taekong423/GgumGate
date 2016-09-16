@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class Global : MonoBehaviour
 {
-    private const string prefab_path = "Manager/Prefab/GlobalManager";
+    private const string prefab_path = "Prefab/Manager/GlobalManager";
     private static bool _create_lock = false;
     private static Global _instance = null;
     private static Global _this

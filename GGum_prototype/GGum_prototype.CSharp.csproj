@@ -79,6 +79,8 @@
     <Compile Include="Assets\Script\Character\PlayerCharacter.cs" />
     <Compile Include="Assets\Script\CollisionTrigger.cs" />
     <Compile Include="Assets\Script\Data\CommonTypes.cs" />
+    <Compile Include="Assets\Script\Enemy\BossOnTrigger.cs" />
+    <Compile Include="Assets\Script\Enemy\BossPig.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
     <Compile Include="Assets\Script\Enemy\Squirrel.cs" />
     <Compile Include="Assets\Script\Enemy\TutoEnemy.cs" />
