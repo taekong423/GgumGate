@@ -183,7 +183,7 @@ public class Character : MonoBehaviour {
         yield return null;
     }
 
-    protected void NextState()
+    public void NextState()
     {
         string methodName = state.ToString() + "State";
         MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
