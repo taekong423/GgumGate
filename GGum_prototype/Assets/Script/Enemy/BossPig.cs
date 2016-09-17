@@ -37,12 +37,16 @@ public class BossPig : Enemy {
 
         _baseMoveSpeed = MoveSpeed;
 
+        isInvincible = true;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Bullet")
         {
+            if (isInvincible)
+                return;
+
             HitData hitdata = other.GetComponent<Bullet>().pHitData;
 
             OnHit(hitdata);
@@ -78,8 +82,6 @@ public class BossPig : Enemy {
 
         yield return null;
 
-        //animator.SetTrigger("Hide");
-        m_collider.enabled = false;
         Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
 
         state = State.Idle;
@@ -93,7 +95,6 @@ public class BossPig : Enemy {
 
     protected override IEnumerator IdleState()
     {
-        m_collider.enabled = true;
 
         while (state == State.Idle)
         {
@@ -153,8 +154,8 @@ public class BossPig : Enemy {
 
         if (_patternNum != 2)
         {
+            isInvincible = true;
             animator.SetTrigger("Hide");
-            m_collider.enabled = false;
         }
         else
             animator.SetTrigger("Rush");
@@ -312,10 +313,9 @@ public class BossPig : Enemy {
         float dirX = dir.x / Mathf.Abs(dir.x);
 
         Flip(dirX);
-
+        isInvincible = false;
         animator.SetTrigger("Attack");
-        m_collider.enabled = true;
-        //Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), false);
+
         SpawNormalPig();
 
         yield return new WaitForSeconds(2.0f);
@@ -324,9 +324,9 @@ public class BossPig : Enemy {
 
         yield return new WaitForSeconds(1.0f);
 
+        isInvincible = true;
         _camera.ShakeCamera(false);
         animator.SetTrigger("Hide");
-        m_collider.enabled = false;
         state = State.Idle;
 
         yield return null;
@@ -342,6 +342,7 @@ public class BossPig : Enemy {
 
         _camera.ShakeCamera(false);
 
+        isInvincible = true;
         animator.SetTrigger("Hide2");
 
         yield return new WaitForSeconds(2.0f);
@@ -355,10 +356,9 @@ public class BossPig : Enemy {
 
         _camera.ShakeCamera(false);
 
-
+        isInvincible = false;
         //idle
         animator.SetTrigger("Attack");
-        m_collider.enabled = true;
 
         state = State.Idle;
 
