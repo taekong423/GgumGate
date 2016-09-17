@@ -17,11 +17,6 @@ public class Figure : Bullet {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Enemy")
-        {
-            Debug.Log("Hit Enemy");
-            other.GetComponent<Enemy>().OnHit(hitData);
-            Destroy(gameObject);
-        }
+        
     }
 }

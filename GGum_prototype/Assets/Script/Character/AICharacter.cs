@@ -25,6 +25,11 @@ public class AICharacter : Character {
 
     public float DetectionRange { get { return _detectionRange; } set { _detectionRange = value; } }
 
+    protected override void InitCharacter()
+    {
+        base.InitCharacter();
+    }
+
     protected bool Search(Transform target, float detectionRange)
     {
         float dist = Vector3.Distance(target.position, transform.position);

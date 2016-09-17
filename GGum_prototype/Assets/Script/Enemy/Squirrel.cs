@@ -9,15 +9,15 @@ public class Squirrel : Enemy {
     protected override IEnumerator InitState()
     {
         state = State.Idle;
-        _hitinfo.attacker = gameObject;
-        _hitinfo.damage = 1;
+        _hitData.attacker = gameObject;
+        _hitData.damage = 1;
 
         CurrentHP = MaxHP;
 
         yield return null;
 
         NextState();
-        StartCoroutine(Search());
+        StartCoroutine(SearchUpdate());
     }
 
     protected override IEnumerator IdleState()
@@ -88,7 +88,7 @@ public class Squirrel : Enemy {
 
         animator.SetTrigger("Attack");
 
-        Attack(_hitinfo);
+        Attack(_hitData);
 
         yield return null;
     }

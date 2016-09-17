@@ -24,7 +24,7 @@ public class TutoSquirrel : Squirrel {
         state = State.Idle;
 
         NextState();
-        StartCoroutine(Search());
+        StartCoroutine(SearchUpdate());
     }
 
     public void NextState()
