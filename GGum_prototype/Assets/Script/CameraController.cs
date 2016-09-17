@@ -7,8 +7,11 @@ public class CameraController : MonoBehaviour {
     private float yMargin = 1f;
     private float xSmooth= 1f;
     private float ySmooth = 1f;
-    private float maxY = 1f;
+
+    private float minX = -400f;
+    private float maxX = 400f;
     private float minY = -5;
+    private float maxY = 1f;
     
     private float targetX;
     private float targetY;
@@ -61,6 +64,7 @@ public class CameraController : MonoBehaviour {
             targetY = Mathf.Lerp(transform.position.y, player.position.y, ySmooth * Time.deltaTime);
         }
 
+        targetX = Mathf.Clamp(targetX, minX, maxX);
         targetY = Mathf.Clamp(targetY, minY, maxY);
 
         transform.position = new Vector3(targetX, targetY, transform.position.z);
@@ -91,7 +95,10 @@ public class CameraController : MonoBehaviour {
         {
             float x = transform.position.x + Random.Range(-shakeRange, shakeRange);
             float y = transform.position.y + Random.Range(-shakeRange, shakeRange);
+
+            x = Mathf.Clamp(x, minX, maxX);
             y = Mathf.Clamp(y, minY, maxY);
+
             transform.position = new Vector3(x, y, transform.position.z);
             yield return new WaitForSeconds(shakeFreq);
         }

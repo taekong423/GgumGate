@@ -65,6 +65,7 @@ public class Character : MonoBehaviour {
         currentShield = maxShield;
         onGround = false;
         isInvincible = false;
+        isStop = false;
         m_rigidbody = GetComponent<Rigidbody2D>();
 
         if (currentHP > 0)
