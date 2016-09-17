@@ -13,6 +13,8 @@ public class PlayerCharacter : Character
     }
 
     public int maxJumps;
+    public SpriteRenderer spriteRenderer;
+    float alpha;
 
     private State lastState;
     private PlayerState playerState;
@@ -33,6 +35,9 @@ public class PlayerCharacter : Character
     float rayPosX;
     float rayPosY;
 
+    bool blinkOn;
+    bool check;
+
     CameraController cameraController;
 
     // Use this for initialization
@@ -47,12 +52,12 @@ public class PlayerCharacter : Character
     {
         if (Input.GetKeyDown("1"))
         {
-            cameraController.ShakeCamera(true);
+            blinkOn = true;
         }
 
         if (Input.GetKeyDown("2"))
         {
-            cameraController.ShakeCamera(false);
+            blinkOn = false;
         }
 
         if (Input.GetKeyDown("3"))
@@ -60,7 +65,14 @@ public class PlayerCharacter : Character
             cameraController.ShakeCamera(2.0f);
         }
 
+
+
         KeyInput();
+
+        if (blinkOn)
+        {
+            BlinkSprite();
+        }
     }
 
     void FixedUpdate()
@@ -81,7 +93,8 @@ public class PlayerCharacter : Character
 
     protected override IEnumerator IdleState()
     {
-        animator.SetTrigger("Idle");
+        if (!isStop)
+            animator.SetTrigger("Idle");
         yield return null;
 
         while (state == State.Idle)
@@ -95,7 +108,8 @@ public class PlayerCharacter : Character
 
     protected override IEnumerator MoveState()
     {
-        animator.SetTrigger("Run");
+        if (!isStop)
+            animator.SetTrigger("Run");
         yield return null;
 
         while (state == State.Move)
@@ -114,8 +128,8 @@ public class PlayerCharacter : Character
 
         while (state == State.Dead)
         {
-            
-            yield return new WaitForFixedUpdate();
+
+            yield return null;
         }
 
         NextState();
@@ -137,11 +151,12 @@ public class PlayerCharacter : Character
         canShoot = true;
         currGroundCheck = false;
         lastGroundCheck = false;
+        blinkOn = false;
         m_collider = GetComponent<CircleCollider2D>();
         rayLength = 2.5f;
         rayPosX = 2.1f;
         rayPosY = 1.0f;
-        invincibleTime = 1.0f;
+        invincibleTime = 2.0f;
 
         cameraController = Camera.main.GetComponent<CameraController>();
     }
@@ -328,8 +343,48 @@ public class PlayerCharacter : Character
 
     protected override void HitFunc()
     {
+        StartCoroutine(Hit());
+    }
+
+    protected IEnumerator Hit()
+    {
+        animator.SetBool("IsStop", true);
         animator.SetTrigger("Hit");
-        StartCoroutine(NoDamageForSeconds(invincibleTime));
+        isStop = true;
+        isInvincible = true;
+        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("IsStop", false);
+        isStop = false;
+        blinkOn = true;
+        SetAnimationBack();
+
+        yield return new WaitForSeconds(invincibleTime);
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1.0f);
+        isInvincible = false;
+        blinkOn = false;
+    }
+
+    private void BlinkSprite()
+    {
+        alpha = spriteRenderer.color.a;
+
+        if (check)
+            alpha -= Time.deltaTime;
+        else
+            alpha += Time.deltaTime;
+
+        if (alpha > 0.7f)
+        {
+            check = true;
+        }
+        else if (alpha < 0.4f)
+        {
+            check = false;
+        }
+
+        alpha = Mathf.Clamp(alpha, 0, 1);
+
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
     }
 
     void OnTriggerEnter2D (Collider2D other)
@@ -342,6 +397,12 @@ public class PlayerCharacter : Character
                 canClimb = true;
                 ladder = other.gameObject;
             }
+        }
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            HitData hitData = new HitData(other.gameObject, other.GetComponent<Enemy>().AttackDamage); //other.GetComponent<Enemy>().pHitData;
+            OnHit(hitData);
         }
     }
 
@@ -356,12 +417,6 @@ public class PlayerCharacter : Character
                 m_rigidbody.gravityScale = 50;
                 jumpCounter = 0;
             }
-        }
-
-        if (other.gameObject.tag == "Enemy")
-        {
-            HitData hitData = new HitData(other.gameObject, other.GetComponent<Enemy>().AttackDamage); //other.GetComponent<Enemy>().pHitData;
-            OnHit(hitData);
         }
     }
 }
