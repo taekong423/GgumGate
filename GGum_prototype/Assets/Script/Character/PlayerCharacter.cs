@@ -149,7 +149,7 @@ public class PlayerCharacter : Character
     private void KeyInput()
     {
         GroundCheck();
-        
+
         if (!IsStop)
         {
             // Input Jump Key
