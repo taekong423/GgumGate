@@ -27,6 +27,8 @@ public class Character : MonoBehaviour {
 
     protected bool isStop;
     protected bool onGround;
+    protected bool isInvincible;
+    protected float invincibleTime;
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
     protected State state;
@@ -62,6 +64,7 @@ public class Character : MonoBehaviour {
         currentHP = maxHP;
         currentShield = maxShield;
         onGround = false;
+        isInvincible = false;
         m_rigidbody = GetComponent<Rigidbody2D>();
 
         if (currentHP > 0)
@@ -111,7 +114,7 @@ public class Character : MonoBehaviour {
 
     public void OnHit(HitData hitInfo)
     {
-        if (state != State.Dead)
+        if (state != State.Dead && !isInvincible)
         {
             int damage = hitInfo.damage;
 
@@ -132,6 +135,13 @@ public class Character : MonoBehaviour {
             else
                 HitFunc();
         }
+    }
+
+    public IEnumerator NoDamageForSeconds(float time)
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(time);
+        isInvincible = false;
     }
 
     private void CalcDamage(ref int point, ref int damage)
