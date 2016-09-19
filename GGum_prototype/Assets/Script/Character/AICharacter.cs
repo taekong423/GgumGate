@@ -28,6 +28,7 @@ public class AICharacter : Character {
     protected override void InitCharacter()
     {
         base.InitCharacter();
+        _player = GameObject.FindObjectOfType<PlayerCharacter>();
     }
 
     protected bool Search(Transform target, float detectionRange)
@@ -62,7 +63,6 @@ public class AICharacter : Character {
 
     protected void SetWayPointNum()
     {
-        Debug.Log("SetPoint, PreTarget = " + _target.gameObject.name);
         switch (_moveType)
         {
             case MoveType.Once:

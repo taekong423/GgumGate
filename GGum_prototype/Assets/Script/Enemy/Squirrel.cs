@@ -3,8 +3,20 @@ using System.Collections;
 
 public class Squirrel : Enemy {
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Bullet")
+        {
+            if (isInvincible)
+                return;
 
-    
+            HitData hitdata = other.GetComponent<Bullet>().pHitData;
+            OnHit(hitdata);
+
+            Destroy(other.gameObject);
+        }
+    }
+
 
     protected override IEnumerator InitState()
     {

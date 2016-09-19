@@ -10,7 +10,7 @@ public class TutoSquirrel : Squirrel {
     {
         while (!_isCinematic)
         {
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(1.0f);
 
             _isCinematic = true;
 
@@ -19,7 +19,7 @@ public class TutoSquirrel : Squirrel {
 
         animator.SetTrigger("TutoSturn");
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
 
         state = State.Idle;
 

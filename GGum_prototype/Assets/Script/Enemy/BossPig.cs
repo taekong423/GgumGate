@@ -16,6 +16,10 @@ public class BossPig : Enemy {
 
     float _baseMoveSpeed;
 
+    bool _isHide = false;
+
+    Vector3 _baseSize;
+
     List<GameObject> _normalPigs;
     List<GameObject> _explosionPigs;
 
@@ -38,6 +42,9 @@ public class BossPig : Enemy {
         _baseMoveSpeed = MoveSpeed;
 
         isInvincible = true;
+        Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
+
+        _baseSize = transform.localScale;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -48,94 +55,81 @@ public class BossPig : Enemy {
                 return;
 
             HitData hitdata = other.GetComponent<Bullet>().pHitData;
-
             OnHit(hitdata);
 
             Destroy(other.gameObject);
         }
     }
 
-    protected override void HitFunc()
-    {
-        if (state != State.Hit && !_isHitEffectDelay)
-        {
-            state = State.Hit;
-            _isHitEffectDelay = true;
-        }
-    }
-
-
     protected override IEnumerator InitState()
     {
-        
-
-        yield return new WaitForSeconds(1.0f);
-
-        if (_camera == null)
-            _camera = Global.shared<CameraController>();
-
-        _camera.ShakeCamera(true);
-
-        yield return new WaitForSeconds(1.0f);
-
-        _camera.ShakeCamera(false);
-
-        yield return null;
-
-        Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
-
         state = State.Idle;
+
+        if(_camera == null)
+            _camera = Global.shared<CameraController>();
 
         yield return null;
 
         NextState();
         StartCoroutine(PatternUpdate());
-
     }
 
     protected override IEnumerator IdleState()
     {
+        switch (_patternNum)
+        {
+            case 0:
+            case 1:
+
+                if (!_isHide)
+                {
+                    Hide(true, 0, 1.0f);
+                    yield return new WaitForSeconds(1.0f);
+                }
+
+                break;
+
+            case 2:
+
+                if (_isHide)
+                    Hide(false);
+
+                _currentMoveDleay = 3;
+                animator.SetTrigger("Rush");
+
+                break;
+
+            default:
+
+                break;
+        }
 
         while (state == State.Idle)
         {
-            switch (_patternNum)
+            if (_currentMoveDleay <= 0)
             {
-                case 0:
-                case 1:
 
-                    if (_currentMoveDleay <= 0.0f)
-                    {
+                switch (_patternNum)
+                {
+                    case 0:
+                    case 1:
+                    case 2:
+
+                        state = State.Move;
                         _currentMoveDleay = _moveDelay;
-                        if (_wayPoints.Length != 0)
-                            _target = _wayPoints[_numWayPoint];
+                        _target = _wayPoints[_numWayPoint];
 
-                        state = State.Move;
-                    }
-                    else
-                    {
-                        _currentMoveDleay -= Time.fixedDeltaTime;
-                    }
+                        break;
 
-                    break;
+                    default:
 
-                default:
+                        break;
+                }
 
-                    Debug.Log("cc");
-
-                    if (_currentMoveDleay <= 0.0f)
-                    {
-                        _currentMoveDleay = 3;
-                        if (_wayPoints.Length != 0)
-                            _target = _wayPoints[_numWayPoint];
-
-                        state = State.Move;
-                    }
-                    else
-                    {
-                        _currentMoveDleay -= Time.fixedDeltaTime;
-                    }
-
-                    break;
+            }
+            else
+            {
+                _currentMoveDleay -= Time.deltaTime;
             }
 
             yield return null;
@@ -144,26 +138,46 @@ public class BossPig : Enemy {
         yield return null;
 
         NextState();
+
     }
 
     protected override IEnumerator MoveState()
     {
+
+        switch (_patternNum)
+        {
+            case 0:
+            case 1:
+
+                if (!_isHide)
+                {
+                    Hide(true, 0, 1.0f);
+                    yield return new WaitForSeconds(1.0f);
+                }
+
+                break;
+
+            case 2:
+
+                if (_isHide)
+                    Hide(false);
+
+                animator.SetTrigger("Rush");
+
+                break;
+
+            default:
+
+                break;
+        }
+
         bool arrive = false;
 
-        float pattern1Delay = 2;
-
-        if (_patternNum != 2)
-        {
-            isInvincible = true;
-            animator.SetTrigger("Hide");
-        }
-        else
-            animator.SetTrigger("Rush");
-
+        float patterDelay = 2;
 
         while (state == State.Move)
         {
-            if(!arrive)
+            if(_target != null && !arrive)
                 arrive = GoToTarget(_target.position);
 
             switch (_patternNum)
@@ -173,96 +187,109 @@ public class BossPig : Enemy {
                     if (arrive)
                     {
                         SetWayPointNum();
-                        _target = _wayPoints[_numWayPoint];
 
                         if (_childPigNum <= 1)
-                        {
                             state = State.Attack;
-                        }
                         else
-                        {
                             state = State.Idle;
-                        }
+
                     }
 
                     break;
-
 
                 case 1:
 
-
-                    if (pattern1Delay <= 0)
+                    if (patterDelay <= 0)
                     {
                         state = State.Attack;
+                        patterDelay = 2;
                     }
                     else
-                    {
-                        pattern1Delay -= Time.deltaTime;
-                    }
+                        patterDelay -= Time.fixedDeltaTime;
 
                     break;
 
-                default:
+                case 2:
 
                     if (arrive)
                     {
                         state = State.Idle;
                         SetWayPointNum();
-                        _target = _wayPoints[_numWayPoint];
 
                         Vector3 dir = _player.transform.position - transform.position;
                         float dirX = dir.x / Mathf.Abs(dir.x);
 
                         Flip(dirX);
-                        
                     }
 
                     break;
 
             }
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        yield return null;
+
+        NextState();
+
+    }
+
+    protected override IEnumerator AttackState()
+    {
+        Debug.Log("Attack");
+
+        float stayTime = 0.0f;
+
+        switch (_patternNum)
+        {
+            case 0:
+
+                stayTime = 4.0f;
+                StartCoroutine(Pattern0());
+                
+                break;
+
+            case 1:
+
+                stayTime = 3;
+                StartCoroutine(Pattern1());
+
+                break;
+
+            case 2:
+
+                break;
+        }
+
+        while (state == State.Attack)
+        {
+            if (stayTime <= 0)
+            {
+                state = State.Idle;
+            }
+            else
+                stayTime -= Time.deltaTime;
 
             yield return null;
         }
 
         yield return null;
 
-
         NextState();
-    }
-
-    protected override IEnumerator AttackState()
-    {
-        if (state == State.Attack)
-        {
-            switch (_patternNum)
-            {
-                case 0:
-
-                    StartCoroutine(Pattern0());
-
-                    break;
-
-                case 1:
-
-                    StartCoroutine(Pattern1());
-                    
-                    break;
-            }
-        }
-
-        yield return null;
     }
 
     protected override IEnumerator HitState()
     {
         animator.SetTrigger("Hit");
 
-        while (state == State.Hit)
-        {
-            yield return null;
-        }
+        yield return new WaitForSeconds(1.5f);
 
-        _isHitEffectDelay = false;
+        Hide(true);
+
+        yield return new WaitForSeconds(1.0f);
+
+        state = State.Idle;
 
         yield return null;
 
@@ -271,10 +298,17 @@ public class BossPig : Enemy {
 
     protected override IEnumerator DeadState()
     {
-        while (state == State.Dead)
-        {
-            yield return null;
-        }
+        ChildAllDead();
+
+        animator.SetTrigger("Hit");
+
+        yield return new WaitForSeconds(0.5f);
+
+        Hide(true);
+
+        yield return new WaitForSeconds(1.0f);
+
+        gameObject.SetActive(false);
 
         yield return null;
     }
@@ -287,80 +321,50 @@ public class BossPig : Enemy {
             {
                 _patternNum = 2;
                 MoveSpeed *= 3;
+                transform.localScale -= _baseSize * 0.15f;
             }
             else if (CurrentHP < MaxHP * 0.5f && _patternNum == 0)
             {
                 _patternNum = 1;
+                transform.localScale -= _baseSize * 0.15f;
             }
 
             yield return null;
         }
-
-        yield return null;
     }
+
 
     IEnumerator Pattern0()
     {
-        _camera.ShakeCamera(true);
+        Hide(false);
 
         yield return new WaitForSeconds(1.0f);
-
-        _camera.ShakeCamera(false);
-
-        yield return null;
 
         Vector3 dir = _player.transform.position - transform.position;
         float dirX = dir.x / Mathf.Abs(dir.x);
 
         Flip(dirX);
-        isInvincible = false;
+
         animator.SetTrigger("Attack");
 
         SpawNormalPig();
 
-        yield return new WaitForSeconds(2.0f);
-
-        _camera.ShakeCamera(true);
-
-        yield return new WaitForSeconds(1.0f);
-
-        isInvincible = true;
-        _camera.ShakeCamera(false);
-        animator.SetTrigger("Hide");
-        state = State.Idle;
-
         yield return null;
-
-        NextState();
     }
 
     IEnumerator Pattern1()
     {
-        _camera.ShakeCamera(true);
+        Hide(true, 1);
+
+        yield return new WaitForSeconds(1.5f);
+
+        transform.position = _player.transform.position;
 
         yield return new WaitForSeconds(0.5f);
 
-        _camera.ShakeCamera(false);
+        Hide(false);
 
-        isInvincible = true;
-        animator.SetTrigger("Hide2");
-
-        yield return new WaitForSeconds(2.0f);
-
-
-        transform.position = new Vector3(_player.transform.position.x, transform.position.y, transform.position.z);
-
-        _camera.ShakeCamera(true);
-
-        yield return new WaitForSeconds(0.5f);
-
-        _camera.ShakeCamera(false);
-
-        isInvincible = false;
-        //idle
         animator.SetTrigger("Attack");
-
-        state = State.Idle;
 
         _patterCount++;
 
@@ -373,11 +377,8 @@ public class BossPig : Enemy {
             RandomSpawnPig();
         }
 
-        yield return new WaitForSeconds(1.0f);
-
-        NextState();
+        yield return null;
     }
-
 
     bool HasPigs(string pigName)
     {
@@ -429,6 +430,7 @@ public class BossPig : Enemy {
             if (pig == null)
             {
                 GameObject obj = Instantiate(_normalPig, transform.position, Quaternion.identity) as GameObject;
+                obj.GetComponent<NormalPig>().Setting(this, _wayPoints);
                 _normalPigs.Add(obj);
             }
             else
@@ -459,6 +461,7 @@ public class BossPig : Enemy {
                     if (pig == null)
                     {
                         GameObject obj = Instantiate(_normalPig, transform.position, Quaternion.identity) as GameObject;
+                        obj.GetComponent<NormalPig>().Setting(this, _wayPoints);
                         _normalPigs.Add(obj);
                     }
                     else
@@ -475,6 +478,7 @@ public class BossPig : Enemy {
                     if (pig == null)
                     {
                         GameObject obj = Instantiate(_explosionPig, transform.position, Quaternion.identity) as GameObject;
+                        obj.GetComponent<NormalPig>().Setting(this, _wayPoints);
                         _explosionPigs.Add(obj);
                     }
                     else
@@ -489,5 +493,57 @@ public class BossPig : Enemy {
             _childPigNum++;
         }
         
+    }
+
+    void Hide(bool isHide, int kind = 0, float shackeTime = 1.0f)
+    {
+        _camera.ShakeCamera(shackeTime);
+
+        _isHide = isHide;
+
+        if (isHide)
+        {
+            isInvincible = true;
+            m_collider.enabled = false;
+
+            if (kind == 0)
+                animator.SetTrigger("Hide");
+            else
+                animator.SetTrigger("Hide2");
+            
+        }
+        else
+        {
+            m_collider.enabled = true;
+            isInvincible = false;
+        }
+
+    }
+
+    void ChildAllDead()
+    {
+        foreach (GameObject pig in _normalPigs)
+        {
+            if (pig.activeSelf == true)
+                pig.GetComponent<Enemy>().CurrentState = State.Dead;
+        }
+
+        foreach (GameObject pig in _explosionPigs)
+        {
+            if (pig.activeSelf == true)
+                pig.GetComponent<Enemy>().CurrentState = State.Dead;
+        }
+    }
+
+    public void ChildOnHit(HitData hitdata)
+    {
+        if (_isHide)
+        {
+            isInvincible = false;
+            OnHit(hitdata);
+            isInvincible = true;
+        }
+        else
+            OnHit(hitdata);
     }
 }
