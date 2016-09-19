@@ -401,7 +401,7 @@ public class PlayerCharacter : Character
 
         if (other.gameObject.tag == "Enemy")
         {
-            HitData hitData = new HitData(other.gameObject, other.GetComponent<Enemy>().AttackDamage); //other.GetComponent<Enemy>().pHitData;
+            HitData hitData = other.GetComponent<Enemy>()._pHitData;
             OnHit(hitData);
         }
     }
