@@ -8,12 +8,14 @@ public enum EButtonCode
     MoveY,
     Attack,
     Jump,
+    Test,
 }
 
 [System.Serializable]
 public class ButtonData
 {
     public delegate float AxisFunction();
+    public delegate bool ButtonFunction();
 
     [Header("Set Button Code Or Name")]
     public EButtonCode _buttonCode;
@@ -23,8 +25,27 @@ public class ButtonData
     List<AxisFunction> _KeyAxis;
     List<AxisFunction> _KeyAxisRaw;
 
+    List<ButtonFunction> _buttonDowns;
+    List<ButtonFunction> _buttonPress;
+
     public List<KeyCode> _keyCodes;
     public List<string> _keyNames;
+
+    public void RegisterDown(ButtonFunction func)
+    {
+        if (_buttonDowns == null)
+            _buttonDowns = new List<ButtonFunction>();
+
+        _buttonDowns.Add(func);
+    }
+
+    public void RegisterPress(ButtonFunction func)
+    {
+        if (_buttonPress == null)
+            _buttonPress = new List<ButtonFunction>();
+
+        _buttonPress.Add(func);
+    }
 
     public void RegisterAxis(AxisFunction func)
     {
@@ -36,6 +57,7 @@ public class ButtonData
 
     public void RegisterAxisRaw(AxisFunction func)
     {
+
         if (_KeyAxisRaw == null)
             _KeyAxisRaw = new List<AxisFunction>();
 
@@ -46,7 +68,7 @@ public class ButtonData
 
     public bool GetButtonDown()
     {
-        if (_keyCodes.Count <= 0 && _keyNames.Count <= 0)
+        if (_buttonDowns == null || _keyCodes.Count <= 0 && _keyNames.Count <= 0 && _buttonDowns.Count <= 0)
             return false;
 
         for (int i = 0; i < _keyCodes.Count; i++)
@@ -66,13 +88,22 @@ public class ButtonData
         }
 
 
+        for (int i = 0; i < _buttonDowns.Count; i++)
+        {
+            if (_buttonDowns[i].Invoke())
+            {
+
+                return true;
+            }
+        }
+
         return false;
 
     }
 
     public bool GetButtonPress()
     {
-        if (_keyCodes.Count <= 0 && _keyNames.Count <= 0)
+        if (_buttonPress == null || _keyCodes.Count <= 0 && _keyNames.Count <= 0 && _buttonPress.Count <= 0)
             return false;
 
         for (int i = 0; i < _keyCodes.Count; i++)
@@ -91,6 +122,14 @@ public class ButtonData
             }
         }
 
+        for (int i = 0; i < _buttonPress.Count; i++)
+        {
+            if (_buttonPress[i].Invoke())
+            {
+
+                return true;
+            }
+        }
 
         return false;
 
@@ -248,6 +287,34 @@ public class ButtonManager : MonoBehaviour {
         }
 
         return null;
+    }
+
+    public void RegisterDown(EButtonCode buttonCode, ButtonData.ButtonFunction func)
+    {
+
+        ButtonData data = GetButtonData(buttonCode);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return;
+        }
+
+        data.RegisterDown(func);
+    }
+
+    public void RegisterPress(EButtonCode buttonCode, ButtonData.ButtonFunction func)
+    {
+
+        ButtonData data = GetButtonData(buttonCode);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return;
+        }
+
+        data.RegisterPress(func);
     }
 
     public void RegisterAxis(EButtonCode buttonCode, ButtonData.AxisFunction func)
