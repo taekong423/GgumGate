@@ -13,7 +13,7 @@ public class PlayerCharacter : Character
     }
 
     public int maxJumps;
-    public SpriteRenderer spriteRenderer;
+    
     float alpha;
 
     private State lastState;
@@ -28,6 +28,7 @@ public class PlayerCharacter : Character
     private Vector3 rayPosRight;
     private Vector3 rayPosLeft;
     private GameObject ladder;
+    private SpriteRenderer spriteRenderer;
 
     private bool currGroundCheck;
     private bool lastGroundCheck;
@@ -159,6 +160,8 @@ public class PlayerCharacter : Character
         invincibleTime = 2.0f;
 
         cameraController = Camera.main.GetComponent<CameraController>();
+        animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void KeyInput()
@@ -348,12 +351,10 @@ public class PlayerCharacter : Character
 
     protected IEnumerator Hit()
     {
-        animator.SetBool("IsStop", true);
         animator.SetTrigger("Hit");
         isStop = true;
         isInvincible = true;
         yield return new WaitForSeconds(0.5f);
-        animator.SetBool("IsStop", false);
         isStop = false;
         blinkOn = true;
         SetAnimationBack();
@@ -401,7 +402,7 @@ public class PlayerCharacter : Character
 
         if (other.gameObject.tag == "Enemy")
         {
-            HitData hitData = other.GetComponent<Enemy>()._pHitData;
+            HitData hitData = other.GetComponent<Enemy>().pHitData;
             OnHit(hitData);
         }
     }
