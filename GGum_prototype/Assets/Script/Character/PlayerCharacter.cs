@@ -165,7 +165,7 @@ public class PlayerCharacter : Character
     {
         GroundCheck();
 
-        if (!IsStop)
+        if (!IsStop && state != State.Dead)
         {
             // Input Jump Key
             if (GameController.This.ButtonDown(EButtonCode.Jump))
@@ -203,10 +203,10 @@ public class PlayerCharacter : Character
 
     private void AxisInput()
     {
-        if (!IsStop)
+        if (!IsStop && state != State.Dead)
         {
-            hAxis = GameController.This.ButtonAxis(EButtonCode.MoveX);
-            vAxis = GameController.This.ButtonAxis(EButtonCode.MoveY);
+            hAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveX);
+            vAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveY);
 
             Flip(hAxis);
 
