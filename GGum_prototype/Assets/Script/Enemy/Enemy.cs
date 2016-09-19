@@ -8,7 +8,7 @@ public class Enemy : AICharacter {
 
     protected bool _isHitEffectDelay = false;
 
-    public HitData _pHitData { get { return _hitData; } set { _hitData = value; } }
+    public HitData pHitData { get { return _hitData; } set { _hitData = value; } }
 
     public float AttackDelay = 1.0f;
 
@@ -29,6 +29,9 @@ public class Enemy : AICharacter {
     {
         base.InitCharacter();
         animator = GetComponentInChildren<Animator>();
+
+        _hitData.attacker = gameObject;
+        _hitData.damage = AttackDamage;
     }
 
     protected virtual IEnumerator SearchUpdate()
