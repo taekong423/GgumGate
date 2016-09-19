@@ -25,7 +25,10 @@ public class Character : MonoBehaviour {
     private float jumpForce;
 
 
+    protected bool isStop;
     protected bool onGround;
+    protected bool isInvincible;
+    protected float invincibleTime;
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
     protected State state;
@@ -38,6 +41,8 @@ public class Character : MonoBehaviour {
     public GameObject container;
     public Animator animator;
     
+
+    public bool IsStop { get { return isStop; } set { isStop = value; } }
 
     public string Id { get { return id; } set { id = value; } }
 
@@ -59,6 +64,8 @@ public class Character : MonoBehaviour {
         currentHP = maxHP;
         currentShield = maxShield;
         onGround = false;
+        isInvincible = false;
+        isStop = false;
         m_rigidbody = GetComponent<Rigidbody2D>();
 
         if (currentHP > 0)
@@ -108,7 +115,7 @@ public class Character : MonoBehaviour {
 
     public void OnHit(HitData hitInfo)
     {
-        if (state != State.Dead)
+        if (state != State.Dead && !isInvincible)
         {
             int damage = hitInfo.damage;
 
@@ -131,6 +138,13 @@ public class Character : MonoBehaviour {
         }
     }
 
+    public IEnumerator NoDamageForSeconds(float time)
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(time);
+        isInvincible = false;
+    }
+
     private void CalcDamage(ref int point, ref int damage)
     {
         if (point > 0)
@@ -146,6 +160,12 @@ public class Character : MonoBehaviour {
                 point = 0;
             }
         }
+    }
+
+    protected bool IsGround(Vector2 originPos, float rayLength)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.down, rayLength, LayerMask.GetMask("Ground"));
+        return (hit.collider != null);
     }
 
     protected virtual void HitFunc() { }
@@ -180,7 +200,7 @@ public class Character : MonoBehaviour {
         yield return null;
     }
 
-    protected void NextState()
+    public void NextState()
     {
         string methodName = state.ToString() + "State";
         MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);

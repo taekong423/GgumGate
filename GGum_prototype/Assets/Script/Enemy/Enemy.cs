@@ -4,19 +4,23 @@ using System.Reflection;
 
 public class Enemy : AICharacter {
 
-    protected HitData _hitinfo;
+    protected HitData _hitData;
 
     protected bool _isHitEffectDelay = false;
+
+    public HitData pHitData { get { return _hitData; } set { _hitData = value; } }
 
     public float AttackDelay = 1.0f;
 
     // Use this for initialization
     void Awake () {
+        Debug.Log("Awake");
         InitCharacter();
 	}
 
     void OnEnable()
     {
+        Debug.Log("Enable");
         NextState();
         //StartCoroutine(InitState());
     }
@@ -25,10 +29,12 @@ public class Enemy : AICharacter {
     {
         base.InitCharacter();
         animator = GetComponentInChildren<Animator>();
-        _player = GameObject.FindObjectOfType<PlayerCharacter>();
+
+        _hitData.attacker = gameObject;
+        _hitData.damage = AttackDamage;
     }
 
-    protected virtual IEnumerator Search()
+    protected virtual IEnumerator SearchUpdate()
     {
         float attackDelay = 0;
 

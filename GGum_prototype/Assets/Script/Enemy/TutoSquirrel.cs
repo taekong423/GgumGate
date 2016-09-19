@@ -1,35 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Reflection;
 
-public class TutoSquirrel : TutoEnemy {
+public class TutoSquirrel : Squirrel {
+
+    protected bool _isCinematic = false;
 
     protected override IEnumerator InitState()
     {
-        return base.InitState();
+        while (!_isCinematic)
+        {
+            yield return new WaitForSeconds(1.0f);
+
+            _isCinematic = true;
+
+            yield return null;
+        }
+
+        animator.SetTrigger("TutoSturn");
+
+        yield return new WaitForSeconds(2.0f);
+
+        state = State.Idle;
+
+        NextState();
+        StartCoroutine(SearchUpdate());
     }
 
-    protected override IEnumerator IdleState()
+    public void NextState()
     {
-        return base.IdleState();
+        string methodName = state.ToString() + "State";
+        MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
+        StartCoroutine((IEnumerator)info.Invoke(this, null));
     }
 
-    protected override IEnumerator MoveState()
-    {
-        return base.MoveState();
-    }
-
-    protected override IEnumerator AttackState()
-    {
-        return base.AttackState();
-    }
-
-    protected override IEnumerator HitState()
-    {
-        return base.HitState();
-    }
-
-    protected override IEnumerator DeadState()
-    {
-        return base.DeadState();
-    }
 }

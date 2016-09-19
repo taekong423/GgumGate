@@ -25,6 +25,12 @@ public class AICharacter : Character {
 
     public float DetectionRange { get { return _detectionRange; } set { _detectionRange = value; } }
 
+    protected override void InitCharacter()
+    {
+        base.InitCharacter();
+        _player = GameObject.FindObjectOfType<PlayerCharacter>();
+    }
+
     protected bool Search(Transform target, float detectionRange)
     {
         float dist = Vector3.Distance(target.position, transform.position);
@@ -57,7 +63,6 @@ public class AICharacter : Character {
 
     protected void SetWayPointNum()
     {
-        Debug.Log("SetPoint, PreTarget = " + _target.gameObject.name);
         switch (_moveType)
         {
             case MoveType.Once:

@@ -49,4 +49,9 @@ public class GameButton {
     {
         return _buttonManager.GetButtonAxis(buttonCode);
     }
+
+    public float ButtonAxisRaw(EButtonCode buttonCode)
+    {
+        return _buttonManager.GetButtonAxisRaw(buttonCode);
+    }
 }

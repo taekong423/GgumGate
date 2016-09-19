@@ -3,59 +3,137 @@ using System.Collections;
 
 public class PlayerCharacter : Character
 {
+    enum PlayerState
+    {
+        Any,
+        Jump,
+        Shoot,
+        Ladder,
+        Swim,
+    }
 
     public int maxJumps;
+    
+    float alpha;
 
+    private State lastState;
+    private PlayerState playerState;
     private int jumpCounter;
-    private float invincibleTime;
     private bool canShoot;
     private bool canClimb;
     private float hAxis;
     private float vAxis;
-    private LayerMask layerMask;
     private float rayLength;
     private Vector3 rayPosCenter;
     private Vector3 rayPosRight;
     private Vector3 rayPosLeft;
     private GameObject ladder;
+    private SpriteRenderer spriteRenderer;
+
+    private bool currGroundCheck;
+    private bool lastGroundCheck;
 
     float rayPosX;
     float rayPosY;
 
+    bool blinkOn;
+    bool check;
+
+    CameraController cameraController;
+
     // Use this for initialization
     void Start()
     {
-        InitCharacter();
+        //InitCharacter();
+        StartCoroutine(InitState());
     }
 
     // Update is called once per frame
     void Update()
     {
-        onGround = GroundCheck();
+        if (Input.GetKeyDown("1"))
+        {
+            blinkOn = true;
+        }
+
+        if (Input.GetKeyDown("2"))
+        {
+            blinkOn = false;
+        }
+
+        if (Input.GetKeyDown("3"))
+        {
+            cameraController.ShakeCamera(2.0f);
+        }
+
+
+
         KeyInput();
-        
+
+        if (blinkOn)
+        {
+            BlinkSprite();
+        }
     }
 
     void FixedUpdate()
     {
-        hAxis = GameController.This.ButtonAxis(EButtonCode.MoveX);
-        vAxis = GameController.This.ButtonAxis(EButtonCode.MoveY);
+        
+    }
 
-        Flip(hAxis);
+    protected override IEnumerator InitState()
+    {
+        InitCharacter();
+        yield return null;
 
+        state = State.Idle;
+        yield return null;
 
-        if (canClimb && vAxis != 0)
+        NextState();
+    }
+
+    protected override IEnumerator IdleState()
+    {
+        if (!isStop)
+            animator.SetTrigger("Idle");
+        yield return null;
+
+        while (state == State.Idle)
         {
-            m_rigidbody.gravityScale = 0;
-            m_rigidbody.velocity = Vector2.zero;
-            gameObject.transform.position = new Vector3(ladder.transform.position.x, gameObject.transform.position.y, 0);
-            ladder.GetComponent<LadderCollisionTrigger>().IgnorePlatform(true);
-            Move(Axis.Vertical, vAxis);
+            AxisInput();
+            yield return new WaitForFixedUpdate();   
         }
-        else
+
+        NextState();
+    }
+
+    protected override IEnumerator MoveState()
+    {
+        if (!isStop)
+            animator.SetTrigger("Run");
+        yield return null;
+
+        while (state == State.Move)
         {
-            Move(Axis.Horizontal, hAxis);
+            AxisInput();
+            yield return new WaitForFixedUpdate();
         }
+
+        NextState();
+    }
+
+    protected override IEnumerator DeadState()
+    {
+        animator.SetTrigger("Die");
+        yield return null;
+
+        while (state == State.Dead)
+        {
+
+            yield return null;
+        }
+
+        NextState();
     }
 
     void OnDrawGizmos()
@@ -72,87 +150,144 @@ public class PlayerCharacter : Character
 
         canClimb = false;
         canShoot = true;
-        onGround = false;
+        currGroundCheck = false;
+        lastGroundCheck = false;
+        blinkOn = false;
         m_collider = GetComponent<CircleCollider2D>();
-        layerMask = LayerMask.GetMask("Ground");
         rayLength = 2.5f;
         rayPosX = 2.1f;
-        rayPosY = 10.0f;
+        rayPosY = 1.0f;
+        invincibleTime = 2.0f;
 
-        //Physics2D.IgnoreCollision(m_collider, cc, true);
-    }
-
-    private int GetRawAxis(float value)
-    {
-        if (value > 0)
-        {
-            return 1;
-        }
-        else if (value < 0)
-            return -1;
-        else
-            return 0;
+        cameraController = Camera.main.GetComponent<CameraController>();
+        animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void KeyInput()
     {
-        if (GameController.This.ButtonDown(EButtonCode.Jump))
+        GroundCheck();
+
+        if (!IsStop && state != State.Dead)
         {
-            if (onGround)
+            // Input Jump Key
+            if (GameController.This.ButtonDown(EButtonCode.Jump))
             {
-                jumpCounter = 0;
-                m_rigidbody.gravityScale = 10;
+                if (currGroundCheck)
+                {
+                    jumpCounter = 0;
+                    m_rigidbody.gravityScale = 10;
+                }
+
+                if (canClimb)
+                {
+                    jumpCounter = 0;
+                    canClimb = false;
+                }
+
+                if (jumpCounter < maxJumps)
+                {
+                    playerState = PlayerState.Jump;
+                    animator.SetTrigger("Jump");
+                    m_rigidbody.velocity = Vector2.zero;
+                    Jump();
+                    m_rigidbody.gravityScale = 50;
+                    jumpCounter++;
+                }
             }
+
+            // Input Attack Key
+            if (GameController.This.ButtonPress(EButtonCode.Attack) && canShoot && !canClimb)
+            {
+                StartCoroutine(Shoot());
+            }
+        }
+    }
+
+    private void AxisInput()
+    {
+        if (!IsStop && state != State.Dead)
+        {
+            hAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveX);
+            vAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveY);
+
+            Flip(hAxis);
 
             if (canClimb)
             {
-                jumpCounter = 0;
-                canClimb = false;
+                if (vAxis != 0)
+                {
+                    InitLadder();
+                    Move(Axis.Vertical, vAxis);
+                }
+                else if (vAxis == 0 && hAxis != 0)
+                {
+                    state = State.Move;
+                    animator.SetTrigger("Run");
+                    Move(Axis.Horizontal, hAxis);
+                }
             }
-
-            if (jumpCounter < maxJumps)
+            else
             {
-                m_rigidbody.velocity = Vector2.zero;
-                Jump();
-                m_rigidbody.gravityScale = 50;
-                jumpCounter++;
+                if (hAxis == 0)
+                {
+                    state = State.Idle;
+                }
+                else
+                {
+                    state = State.Move;
+                    Move(Axis.Horizontal, hAxis);
+                }
             }
         }
-
-        if (GameController.This.ButtonPress(EButtonCode.Attack) && canShoot && !canClimb)
-        {
-            StartCoroutine(Shoot());
-        }
     }
 
-    private void GetArrowKey()
+    private void InitLadder()
     {
-        hAxis = GameController.This.ButtonAxis(EButtonCode.MoveX);
-        vAxis = GameController.This.ButtonAxis(EButtonCode.MoveY);
+        playerState = PlayerState.Ladder;
+        animator.SetTrigger("Ladder");
+        m_rigidbody.gravityScale = 0;
+        m_rigidbody.velocity = Vector2.zero;
+        gameObject.transform.position = new Vector3(ladder.transform.position.x, gameObject.transform.position.y, 0);
+        ladder.GetComponent<LadderCollisionTrigger>().IgnorePlatform(true);
     }
 
-    private bool GroundCheck()
+    private void GroundCheck()
     {
-        rayPosCenter = transform.position + new Vector3(0, -rayPosY, 0);
+        rayPosCenter = transform.position + new Vector3(0, rayPosY, 0);
         rayPosRight = rayPosCenter + new Vector3(rayPosX, 0, 0);
         rayPosLeft = rayPosCenter + new Vector3(-rayPosX, 0, 0);
-        if (IsGround(rayPosLeft) || IsGround(rayPosRight))
+
+        if (IsGround(rayPosLeft, rayLength) || IsGround(rayPosRight, rayLength))
         {
-            m_rigidbody.gravityScale = 10;
-            return true;
+            currGroundCheck = true;
         }
         else
         {
-            if (!canClimb)
-                m_rigidbody.gravityScale = 50;
-            return false;
+            currGroundCheck = false;
         }
-    }
 
-    private bool IsGround(Vector3 originPos)
-    {
-        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.down, rayLength, layerMask);
-        return (hit.collider != null);
+        if (currGroundCheck != lastGroundCheck)
+        {
+            if (currGroundCheck)
+            {
+                if (playerState != PlayerState.Any)
+                {
+                    SetAnimationBack();
+                    playerState = PlayerState.Any;
+                }
+                m_rigidbody.gravityScale = 10;
+            }
+            else
+            {
+                playerState = PlayerState.Jump;
+
+                if (!canClimb)
+                    m_rigidbody.gravityScale = 50;
+            }
+        }
+
+        lastGroundCheck = currGroundCheck;
     }
 
     private float GetAttackSpeed(float attackSpeed)
@@ -171,22 +306,86 @@ public class PlayerCharacter : Character
     IEnumerator Shoot()
     {
         canShoot = false;
+
+        if (playerState == PlayerState.Jump)
+        {
+            animator.SetBool("JumpAttack", true);
+            animator.SetTrigger("Attack");
+        }
+        else
+        {
+            animator.SetBool("JumpAttack", false);
+            animator.SetBool("CriticalAttack", false);
+            animator.SetTrigger("Attack");
+        }
+
         Attack(new HitData(gameObject, AttackDamage));
 
         yield return new WaitForSeconds(GetAttackSpeed(AttackSpeed));
+
+        SetAnimationBack();
+
         canShoot = true;
+    }
+
+    private void SetAnimationBack()
+    {
+        if (state == State.Idle)
+            animator.SetTrigger("Idle");
+        else if (state == State.Move)
+            animator.SetTrigger("Run");
     }
 
     private bool CheckColliderByLayer(string layerName, Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer(layerName))
-        {
             return true;
-        }
         else
-        {
             return false;
+    }
+
+    protected override void HitFunc()
+    {
+        StartCoroutine(Hit());
+    }
+
+    protected IEnumerator Hit()
+    {
+        animator.SetTrigger("Hit");
+        isStop = true;
+        isInvincible = true;
+        yield return new WaitForSeconds(0.5f);
+        isStop = false;
+        blinkOn = true;
+        SetAnimationBack();
+
+        yield return new WaitForSeconds(invincibleTime);
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1.0f);
+        isInvincible = false;
+        blinkOn = false;
+    }
+
+    private void BlinkSprite()
+    {
+        alpha = spriteRenderer.color.a;
+
+        if (check)
+            alpha -= Time.deltaTime;
+        else
+            alpha += Time.deltaTime;
+
+        if (alpha > 0.7f)
+        {
+            check = true;
         }
+        else if (alpha < 0.4f)
+        {
+            check = false;
+        }
+
+        alpha = Mathf.Clamp(alpha, 0, 1);
+
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
     }
 
     void OnTriggerEnter2D (Collider2D other)
@@ -199,6 +398,12 @@ public class PlayerCharacter : Character
                 canClimb = true;
                 ladder = other.gameObject;
             }
+        }
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            HitData hitData = other.GetComponent<Enemy>().pHitData;
+            OnHit(hitData);
         }
     }
 

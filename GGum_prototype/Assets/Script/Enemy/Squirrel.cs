@@ -3,21 +3,33 @@ using System.Collections;
 
 public class Squirrel : Enemy {
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Bullet")
+        {
+            if (isInvincible)
+                return;
 
-    
+            HitData hitdata = other.GetComponent<Bullet>().pHitData;
+            OnHit(hitdata);
+
+            Destroy(other.gameObject);
+        }
+    }
+
 
     protected override IEnumerator InitState()
     {
         state = State.Idle;
-        _hitinfo.attacker = gameObject;
-        _hitinfo.damage = 1;
+        _hitData.attacker = gameObject;
+        _hitData.damage = 1;
 
         CurrentHP = MaxHP;
 
         yield return null;
 
         NextState();
-        StartCoroutine(Search());
+        StartCoroutine(SearchUpdate());
     }
 
     protected override IEnumerator IdleState()
@@ -88,7 +100,7 @@ public class Squirrel : Enemy {
 
         animator.SetTrigger("Attack");
 
-        Attack(_hitinfo);
+        Attack(_hitData);
 
         yield return null;
     }
