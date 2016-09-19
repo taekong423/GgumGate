@@ -19,7 +19,9 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 	
 	public float AxisX;
 	public float AxisY;
-	
+
+    public Transform _center;
+
 	Vector3 m_StartPos;
 	bool m_UseX; // Toggle for using the x axis
 	bool m_UseY; // Toggle for using the Y axis
@@ -28,7 +30,7 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 	void Start () {
         ButtonManager.This.RegisterAxisRaw(EButtonCode.MoveX, GetAxisX);
         ButtonManager.This.RegisterAxisRaw(EButtonCode.MoveY, GetAxisY);
-        m_StartPos = transform.position;
+        m_StartPos = _center.position;
 		CreateVirtualAxes();
 	}
 
@@ -87,15 +89,33 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 			delta = Mathf.Clamp (delta, -MovementRange, MovementRange);
 			newPos.y = delta;
 		}
-		transform.position = new Vector3(m_StartPos.x + newPos.x/* + Vector3.ClampMagnitude(newPos, MovementRange).x */, m_StartPos.y + newPos.y/* + Vector3.ClampMagnitude (newPos, MovementRange).y */, m_StartPos.z + newPos.z);
-		//transform.position = new Vector3 (m_StartPos.x + newPos.x, m_StartPos.y + newPos.y, m_StartPos.z + newPos.z);
+        _center.position = new Vector3(m_StartPos.x + newPos.x, m_StartPos.y + newPos.y, m_StartPos.z + newPos.z);
 		UpdateVirtualAxes (transform.position);
 	}
 	
 	public void OnPointerUp(PointerEventData data)
 	{
-		transform.position = m_StartPos;
+        _center.position = m_StartPos;
 		UpdateVirtualAxes(m_StartPos);
 	}
-	public void OnPointerDown(PointerEventData data) { }
+	public void OnPointerDown(PointerEventData data)
+    {
+        Vector3 newPos = Vector3.zero;
+
+        if (m_UseX)
+        {
+            int delta = (int)(data.position.x - m_StartPos.x);
+            delta = Mathf.Clamp(delta, -MovementRange, MovementRange);
+            newPos.x = delta;
+        }
+
+        if (m_UseY)
+        {
+            int delta = (int)(data.position.y - m_StartPos.y);
+            delta = Mathf.Clamp(delta, -MovementRange, MovementRange);
+            newPos.y = delta;
+        }
+        _center.position = new Vector3(m_StartPos.x + newPos.x, m_StartPos.y + newPos.y, m_StartPos.z + newPos.z);
+        UpdateVirtualAxes(transform.position);
+    }
 }
