@@ -72,6 +72,7 @@
     <Compile Include="Assets\Script\AnimationController.cs" />
     <Compile Include="Assets\Script\Bullet\Bullet.cs" />
     <Compile Include="Assets\Script\Bullet\Figure.cs" />
+    <Compile Include="Assets\Script\ButtonMapper.cs" />
     <Compile Include="Assets\Script\CameraController.cs" />
     <Compile Include="Assets\Script\CameraTrigger.cs" />
     <Compile Include="Assets\Script\Character\AICharacter.cs" />
@@ -82,19 +83,25 @@
     <Compile Include="Assets\Script\Enemy\BossOnTrigger.cs" />
     <Compile Include="Assets\Script\Enemy\BossPig.cs" />
     <Compile Include="Assets\Script\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Script\Enemy\ExplosionPig.cs" />
+    <Compile Include="Assets\Script\Enemy\NormalPig.cs" />
     <Compile Include="Assets\Script\Enemy\Squirrel.cs" />
     <Compile Include="Assets\Script\Enemy\TutoEnemy.cs" />
     <Compile Include="Assets\Script\Enemy\TutoSquirrel.cs" />
     <Compile Include="Assets\Script\GameSystem\ButtonManager.cs" />
     <Compile Include="Assets\Script\GameSystem\GameButton.cs" />
     <Compile Include="Assets\Script\GameSystem\GameController.cs" />
+    <Compile Include="Assets\Script\GameSystem\GameManager.cs" />
     <Compile Include="Assets\Script\Global.cs" />
+    <Compile Include="Assets\Script\JoyStick.cs" />
     <Compile Include="Assets\Script\LadderCollisionTrigger.cs" />
+    <Compile Include="Assets\Script\Object\Rafflesia.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\PlayerAnimation.cs" />
     <Compile Include="Assets\Script\PlayerAttackPoint.cs" />
     <Compile Include="Assets\Script\PlayerState.cs" />
     <Compile Include="Assets\Script\Rocket.cs" />
+    <Compile Include="Assets\Script\ScreenFade.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
