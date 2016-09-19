@@ -21,6 +21,8 @@ public class ButtonData
 
     [Header("Key Mapping")]
     List<AxisFunction> _KeyAxis;
+    List<AxisFunction> _KeyAxisRaw;
+
     public List<KeyCode> _keyCodes;
     public List<string> _keyNames;
 
@@ -32,6 +34,13 @@ public class ButtonData
         _KeyAxis.Add(func);
     }
 
+    public void RegisterAxisRaw(AxisFunction func)
+    {
+        if (_KeyAxisRaw == null)
+            _KeyAxisRaw = new List<AxisFunction>();
+
+        _KeyAxisRaw.Add(func);
+    }
 
     //EButtonCode - Down, Press, Up
 
@@ -147,6 +156,40 @@ public class ButtonData
         return 0.0f;
     }
 
+    //AxisRaw
+
+    public float GetAxisRaw()
+    {
+        if (_keyNames.Count <= 0)
+            return 0;
+
+        for (int i = 0; i < _keyNames.Count; i++)
+        {
+            if (Input.GetAxisRaw(_keyNames[i]) != 0.0f)
+            {
+                return Input.GetAxisRaw(_keyNames[i]);
+            }
+        }
+
+        return 0;
+    }
+
+    public float GetAxisRawFunction()
+    {
+        if (_KeyAxisRaw == null || _KeyAxisRaw.Count <= 0)
+            return 0.0f;
+
+        for (int i = 0; i < _KeyAxisRaw.Count; i++)
+        {
+            if (_KeyAxisRaw[i].Invoke() != 0.0f)
+            {
+                return _KeyAxisRaw[i].Invoke();
+            }
+        }
+
+        return 0.0f;
+    }
+
 }
 
 public class ButtonManager : MonoBehaviour {
@@ -218,6 +261,19 @@ public class ButtonManager : MonoBehaviour {
         }
 
         data.RegisterAxis(func);
+    }
+
+    public void RegisterAxisRaw(EButtonCode buttonCode, ButtonData.AxisFunction func)
+    {
+        ButtonData data = GetButtonData(buttonCode);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return;
+        }
+
+        data.RegisterAxisRaw(func);
     }
 
     //EButtonCode - Down, Press, Up
@@ -319,4 +375,23 @@ public class ButtonManager : MonoBehaviour {
         else
             return data.GetAxis();
     }
+
+    //AxisRaw
+
+    public float GetButtonAxisRaw(EButtonCode buttonCode)
+    {
+        ButtonData data = GetButtonData(buttonCode);
+
+        if (data == null)
+        {
+            Debug.Log("ButtonData == null");
+            return 0.0f;
+        }
+
+        if (data.GetAxisRawFunction() != 0.0f)
+            return data.GetAxisRawFunction();
+        else
+            return data.GetAxisRaw();
+    }
+
 }
