@@ -88,7 +88,6 @@ public class Character : MonoBehaviour {
 
     protected void Flip(float dir)
     {
-        Debug.Log("Flip : " + gameObject.name);
         if (dir > 0)
             container.transform.rotation = Quaternion.Euler(0, 0, 0);
         else if (dir < 0)
