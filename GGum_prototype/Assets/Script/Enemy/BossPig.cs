@@ -83,8 +83,11 @@ public class BossPig : Enemy {
 
                 if (!_isHide)
                 {
-                    Hide(true, 0, 1.0f);
+                    _camera.ShakeCamera(1.0f);
+
                     yield return new WaitForSeconds(1.0f);
+
+                    Hide(true, 0);
                 }
 
                 break;
@@ -92,7 +95,13 @@ public class BossPig : Enemy {
             case 2:
 
                 if (_isHide)
+                {
+                    _camera.ShakeCamera(1.0f);
+
+                    yield return new WaitForSeconds(1.0f);
+
                     Hide(false);
+                }
 
                 _currentMoveDleay = 3;
                 animator.SetTrigger("Rush");
@@ -151,8 +160,12 @@ public class BossPig : Enemy {
 
                 if (!_isHide)
                 {
-                    Hide(true, 0, 1.0f);
+                    _camera.ShakeCamera(1.0f);
+
                     yield return new WaitForSeconds(1.0f);
+
+                    Hide(true, 0);
+                    
                 }
 
                 break;
@@ -245,14 +258,14 @@ public class BossPig : Enemy {
         {
             case 0:
 
-                stayTime = 4.0f;
+                stayTime = 5.0f;
                 StartCoroutine(Pattern0());
                 
                 break;
 
             case 1:
 
-                stayTime = 3;
+                stayTime = 4.0f;
                 StartCoroutine(Pattern1());
 
                 break;
@@ -281,13 +294,20 @@ public class BossPig : Enemy {
 
     protected override IEnumerator HitState()
     {
+
         animator.SetTrigger("Hit");
 
-        yield return new WaitForSeconds(1.5f);
+        Hide(false);
+
+        yield return new WaitForSeconds(0.5f);
+
+        _camera.ShakeCamera(1.0f);
+
+        yield return new WaitForSeconds(1.0f);
 
         Hide(true);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
 
         state = State.Idle;
 
@@ -336,6 +356,10 @@ public class BossPig : Enemy {
 
     IEnumerator Pattern0()
     {
+        _camera.ShakeCamera(1.0f);
+
+        yield return new WaitForSeconds(1.0f);
+
         Hide(false);
 
         yield return new WaitForSeconds(1.0f);
@@ -356,7 +380,11 @@ public class BossPig : Enemy {
     {
         Hide(true, 1);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.0f);
+
+        _camera.ShakeCamera(1.0f);
+
+        yield return new WaitForSeconds(0.5f);
 
         transform.position = _player.transform.position;
 
@@ -495,27 +523,19 @@ public class BossPig : Enemy {
         
     }
 
-    void Hide(bool isHide, int kind = 0, float shackeTime = 1.0f)
+    void Hide(bool isHide, int kind = 0)
     {
-        _camera.ShakeCamera(shackeTime);
-
+        isInvincible = isHide;
+        m_collider.enabled = !isHide;
         _isHide = isHide;
 
         if (isHide)
         {
-            isInvincible = true;
-            m_collider.enabled = false;
-
             if (kind == 0)
                 animator.SetTrigger("Hide");
             else
                 animator.SetTrigger("Hide2");
             
-        }
-        else
-        {
-            m_collider.enabled = true;
-            isInvincible = false;
         }
 
     }

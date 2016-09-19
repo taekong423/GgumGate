@@ -90,7 +90,7 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 			newPos.y = delta;
 		}
         _center.position = new Vector3(m_StartPos.x + newPos.x, m_StartPos.y + newPos.y, m_StartPos.z + newPos.z);
-		UpdateVirtualAxes (transform.position);
+		UpdateVirtualAxes (_center.position);
 	}
 	
 	public void OnPointerUp(PointerEventData data)
@@ -116,6 +116,6 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
             newPos.y = delta;
         }
         _center.position = new Vector3(m_StartPos.x + newPos.x, m_StartPos.y + newPos.y, m_StartPos.z + newPos.z);
-        UpdateVirtualAxes(transform.position);
+        UpdateVirtualAxes(_center.position);
     }
 }
