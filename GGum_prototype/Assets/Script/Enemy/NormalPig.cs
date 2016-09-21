@@ -30,9 +30,9 @@ public class NormalPig : Enemy {
 
     void Sprinkle()
     {
-        float power = Random.Range(8000, 16000);
+        float power = Random.Range(20000, 30000);
 
-        Vector2 dir = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(0.5f, 1.0f));
+        Vector2 dir = new Vector2(Random.Range(-0.3f, 0.3f), Random.Range(0.5f, 1.0f));
 
         m_rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         m_rigidbody.AddForce(dir * power, ForceMode2D.Force);

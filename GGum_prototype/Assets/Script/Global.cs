@@ -42,7 +42,7 @@ public class Global : MonoBehaviour
         }
 
         _instance = this;
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
 
     void OnDestroy()
