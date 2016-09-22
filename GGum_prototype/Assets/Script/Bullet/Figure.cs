@@ -5,8 +5,6 @@ public class Figure : Bullet {
 
 	// Use this for initialization
 	void Start () {
-        hitData.attacker = gameObject;
-        hitData.damage = 1;
         SelfDestroy();
 	}
 	
@@ -14,9 +12,4 @@ public class Figure : Bullet {
 	void Update () {
         Move();
 	}
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        
-    }
 }

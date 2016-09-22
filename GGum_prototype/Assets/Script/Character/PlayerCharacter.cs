@@ -41,10 +41,13 @@ public class PlayerCharacter : Character
 
     CameraController cameraController;
 
+    public JoyStick joyStick;
+    public ButtonMapper jumpButton;
+    public ButtonMapper attackButton;
+
     // Use this for initialization
     void Start()
     {
-        //InitCharacter();
         StartCoroutine(InitState());
     }
 
@@ -129,7 +132,6 @@ public class PlayerCharacter : Character
 
         while (state == State.Dead)
         {
-
             yield return null;
         }
 
@@ -171,7 +173,7 @@ public class PlayerCharacter : Character
         if (!IsStop && state != State.Dead)
         {
             // Input Jump Key
-            if (GameController.This.ButtonDown(EButtonCode.Jump))
+            if (GameController.This.ButtonDown(EButtonCode.Jump) || jumpButton.IsDown())
             {
                 if (currGroundCheck)
                 {
@@ -197,9 +199,12 @@ public class PlayerCharacter : Character
             }
 
             // Input Attack Key
-            if (GameController.This.ButtonPress(EButtonCode.Attack) && canShoot && !canClimb)
+            if (canShoot && !canClimb)
             {
-                StartCoroutine(Shoot());
+                if (GameController.This.ButtonPress(EButtonCode.Attack) || attackButton.IsPress())
+                {
+                    StartCoroutine(Shoot());
+                }
             }
         }
     }
@@ -208,8 +213,21 @@ public class PlayerCharacter : Character
     {
         if (!IsStop && state != State.Dead)
         {
-            hAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveX);
-            vAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveY);
+            if (joyStick.AxisX != 0 && joyStick.AxisY != 0)
+            {
+                if (Mathf.Abs(joyStick.AxisY) > 0.5f)
+                {
+                    vAxis = (joyStick.AxisY > 0) ? 1 : -1;
+                }
+
+                hAxis = (joyStick.AxisX > 0) ? 1 : -1;
+            }
+            else
+            {
+                hAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveX);
+                vAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveY);
+            }
+            
 
             Flip(hAxis);
 
@@ -404,6 +422,16 @@ public class PlayerCharacter : Character
         {
             HitData hitData = other.GetComponent<Enemy>().pHitData;
             OnHit(hitData);
+        }
+
+        if (other.gameObject.tag == "Bullet")
+        {
+            HitData hitData = other.GetComponent<Bullet>().pHitData;
+            if (hitData.attacker.tag != "Player")
+            {
+                OnHit(hitData);
+                Destroy(other.gameObject);
+            }
         }
     }
 

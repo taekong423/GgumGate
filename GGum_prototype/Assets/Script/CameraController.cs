@@ -5,8 +5,8 @@ public class CameraController : MonoBehaviour {
 
     private float xMargin = 1f;
     private float yMargin = 1f;
-    private float xSmooth= 1f;
-    private float ySmooth = 1f;
+    private float xSmooth = 2f;
+    private float ySmooth = 2f;
 
     private float minX = -400f;
     private float maxX = 400f;
@@ -23,12 +23,12 @@ public class CameraController : MonoBehaviour {
     public float shakeRange = 5.0f;
     
 
-    private Transform player;
-
+    private Transform currTarget;
+    public Transform CurrTarget { get { return currTarget; } set { currTarget = value; } }
 
     void Awake()
     {
-        player = GameObject.Find("CameraPoint").transform;
+        currTarget = GameObject.Find("CameraPoint").transform;
     }
 
     void Start()
@@ -40,32 +40,31 @@ public class CameraController : MonoBehaviour {
     {
         if(CameraMoveOn)
         {
-            Traclkplayer();
+            TrackTarget();
         }
     }
 
-   public bool CheckXmargin()
+   bool CheckXmargin()
     {
-        return Mathf.Abs(transform.position.x - player.position.x) > xMargin;
+        return Mathf.Abs(transform.position.x - currTarget.position.x) > xMargin;
     }
-   public bool CheckYmargin()
+   bool CheckYmargin()
     {
-        return Mathf.Abs(transform.position.y - player.position.y) > yMargin;
+        return Mathf.Abs(transform.position.y - currTarget.position.y) > yMargin;
     }
 
-
-    void Traclkplayer()
+    void TrackTarget()
     {
         targetX = transform.position.x;
         targetY = transform.position.y;
 
         if (CheckXmargin())
         {
-            targetX = Mathf.Lerp(transform.position.x, player.position.x, xSmooth * Time.deltaTime);
+            targetX = Mathf.Lerp(transform.position.x, currTarget.position.x, xSmooth * Time.deltaTime);
         }
-        if (CheckXmargin())
+        if (CheckYmargin())
         {
-            targetY = Mathf.Lerp(transform.position.y, player.position.y, ySmooth * Time.deltaTime);
+            targetY = Mathf.Lerp(transform.position.y, currTarget.position.y, ySmooth * Time.deltaTime);
         }
 
         targetX = Mathf.Clamp(targetX, minX, maxX);
