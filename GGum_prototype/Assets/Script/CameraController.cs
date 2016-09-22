@@ -29,6 +29,10 @@ public class CameraController : MonoBehaviour {
     void Awake()
     {
         player = GameObject.Find("CameraPoint").transform;
+    }
+
+    void Start()
+    {
         Global.shared<CameraController>(this);
     }
 
