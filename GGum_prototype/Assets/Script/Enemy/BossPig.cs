@@ -463,6 +463,7 @@ public class BossPig : Enemy {
             }
             else
             {
+                pig.transform.position = transform.position;
                 pig.SetActive(true);
             }
 
@@ -494,6 +495,7 @@ public class BossPig : Enemy {
                     }
                     else
                     {
+                        pig.transform.position = transform.position;
                         pig.SetActive(true);
                     }
 
