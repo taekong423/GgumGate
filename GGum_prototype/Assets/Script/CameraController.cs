@@ -10,8 +10,8 @@ public class CameraController : MonoBehaviour {
 
     private float minX = -400f;
     private float maxX = 400f;
-    private float minY = -5;
-    private float maxY = 1f;
+    private float minY = -5.0f;
+    private float maxY = 5.0f;
     
     private float targetX;
     private float targetY;

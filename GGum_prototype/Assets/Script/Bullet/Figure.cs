@@ -13,5 +13,8 @@ public class Figure : Bullet {
         Move();
 	}
 
-
+    public override void DestroyBullet(float time)
+    {
+        Destroy(gameObject, time);
+    }
 }

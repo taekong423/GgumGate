@@ -430,7 +430,7 @@ public class PlayerCharacter : Character
             if (hitData.attacker.tag != "Player")
             {
                 OnHit(hitData);
-                Destroy(other.gameObject);
+                other.GetComponent<Bullet>().DestroyBullet(0.0f);
             }
         }
     }
