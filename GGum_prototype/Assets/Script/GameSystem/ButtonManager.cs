@@ -2,246 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum EButtonCode
+public class ButtonManager : MonoBehaviour
 {
-    MoveX,
-    MoveY,
-    Attack,
-    Jump,
-    Test,
-}
 
-[System.Serializable]
-public class ButtonData
-{
-    public delegate float AxisFunction();
-    public delegate bool ButtonFunction();
-
-    [Header("Set Button Code Or Name")]
-    public EButtonCode _buttonCode;
-    public string _buttonName;
-
-    [Header("Key Mapping")]
-    List<AxisFunction> _KeyAxis;
-    List<AxisFunction> _KeyAxisRaw;
-
-    List<ButtonFunction> _buttonDowns;
-    List<ButtonFunction> _buttonPress;
-
-    public List<KeyCode> _keyCodes;
-    public List<string> _keyNames;
-
-    public void RegisterDown(ButtonFunction func)
-    {
-        if (_buttonDowns == null)
-            _buttonDowns = new List<ButtonFunction>();
-
-        _buttonDowns.Add(func);
-    }
-
-    public void RegisterPress(ButtonFunction func)
-    {
-        if (_buttonPress == null)
-            _buttonPress = new List<ButtonFunction>();
-
-        _buttonPress.Add(func);
-    }
-
-    public void RegisterAxis(AxisFunction func)
-    {
-        if (_KeyAxis == null)
-            _KeyAxis = new List<AxisFunction>();
-
-        _KeyAxis.Add(func);
-    }
-
-    public void RegisterAxisRaw(AxisFunction func)
-    {
-
-        if (_KeyAxisRaw == null)
-            _KeyAxisRaw = new List<AxisFunction>();
-
-        _KeyAxisRaw.Add(func);
-    }
-
-    //EButtonCode - Down, Press, Up
-
-    public bool GetButtonDown()
-    {
-        if (_buttonDowns == null || _keyCodes.Count <= 0 && _keyNames.Count <= 0 && _buttonDowns.Count <= 0)
-            return false;
-
-        for (int i = 0; i < _keyCodes.Count; i++)
-        {
-            if (Input.GetKeyDown(_keyCodes[i]))
-            {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < _keyNames.Count; i++)
-        {
-            if (Input.GetKeyDown(_keyNames[i]))
-            {
-                return true;
-            }
-        }
-
-
-        for (int i = 0; i < _buttonDowns.Count; i++)
-        {
-            if (_buttonDowns[i].Invoke())
-            {
-
-                return true;
-            }
-        }
-
-        return false;
-
-    }
-
-    public bool GetButtonPress()
-    {
-        if (_buttonPress == null || _keyCodes.Count <= 0 && _keyNames.Count <= 0 && _buttonPress.Count <= 0)
-            return false;
-
-        for (int i = 0; i < _keyCodes.Count; i++)
-        {
-            if (Input.GetKey(_keyCodes[i]))
-            {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < _keyNames.Count; i++)
-        {
-            if (Input.GetKey(_keyNames[i]))
-            {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < _buttonPress.Count; i++)
-        {
-            if (_buttonPress[i].Invoke())
-            {
-
-                return true;
-            }
-        }
-
-        return false;
-
-    }
-
-    public bool GetButtonUp()
-    {
-        if (_keyCodes.Count <= 0 && _keyNames.Count <= 0)
-            return false;
-
-        for (int i = 0; i < _keyCodes.Count; i++)
-        {
-            if (Input.GetKeyUp(_keyCodes[i]))
-            {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < _keyNames.Count; i++)
-        {
-            if (Input.GetKeyUp(_keyNames[i]))
-            {
-                return true;
-            }
-        }
-
-
-        return false;
-
-    }
-
-    //Axis
-
-    public float GetAxis()
-    {
-        if (_keyNames.Count <= 0)
-            return 0.0f;
-
-        for (int i = 0; i < _keyNames.Count; i++)
-        {
-            if (Input.GetAxis(_keyNames[i]) != 0.0f)
-            {
-                return Input.GetAxis(_keyNames[i]);
-            }
-        }
-
-        return 0.0f;
-    }
-
-    public float GetAxisFunction()
-    {
-        if (_KeyAxis == null || _KeyAxis.Count <= 0)
-            return 0.0f;
-
-        for (int i = 0; i < _KeyAxis.Count; i++)
-        {
-            if (_KeyAxis[i].Invoke() != 0.0f)
-            {
-                return _KeyAxis[i].Invoke();
-            }
-        }
-
-        return 0.0f;
-    }
-
-    //AxisRaw
-
-    public float GetAxisRaw()
-    {
-        if (_keyNames.Count <= 0)
-            return 0;
-
-        for (int i = 0; i < _keyNames.Count; i++)
-        {
-            if (Input.GetAxisRaw(_keyNames[i]) != 0.0f)
-            {
-                return Input.GetAxisRaw(_keyNames[i]);
-            }
-        }
-
-        return 0;
-    }
-
-    public float GetAxisRawFunction()
-    {
-        if (_KeyAxisRaw == null || _KeyAxisRaw.Count <= 0)
-            return 0.0f;
-
-        for (int i = 0; i < _KeyAxisRaw.Count; i++)
-        {
-            if (_KeyAxisRaw[i].Invoke() != 0.0f)
-            {
-                return _KeyAxisRaw[i].Invoke();
-            }
-        }
-
-        return 0.0f;
-    }
-
-}
-
-public class ButtonManager : MonoBehaviour {
+    static string _prefabPath = "Prefab/Manager/ButtonManager";
 
     static ButtonManager _instance;
 
-    public ButtonData[] _buttonDatas;
+    static object synLock = new object();
 
+    public List<ButtonData> _buttonDatas;
 
-    public ButtonManager()
-    {
-        _instance = this;
-    }
 
     public static ButtonManager This
     {
@@ -249,20 +20,44 @@ public class ButtonManager : MonoBehaviour {
         {
             if (_instance == null)
             {
-                GameObject obj = new GameObject("ButtonManager");
-                _instance = obj.AddComponent<ButtonManager>();
+                lock (synLock)
+                {
+                    GameObject prefab = Resources.Load<GameObject>(_prefabPath);
+
+                    GameObject obj = GameObject.Instantiate(prefab);
+
+                    obj.name = prefab.name;
+
+                }
             }
 
             return _instance;
+
         }
+    }
+
+    // Use this for initialization
+    void Awake()
+    {
+
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
     }
 
     ButtonData GetButtonData(EButtonCode buttonCode)
     {
-        if (_buttonDatas.Length <= 0)
+        if (_buttonDatas.Count <= 0)
             return null;
 
-        for (int i = 0; i < _buttonDatas.Length; i++)
+        for (int i = 0; i < _buttonDatas.Count; i++)
         {
             if (_buttonDatas[i]._buttonCode == buttonCode)
             {
@@ -273,81 +68,119 @@ public class ButtonManager : MonoBehaviour {
         return null;
     }
 
-    ButtonData GetButtonData(string buttonName)
-    {
-        if (_buttonDatas.Length <= 0)
-            return null;
+    //Register, Remove
 
-        for (int i = 0; i < _buttonDatas.Length; i++)
+    public static void RegisterButtonDownFunc(EButtonCode buttonCode, ButtonData.ButtonFunction func)
+    {
+        ButtonData data = This.GetButtonData(buttonCode);
+
+        if (data != null)
         {
-            if (_buttonDatas[i]._buttonName == buttonName)
-            {
-                return _buttonDatas[i];
-            }
+            data.RegisterButtonDownFunc(func);
         }
 
-        return null;
     }
 
-    public void RegisterDown(EButtonCode buttonCode, ButtonData.ButtonFunction func)
+    public static void RemoveButtonDwonFunc(EButtonCode buttonCode, ButtonData.ButtonFunction func)
     {
+        ButtonData data = This.GetButtonData(buttonCode);
 
-        ButtonData data = GetButtonData(buttonCode);
-
-        if (data == null)
+        if (data != null)
         {
-            Debug.Log("ButtonData == null");
-            return;
+            data.RemoveButtonDwonFunc(func);
+        }
+    }
+
+    public static void RegisterButtonPressFunc(EButtonCode buttonCode, ButtonData.ButtonFunction func)
+    {
+        ButtonData data = This.GetButtonData(buttonCode);
+
+        if (data != null)
+        {
+            data.RegisterButtonPressFunc(func);
         }
 
-        data.RegisterDown(func);
     }
 
-    public void RegisterPress(EButtonCode buttonCode, ButtonData.ButtonFunction func)
+    public static void RemoveButtonPressFunc(EButtonCode buttonCode, ButtonData.ButtonFunction func)
     {
+        ButtonData data = This.GetButtonData(buttonCode);
 
-        ButtonData data = GetButtonData(buttonCode);
-
-        if (data == null)
+        if (data != null)
         {
-            Debug.Log("ButtonData == null");
-            return;
+            data.RemoveButtonPressFunc(func);
+        }
+    }
+
+    public static void RegisterButtonUpFunc(EButtonCode buttonCode, ButtonData.ButtonFunction func)
+    {
+        ButtonData data = This.GetButtonData(buttonCode);
+
+        if (data != null)
+        {
+            data.RegisterButtonUpFunc(func);
         }
 
-        data.RegisterPress(func);
     }
 
-    public void RegisterAxis(EButtonCode buttonCode, ButtonData.AxisFunction func)
+    public static void RemoveButtonUpFunc(EButtonCode buttonCode, ButtonData.ButtonFunction func)
     {
-        ButtonData data = GetButtonData(buttonCode);
+        ButtonData data = This.GetButtonData(buttonCode);
 
-        if (data == null)
+        if (data != null)
         {
-            Debug.Log("ButtonData == null");
-            return;
+            data.RemoveButtonUpFunc(func);
+        }
+    }
+
+    public static void RegisterAxisFunc(EButtonCode buttonCode, ButtonData.AxisFunction func)
+    {
+        ButtonData data = This.GetButtonData(buttonCode);
+
+        if (data != null)
+        {
+            data.RegisterAxisFunc(func);
         }
 
-        data.RegisterAxis(func);
     }
 
-    public void RegisterAxisRaw(EButtonCode buttonCode, ButtonData.AxisFunction func)
+    public static void RemoveAxisFunc(EButtonCode buttonCode, ButtonData.AxisFunction func)
     {
-        ButtonData data = GetButtonData(buttonCode);
+        ButtonData data = This.GetButtonData(buttonCode);
 
-        if (data == null)
+        if (data != null)
         {
-            Debug.Log("ButtonData == null");
-            return;
+            data.RemoveAxisFunc(func);
+        }
+    }
+
+    public static void RegisterAxisRawFunc(EButtonCode buttonCode, ButtonData.AxisFunction func)
+    {
+        ButtonData data = This.GetButtonData(buttonCode);
+
+        if (data != null)
+        {
+            data.RegisterAxisRawFunc(func);
         }
 
-        data.RegisterAxisRaw(func);
     }
 
-    //EButtonCode - Down, Press, Up
-
-    public bool GetButtonDown(EButtonCode buttonCode)
+    public static void RemoveAxisRawFunc(EButtonCode buttonCode, ButtonData.AxisFunction func)
     {
-        ButtonData data = GetButtonData(buttonCode);
+        ButtonData data = This.GetButtonData(buttonCode);
+
+        if (data != null)
+        {
+            data.RemoveAxisRawFunc(func);
+        }
+    }
+
+
+    //ButtonManager Interface
+
+    public static bool ButtonDown(EButtonCode buttonCode)
+    {
+        ButtonData data = This.GetButtonData(buttonCode);
 
         if (data == null)
         {
@@ -358,9 +191,9 @@ public class ButtonManager : MonoBehaviour {
         return data.GetButtonDown();
     }
 
-    public bool GetButtonPress(EButtonCode buttonCode)
+    public static bool ButtonPress(EButtonCode buttonCode)
     {
-        ButtonData data = GetButtonData(buttonCode);
+        ButtonData data = This.GetButtonData(buttonCode);
 
         if (data == null)
         {
@@ -371,9 +204,9 @@ public class ButtonManager : MonoBehaviour {
         return data.GetButtonPress();
     }
 
-    public bool GetButtonUp(EButtonCode buttonCode)
+    public static bool ButtonUp(EButtonCode buttonCode)
     {
-        ButtonData data = GetButtonData(buttonCode);
+        ButtonData data = This.GetButtonData(buttonCode);
 
         if (data == null)
         {
@@ -384,52 +217,9 @@ public class ButtonManager : MonoBehaviour {
         return data.GetButtonUp();
     }
 
-    //String - Down, Press, Up
-
-    public bool GetButtonDown(string buttonName)
+    public static float GetAxis(EButtonCode buttonCode)
     {
-        ButtonData data = GetButtonData(buttonName);
-
-        if (data == null)
-        {
-            Debug.Log("ButtonData == null");
-            return false;
-        }
-
-        return data.GetButtonDown();
-    }
-
-    public bool GetButtonPress(string buttonName)
-    {
-        ButtonData data = GetButtonData(buttonName);
-
-        if (data == null)
-        {
-            Debug.Log("ButtonData == null");
-            return false;
-        }
-
-        return data.GetButtonPress();
-    }
-
-    public bool GetButtonUp(string buttonName)
-    {
-        ButtonData data = GetButtonData(buttonName);
-
-        if (data == null)
-        {
-            Debug.Log("ButtonData == null");
-            return false;
-        }
-
-        return data.GetButtonUp();
-    }
-
-    //Axis
-
-    public float GetButtonAxis(EButtonCode buttonCode)
-    {
-        ButtonData data = GetButtonData(buttonCode);
+        ButtonData data = This.GetButtonData(buttonCode);
 
         if (data == null)
         {
@@ -437,17 +227,12 @@ public class ButtonManager : MonoBehaviour {
             return 0.0f;
         }
 
-        if (data.GetAxisFunction() != 0.0f)
-            return data.GetAxisFunction();
-        else
-            return data.GetAxis();
+        return data.GetAxis();
     }
 
-    //AxisRaw
-
-    public float GetButtonAxisRaw(EButtonCode buttonCode)
+    public static float GetAxisRaw(EButtonCode buttonCode)
     {
-        ButtonData data = GetButtonData(buttonCode);
+        ButtonData data = This.GetButtonData(buttonCode);
 
         if (data == null)
         {
@@ -455,10 +240,8 @@ public class ButtonManager : MonoBehaviour {
             return 0.0f;
         }
 
-        if (data.GetAxisRawFunction() != 0.0f)
-            return data.GetAxisRawFunction();
-        else
-            return data.GetAxisRaw();
+        return data.GetAxisRaw();
     }
-
 }
+
+

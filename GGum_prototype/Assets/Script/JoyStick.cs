@@ -28,8 +28,8 @@ public class JoyStick : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 	
 	// Use this for initialization
 	void Start () {
-        ButtonManager.This.RegisterAxisRaw(EButtonCode.MoveX, GetAxisX);
-        ButtonManager.This.RegisterAxisRaw(EButtonCode.MoveY, GetAxisY);
+        ButtonManager.RegisterAxisRawFunc(EButtonCode.MoveX, GetAxisX);
+        ButtonManager.RegisterAxisRawFunc(EButtonCode.MoveY, GetAxisY);
         m_StartPos = _center.position;
 		CreateVirtualAxes();
 	}

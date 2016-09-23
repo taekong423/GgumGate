@@ -24,6 +24,15 @@ public enum MoveType
     Random,
 }
 
+public enum EButtonCode
+{
+    None,
+    MoveX,
+    MoveY,
+    Attack,
+    Jump,
+}
+
 public struct HitData
 {
     public GameObject attacker;

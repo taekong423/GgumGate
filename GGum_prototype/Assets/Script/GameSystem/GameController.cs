@@ -5,7 +5,7 @@ public class GameController {
 
     static GameController _instance;
 
-    GameButton _gameButton;
+    static object synLock = new object();
 
     public static GameController This
     {
@@ -13,65 +13,41 @@ public class GameController {
         {
             if (_instance == null)
             {
-                _instance = new GameController();
+                lock (synLock)
+                {
+                    _instance = new GameController();
+                }
             }
 
             return _instance;
         }
-
     }
 
-    public GameController()
+
+    public static bool ButtonDown(EButtonCode code)
     {
-        _gameButton = new GameButton();
+        return ButtonManager.ButtonDown(code);
     }
 
-    //ButtonCode : EButtonCode
-
-    public bool ButtonDown(EButtonCode buttonCode)
+    public static bool ButtonPress(EButtonCode code)
     {
-        return _gameButton.ButtonDown(buttonCode);
+        return ButtonManager.ButtonPress(code);
     }
 
-    public bool ButtonPress(EButtonCode buttonCode)
+    public static bool ButtonUp(EButtonCode code)
     {
-        return _gameButton.ButtonPress(buttonCode);
+        return ButtonManager.ButtonUp(code);
     }
 
-    public bool ButtonUp(EButtonCode buttonCode)
+    public static float GetAxis(EButtonCode code)
     {
-        return _gameButton.ButtonUp(buttonCode);
+        return ButtonManager.GetAxis(code);
     }
 
-
-    //ButtonName : String
-
-    public bool ButtonDown(string buttonName)
+    public static float GetAxisRaw(EButtonCode code)
     {
-        return _gameButton.ButtonDown(buttonName);
+        return ButtonManager.GetAxisRaw(code);
     }
 
-    public bool ButtonPress(string buttonName)
-    {
-        return _gameButton.ButtonPress(buttonName);
-    }
-
-    public bool ButtonUp(string buttonName)
-    {
-        return _gameButton.ButtonUp(buttonName);
-    }
-
-
-    //Axis
-
-    public float ButtonAxis(EButtonCode buttonCode)
-    {
-        return _gameButton.ButtonAxis(buttonCode);
-    }
-
-    public float ButtonAxisRaw(EButtonCode buttonCode)
-    {
-        return _gameButton.ButtonAxisRaw(buttonCode);
-    }
 }
 
