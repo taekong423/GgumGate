@@ -6,14 +6,14 @@ public class TutoSquirrel : Squirrel {
 
     protected bool _isCinematic = false;
 
+    public GameManager _gm;
+
     protected override IEnumerator InitState()
     {
-        while (!_isCinematic)
+        yield return null;
+
+        while (!_gm.flags[_gm.flagKeys[0]])
         {
-            yield return new WaitForSeconds(1.0f);
-
-            _isCinematic = true;
-
             yield return null;
         }
 
@@ -25,13 +25,6 @@ public class TutoSquirrel : Squirrel {
 
         NextState();
         StartCoroutine(SearchUpdate());
-    }
-
-    public void NextState()
-    {
-        string methodName = state.ToString() + "State";
-        MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
-        StartCoroutine((IEnumerator)info.Invoke(this, null));
     }
 
 }
