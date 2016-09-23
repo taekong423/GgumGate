@@ -29,4 +29,6 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject, destroyTime);
     }
+
+    public virtual void DestroyBullet(float time) { }
 }

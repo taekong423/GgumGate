@@ -21,7 +21,8 @@ public class ScreenFade : MonoBehaviour {
 	void Start () {
         alpha = 1;
         blackScreen = GetComponent<Image>();
-	}
+        blackScreen.color = new Color(0, 0, 0, 1);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,7 +34,6 @@ public class ScreenFade : MonoBehaviour {
         {
             Fade(-1);
         }
-
 	}
 
     void Fade(int fadeDir)

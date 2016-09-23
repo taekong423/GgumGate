@@ -12,4 +12,6 @@ public class Figure : Bullet {
 	void Update () {
         Move();
 	}
+
+
 }
