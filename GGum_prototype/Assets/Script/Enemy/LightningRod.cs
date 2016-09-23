@@ -28,11 +28,13 @@ public class LightningRod : Bullet {
         //OnEffect();
         _collider.enabled = true;
 
-        yield return new WaitForSeconds(0.2f);
-
         Deer owner = pHitData.attacker.GetComponent<Deer>();
 
         owner.AttackCount++;
+
+        yield return new WaitForSeconds(0.2f);
+
+        
 
         IsGround = false;
         _collider.enabled = false;
