@@ -12,7 +12,6 @@ public class NormalPig : Enemy {
         
     void OnEnable()
     {
-        Sprinkle();
         StartCoroutine(InitState());
     }
 
@@ -34,7 +33,22 @@ public class NormalPig : Enemy {
     {
         float power = Random.Range(20000, 30000);
 
-        Vector2 dir = new Vector2(Random.Range(-0.3f, 0.3f), Random.Range(0.5f, 1.0f));
+        Vector3 centerDir = _centerPivot.position - transform.position;
+
+        float max, min;
+
+        if (centerDir.x < 0)
+        {
+            max = 0;
+            min = -0.2f;
+        }
+        else
+        {
+            max = 0.2f;
+            min = 0;
+        }
+
+        Vector2 dir = new Vector2(Random.Range(min, max), Random.Range(0.5f, 1.0f));
 
         m_rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         m_rigidbody.AddForce(dir * power, ForceMode2D.Force);
@@ -62,6 +76,12 @@ public class NormalPig : Enemy {
         col.a = 1;
         GetComponentInChildren<SpriteRenderer>().color = col;
         Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
+
+        yield return null;
+
+        Sprinkle();
+
+        
 
         yield return null;
 
