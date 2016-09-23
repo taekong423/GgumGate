@@ -173,7 +173,7 @@ public class PlayerCharacter : Character
         if (!IsStop && state != State.Dead)
         {
             // Input Jump Key
-            if (GameController.This.ButtonDown(EButtonCode.Jump) || jumpButton.IsDown())
+            if (GameController.ButtonDown(EButtonCode.Jump))
             {
                 if (currGroundCheck)
                 {
@@ -199,9 +199,9 @@ public class PlayerCharacter : Character
             }
 
             // Input Attack Key
-            if (canShoot && !canClimb)
+            if (GameController.ButtonPress(EButtonCode.Attack))
             {
-                if (GameController.This.ButtonPress(EButtonCode.Attack) || attackButton.IsPress())
+                if (canShoot && !canClimb)
                 {
                     StartCoroutine(Shoot());
                 }
@@ -224,8 +224,8 @@ public class PlayerCharacter : Character
             }
             else
             {
-                hAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveX);
-                vAxis = GameController.This.ButtonAxisRaw(EButtonCode.MoveY);
+                hAxis = GameController.GetAxisRaw(EButtonCode.MoveX);
+                vAxis = GameController.GetAxisRaw(EButtonCode.MoveY);
             }
             
 
