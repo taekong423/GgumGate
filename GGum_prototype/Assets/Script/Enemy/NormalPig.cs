@@ -8,6 +8,8 @@ public class NormalPig : Enemy {
 
     protected static int _deathNum;
 
+    protected Transform _centerPivot;
+        
     void OnEnable()
     {
         Sprinkle();
@@ -42,10 +44,11 @@ public class NormalPig : Enemy {
 
     }
 
-    public void Setting(BossPig boss, Transform[] waypoints)
+    public void Setting(BossPig boss, Transform[] waypoints, Transform center)
     {
         _boss = boss;
         _wayPoints = waypoints;
+        _centerPivot = center;
     }
 
     protected override IEnumerator InitState()

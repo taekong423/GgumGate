@@ -26,6 +26,7 @@ public class BossPig : Enemy {
     public GameObject _normalPig;
     public GameObject _explosionPig;
 
+    public Transform _centerPivot;
     
     public int ChildPigNum { get { return _childPigNum; } set { _childPigNum = value; } }
 
@@ -458,7 +459,7 @@ public class BossPig : Enemy {
             if (pig == null)
             {
                 GameObject obj = Instantiate(_normalPig, transform.position, Quaternion.identity) as GameObject;
-                obj.GetComponent<NormalPig>().Setting(this, _wayPoints);
+                obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
                 _normalPigs.Add(obj);
             }
             else
@@ -490,7 +491,7 @@ public class BossPig : Enemy {
                     if (pig == null)
                     {
                         GameObject obj = Instantiate(_normalPig, transform.position, Quaternion.identity) as GameObject;
-                        obj.GetComponent<NormalPig>().Setting(this, _wayPoints);
+                        obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
                         _normalPigs.Add(obj);
                     }
                     else
@@ -508,7 +509,7 @@ public class BossPig : Enemy {
                     if (pig == null)
                     {
                         GameObject obj = Instantiate(_explosionPig, transform.position, Quaternion.identity) as GameObject;
-                        obj.GetComponent<NormalPig>().Setting(this, _wayPoints);
+                        obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
                         _explosionPigs.Add(obj);
                     }
                     else
