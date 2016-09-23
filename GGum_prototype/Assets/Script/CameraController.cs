@@ -15,13 +15,16 @@ public class CameraController : MonoBehaviour {
     
     private float targetX;
     private float targetY;
+    private float orthSize;
 
     public bool CameraMoveOn;
 
     private bool shakeOn;
     private float shakeFreq = 0.05f;
     public float shakeRange = 5.0f;
-    
+
+    private bool isZooming = true;
+    public float targetSize;
 
     private Transform currTarget;
     public Transform CurrTarget { get { return currTarget; } set { currTarget = value; } }
@@ -29,6 +32,7 @@ public class CameraController : MonoBehaviour {
     void Awake()
     {
         currTarget = GameObject.Find("CameraPoint").transform;
+        targetSize = 100f;
     }
 
     void Start()
@@ -46,6 +50,11 @@ public class CameraController : MonoBehaviour {
         if(CameraMoveOn)
         {
             TrackTarget();
+        }
+
+        if(isZooming)
+        {
+            Zooming();
         }
     }
 
@@ -76,6 +85,15 @@ public class CameraController : MonoBehaviour {
         targetY = Mathf.Clamp(targetY, minY, maxY);
 
         transform.position = new Vector3(targetX, targetY, transform.position.z);
+    }
+
+    void Zooming()
+    {
+        orthSize = Mathf.Lerp(Camera.main.orthographicSize, targetSize, 5 * Time.deltaTime);
+
+        orthSize = Mathf.Clamp(orthSize, 50, 100);
+
+        Camera.main.orthographicSize = orthSize;
     }
 
     public void ShakeCamera(float time)
@@ -117,5 +135,21 @@ public class CameraController : MonoBehaviour {
         shakeOn = true;
         yield return new WaitForSeconds(time);
         shakeOn = false;
+    }
+
+    public void ZoomIn(Transform target)
+    {
+        currTarget = target;
+        targetSize = 50.0f;
+        minY = -50.0f;
+        maxY = 50.0f;
+    }
+
+    public void ZoomOut()
+    {
+        currTarget = GameObject.Find("CameraPoint").transform;
+        targetSize = 100.0f;
+        minY = -4f;
+        maxY = 4f;
     }
 }

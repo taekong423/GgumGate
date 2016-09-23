@@ -41,10 +41,6 @@ public class PlayerCharacter : Character
 
     CameraController cameraController;
 
-    public JoyStick joyStick;
-    public ButtonMapper jumpButton;
-    public ButtonMapper attackButton;
-
     // Use this for initialization
     void Start()
     {
@@ -213,21 +209,9 @@ public class PlayerCharacter : Character
     {
         if (!IsStop && state != State.Dead)
         {
-            if (joyStick.AxisX != 0 && joyStick.AxisY != 0)
-            {
-                if (Mathf.Abs(joyStick.AxisY) > 0.5f)
-                {
-                    vAxis = (joyStick.AxisY > 0) ? 1 : -1;
-                }
-
-                hAxis = (joyStick.AxisX > 0) ? 1 : -1;
-            }
-            else
-            {
-                hAxis = GameController.GetAxisRaw(EButtonCode.MoveX);
-                vAxis = GameController.GetAxisRaw(EButtonCode.MoveY);
-            }
             
+            hAxis = GameController.GetAxisRaw(EButtonCode.MoveX);
+            vAxis = GameController.GetAxisRaw(EButtonCode.MoveY);
 
             Flip(hAxis);
 
