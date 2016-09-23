@@ -36,13 +36,20 @@ public class Global : MonoBehaviour
 
     void Awake()
     {
+        if (_instance == null)
+            _instance = this;
+        else
+        {
+            Destroy(gameObject);
+        }
+
         foreach (MonoBehaviour mono in this.GetComponentsInChildren<MonoBehaviour>())
         {
             _component_objects.Add(mono.GetType(), mono);
         }
 
-        _instance = this;
-        //DontDestroyOnLoad(this);
+        
+        DontDestroyOnLoad(gameObject);
     }
 
     void OnDestroy()

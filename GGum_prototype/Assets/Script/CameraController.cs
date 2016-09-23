@@ -36,6 +36,11 @@ public class CameraController : MonoBehaviour {
         Global.shared<CameraController>(this);
     }
 
+    void OnDestroy()
+    {
+        Global.remove_shared<CameraController>();
+    }
+
     void FixedUpdate()
     {
         if(CameraMoveOn)

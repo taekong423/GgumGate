@@ -64,6 +64,8 @@ public class BossPig : Enemy {
 
     protected override IEnumerator InitState()
     {
+        yield return null;
+        
         state = State.Idle;
 
         if(_camera == null)
