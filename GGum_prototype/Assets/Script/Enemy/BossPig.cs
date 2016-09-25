@@ -40,7 +40,7 @@ public class BossPig : Enemy {
         _explosionPigs = new List<GameObject>();
         m_collider = GetComponent<BoxCollider2D>();
 
-        _baseMoveSpeed = MoveSpeed;
+        _baseMoveSpeed = moveSpeed;
 
         isInvincible = true;
         Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
@@ -340,13 +340,13 @@ public class BossPig : Enemy {
     {
         while (state != State.Dead)
         {
-            if (CurrentHP <= MaxHP * 0.15f && _patternNum == 1)
+            if (currentHP <= maxHP * 0.15f && _patternNum == 1)
             {
                 _patternNum = 2;
-                MoveSpeed *= 3;
+                moveSpeed *= 3;
                 transform.localScale -= _baseSize * 0.15f;
             }
-            else if (CurrentHP < MaxHP * 0.5f && _patternNum == 0)
+            else if (currentHP < maxHP * 0.5f && _patternNum == 0)
             {
                 _patternNum = 1;
                 transform.localScale -= _baseSize * 0.15f;
@@ -550,13 +550,13 @@ public class BossPig : Enemy {
         foreach (GameObject pig in _normalPigs)
         {
             if (pig.activeSelf == true)
-                pig.GetComponent<Enemy>().CurrentState = State.Dead;
+                pig.GetComponent<Enemy>().state = State.Dead;
         }
 
         foreach (GameObject pig in _explosionPigs)
         {
             if (pig.activeSelf == true)
-                pig.GetComponent<Enemy>().CurrentState = State.Dead;
+                pig.GetComponent<Enemy>().state = State.Dead;
         }
     }
 

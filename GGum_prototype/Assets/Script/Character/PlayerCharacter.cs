@@ -166,7 +166,7 @@ public class PlayerCharacter : Character
     {
         GroundCheck();
 
-        if (!IsStop && state != State.Dead)
+        if (!isStop && state != State.Dead)
         {
             // Input Jump Key
             if (GameController.ButtonDown(EButtonCode.Jump))
@@ -207,7 +207,7 @@ public class PlayerCharacter : Character
 
     private void AxisInput()
     {
-        if (!IsStop && state != State.Dead)
+        if (!isStop && state != State.Dead)
         {
             
             hAxis = GameController.GetAxisRaw(EButtonCode.MoveX);
@@ -321,9 +321,9 @@ public class PlayerCharacter : Character
             animator.SetTrigger("Attack");
         }
 
-        Attack(new HitData(gameObject, AttackDamage));
+        Attack(new HitData(gameObject, attackDamage));
 
-        yield return new WaitForSeconds(GetAttackSpeed(AttackSpeed));
+        yield return new WaitForSeconds(GetAttackSpeed(attackSpeed));
 
         SetAnimationBack();
 

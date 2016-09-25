@@ -18,7 +18,7 @@ public class AnimationController : MonoBehaviour {
 
     public void SetState(State setState)
     {
-        _character.CurrentState = setState;
+        _character.state = setState;
     }
 
     public void FuncInvoke()

@@ -47,12 +47,12 @@ public class ExplosionPig : NormalPig {
                 if (_deathNum >= 3)
                 {
                     _deathNum = 0;
-                    int damage = (int)((float)_boss.MaxHP * 0.1f);
+                    int damage = (int)((float)_boss.maxHP * 0.1f);
 
                     damage = (damage <= 0) ? 1 : damage;
                     HitData hitdata = new HitData(_player.gameObject, damage);
 
-                    _boss.CurrentState = State.Hit;
+                    _boss.state = State.Hit;
                     _boss.OnHit(hitdata);
                     //보스 넉백 애니메이션 실행 1.5초 뒤 하이드 상태
                 }

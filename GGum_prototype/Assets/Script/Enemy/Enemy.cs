@@ -6,6 +6,8 @@ public class Enemy : AICharacter {
 
     protected HitData _hitData;
 
+    protected EnemyPattern _pattern;
+
     protected bool _isHitEffectDelay = false;
 
     public HitData pHitData { get { return _hitData; } set { _hitData = value; } }
@@ -24,14 +26,14 @@ public class Enemy : AICharacter {
         NextState();
         //StartCoroutine(InitState());
     }
-
+    
     protected override void InitCharacter()
     {
         base.InitCharacter();
         animator = GetComponentInChildren<Animator>();
 
         _hitData.attacker = gameObject;
-        _hitData.damage = AttackDamage;
+        _hitData.damage = attackDamage;
     }
 
     protected virtual IEnumerator SearchUpdate()
@@ -82,4 +84,22 @@ public class Enemy : AICharacter {
 
         yield return null;
     }
+
+    protected override IEnumerator InitState()
+    {
+        return base.InitState();
+    }
+
+    protected override IEnumerator IdleState()
+    {
+        return base.IdleState();
+    }
+
+    protected override IEnumerator MoveState()
+    {
+        return base.MoveState();
+    }
+
+
+
 }

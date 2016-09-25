@@ -39,12 +39,12 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (player.GetComponent<PlayerCharacter>().CurrentState == State.Dead)
+	    if (player.GetComponent<PlayerCharacter>().state == State.Dead)
         {
             StartCoroutine(RestartGame());
         }
 
-        if (boss.GetComponent<Character>().CurrentState == State.Dead)
+        if (boss.GetComponent<Character>().state == State.Dead)
         {
             flags[flagKeys[2]] = true;
         }
@@ -78,10 +78,10 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EngageSquirrel()
     {
-        player.GetComponent<PlayerCharacter>().IsStop = true;
+        player.GetComponent<PlayerCharacter>().isStop = true;
         cameraController.ZoomIn(squirrel.transform);
         yield return new WaitForSeconds(2.5f);
-        player.GetComponent<PlayerCharacter>().IsStop = false;
+        player.GetComponent<PlayerCharacter>().isStop = false;
         cameraController.ZoomOut();
     }
 
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EnterOtherStage(int stageNumber)
     {
-        player.GetComponent<PlayerCharacter>().IsStop = true;
+        player.GetComponent<PlayerCharacter>().isStop = true;
         GameObject lastStage = stages[currentStageNumber];
         screen.FadeIn();
         yield return new WaitForSeconds(screen.fadeTime);
@@ -109,6 +109,6 @@ public class GameManager : MonoBehaviour {
         
         yield return new WaitForSeconds(0.5f);
         screen.FadeOut();
-        player.GetComponent<PlayerCharacter>().IsStop = false;
+        player.GetComponent<PlayerCharacter>().isStop = false;
     }
 }

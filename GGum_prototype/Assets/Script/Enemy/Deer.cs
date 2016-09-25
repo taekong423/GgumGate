@@ -31,7 +31,7 @@ public class Deer : Enemy {
         _hitData.attacker = gameObject;
         _hitData.damage = 1;
 
-        CurrentHP = MaxHP;
+        currentHP = maxHP;
 
         _currentMoveDleay = _moveDelay;
 

@@ -5,33 +5,33 @@ using System.Reflection;
 public class Character : MonoBehaviour {
 
     [Header("Status Setting")]
-    [SerializeField]
-    private string id;
+    public string id;
 
-    [SerializeField]
-    private int maxHP;
-    private int currentHP;
-    [SerializeField]
-    private int maxShield;
-    private int currentShield;
-    [SerializeField]
-    private int attackDamage;
+    public int maxHP;
+    [HideInInspector]
+    public int currentHP;
 
-    [SerializeField]
-    private float attackSpeed;
-    [SerializeField]
-    private float moveSpeed;
-    [SerializeField]
-    private float jumpForce;
+    public int maxShield;
+    [HideInInspector]
+    public int currentShield;
 
+    public int attackDamage;
 
-    protected bool isStop;
+    public float attackSpeed;
+    public float moveSpeed;
+    public float jumpForce;
+
+    [HideInInspector]
+    public bool isStop;
+
     protected bool onGround;
     protected bool isInvincible;
     protected float invincibleTime;
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
-    protected State state;
+
+    [HideInInspector]
+    public State state;
 
 
     [Header("Object Setting")]
@@ -42,21 +42,21 @@ public class Character : MonoBehaviour {
     public Animator animator;
     
 
-    public bool IsStop { get { return isStop; } set { isStop = value; } }
+    //public bool IsStop { get { return isStop; } set { isStop = value; } }
 
-    public string Id { get { return id; } set { id = value; } }
+    //public string Id { get { return id; } set { id = value; } }
 
-    public int MaxHP { get { return maxHP; } set { maxHP = value; } }
-    public int CurrentHP { get { return currentHP; } set { currentHP = value; } }
-    public int MaxShield { get { return maxShield; } set { maxShield = value; } }
-    public int CurrentShield { get { return currentShield; } set { currentShield = value; } }
-    public int AttackDamage { get { return attackDamage; } set { attackDamage = value; } }
+    //public int MaxHP { get { return maxHP; } set { maxHP = value; } }
+    //public int CurrentHP { get { return currentHP; } set { currentHP = value; } }
+    //public int MaxShield { get { return maxShield; } set { maxShield = value; } }
+    //public int CurrentShield { get { return currentShield; } set { currentShield = value; } }
+    //public int AttackDamage { get { return attackDamage; } set { attackDamage = value; } }
 
-    public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
-    public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
-    public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
+    //public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
+    //public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
+    //public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
-    public State CurrentState { get { return state; } set { state = value; } }
+    //public State CurrentState { get { return state; } set { state = value; } }
 
 
     protected virtual void InitCharacter()
@@ -126,7 +126,7 @@ public class Character : MonoBehaviour {
                 CalcDamage(ref currentHP, ref damage);
             }
 
-            Debug.Log("Shield = " + CurrentShield + "HP = " + CurrentHP);
+            Debug.Log("Shield = " + currentShield + "HP = " + currentHP);
 
             if (currentHP <= 0)
             {

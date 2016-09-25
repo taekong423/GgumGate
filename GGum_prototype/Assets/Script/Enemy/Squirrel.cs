@@ -24,7 +24,7 @@ public class Squirrel : Enemy {
         _hitData.attacker = gameObject;
         _hitData.damage = 1;
 
-        CurrentHP = MaxHP;
+        currentHP = maxHP;
 
         yield return null;
 
