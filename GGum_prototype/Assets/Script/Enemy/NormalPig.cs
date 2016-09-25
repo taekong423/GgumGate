@@ -31,7 +31,7 @@ public class NormalPig : Enemy {
 
     void Sprinkle()
     {
-        float power = Random.Range(20000, 30000);
+        float power = Random.Range(20000, 25000);
 
         Vector3 centerDir = _centerPivot.position - transform.position;
 
