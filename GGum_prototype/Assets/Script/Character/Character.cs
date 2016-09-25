@@ -33,6 +33,9 @@ public class Character : MonoBehaviour {
     [HideInInspector]
     public State state;
 
+    [HideInInspector]
+    public StatePattern _statePattern;
+
 
     [Header("Object Setting")]
     public Transform attackBox;
@@ -169,6 +172,7 @@ public class Character : MonoBehaviour {
     }
 
     protected virtual void HitFunc() { }
+
 
     protected virtual IEnumerator InitState()
     {
