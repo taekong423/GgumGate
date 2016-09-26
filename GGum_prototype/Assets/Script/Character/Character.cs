@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Reflection;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ public class Character : MonoBehaviour {
     [HideInInspector]
     public StatePattern _statePattern;
 
-    public Dictionary<StatePattern, StatePattern> _statePatternList;
+    public Dictionary<Type, StatePattern> _statePatternList;
 
     [Header("Object Setting")]
     public Transform attackBox;
@@ -73,7 +74,7 @@ public class Character : MonoBehaviour {
         isStop = false;
         m_rigidbody = GetComponent<Rigidbody2D>();
 
-        _statePatternList = new Dictionary<StatePattern, StatePattern>();
+        _statePatternList = new Dictionary<Type, StatePattern>();
 
         if (currentHP > 0)
             state = State.Init;
