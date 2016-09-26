@@ -2,15 +2,16 @@
 using System.Collections;
 using System.Reflection;
 
-public class Enemy : AICharacter {
+public partial class Enemy : AICharacter {
 
     protected HitData _hitData;
 
-    protected EnemyPattern _pattern;
-
-    protected bool _isHitEffectDelay = false;
+    [HideInInspector]
+    public bool _isHitEffectDelay = false;
 
     public HitData pHitData { get { return _hitData; } set { _hitData = value; } }
+
+    public GameManager _gm;
 
     public float AttackDelay = 1.0f;
 
@@ -23,7 +24,8 @@ public class Enemy : AICharacter {
     void OnEnable()
     {
         Debug.Log("Enable");
-        NextState();
+        _statePattern.StartState();
+        //NextState();
         //StartCoroutine(InitState());
     }
     
@@ -36,7 +38,7 @@ public class Enemy : AICharacter {
         _hitData.damage = attackDamage;
     }
 
-    protected virtual IEnumerator SearchUpdate()
+    public virtual IEnumerator SearchUpdate()
     {
         float attackDelay = 0;
 

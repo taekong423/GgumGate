@@ -6,7 +6,7 @@ public class TutoSquirrel : Squirrel {
 
     protected bool _isCinematic = false;
 
-    public GameManager _gm;
+    //public GameManager _gm;
 
     protected override IEnumerator InitState()
     {

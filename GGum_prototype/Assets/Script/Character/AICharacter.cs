@@ -6,24 +6,25 @@ public class AICharacter : Character {
     int addNum = 1;
 
     [Header("AI Setting")]
-    [SerializeField]
-    protected float _detectionRange = 100.0f;
+    public float _detectionRange = 100.0f;
 
-    [SerializeField]
-    protected float _attackRange = 20.0f;
+    public float _attackRange = 20.0f;
 
-    protected PlayerCharacter _player;
-    protected Transform _target;
-
-    protected int _numWayPoint;
-    protected float _currentMoveDleay;
+    [HideInInspector]
+    public PlayerCharacter _player;
+    [HideInInspector]
+    public Transform _target;    
+    [HideInInspector]
+    public int _numWayPoint;
+    [HideInInspector]
+    public float _currentMoveDleay;
 
 
     public MoveType _moveType;
     public float _moveDelay;
     public Transform[] _wayPoints;
 
-    public float DetectionRange { get { return _detectionRange; } set { _detectionRange = value; } }
+    //public float DetectionRange { get { return _detectionRange; } set { _detectionRange = value; } }
 
     protected override void InitCharacter()
     {
@@ -31,7 +32,7 @@ public class AICharacter : Character {
         _player = GameObject.FindObjectOfType<PlayerCharacter>();
     }
 
-    protected bool Search(Transform target, float detectionRange)
+    public bool Search(Transform target, float detectionRange)
     {
         float dist = Vector3.Distance(target.position, transform.position);
 
@@ -42,7 +43,7 @@ public class AICharacter : Character {
     }
 
 
-    protected bool GoToTarget(Vector3 targetPoint)
+    public bool GoToTarget(Vector3 targetPoint)
     {
 
         float dist = Vector3.Distance(targetPoint, transform.position);
@@ -61,7 +62,7 @@ public class AICharacter : Character {
 
     
 
-    protected void SetWayPointNum()
+    public void SetWayPointNum()
     {
         switch (_moveType)
         {

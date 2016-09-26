@@ -35,7 +35,7 @@ public class Character : MonoBehaviour {
     [HideInInspector]
     public State state;
 
-    [HideInInspector]
+    //[HideInInspector]
     public StatePattern _statePattern;
 
     public Dictionary<Type, StatePattern> _statePatternList;

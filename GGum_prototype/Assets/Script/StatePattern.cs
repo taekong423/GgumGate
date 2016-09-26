@@ -1,10 +1,25 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Reflection;
 
-public class StatePattern : MonoBehaviour {
+public abstract class StatePattern : MonoBehaviour {
 
     protected Character _character;
+
+    protected string _currentState;
+
+    T ParseEnum<T>(string value)
+    {
+        return (T) Enum.Parse(typeof(T), value, true);
+    }
+
+    public StatePattern(Character character)
+    {
+        _character = character;
+    }
+
+    public abstract void StartState();
 
     public void NextState(string stateName)
     {
@@ -13,11 +28,27 @@ public class StatePattern : MonoBehaviour {
         _character.StartCoroutine((IEnumerator)info.Invoke(this, null));
     }
 
-    public virtual void StartState()
+    public virtual void StateLog()
     {
-        
+
     }
 
+    public T GetState<T>(ref T stateEnum) where T : IConvertible
+    {
+        return stateEnum;
+    }
+
+    public virtual void SetState(string value)
+    {
+
+    }
+
+    public void SetState<T>(ref T stateEnum, string value) where T : IConvertible
+    {
+        stateEnum = ParseEnum<T>(value);
+        _currentState = value;
+    }
+        
 }
 
 

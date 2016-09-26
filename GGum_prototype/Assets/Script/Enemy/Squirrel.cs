@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Squirrel : Enemy {
+public partial class Squirrel : Enemy {
+
+    public bool isTuto = false;
+
+    public Squirrel.Normal.State _state;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -18,13 +22,23 @@ public class Squirrel : Enemy {
     }
 
 
+    protected override void InitCharacter()
+    {
+        base.InitCharacter();
+
+        _statePatternList.Add(typeof(Normal), new Normal(this));
+        _statePatternList.Add(typeof(Tutorial), new Tutorial(this));
+
+        if (isTuto)
+            _statePattern = _statePatternList[typeof(Tutorial)] as StatePattern;
+        else
+            _statePattern = _statePatternList[typeof(Normal)] as StatePattern;
+
+    }
+
     protected override IEnumerator InitState()
     {
         state = State.Idle;
-        _hitData.attacker = gameObject;
-        _hitData.damage = 1;
-
-        currentHP = maxHP;
 
         yield return null;
 
@@ -157,9 +171,9 @@ public class Squirrel : Enemy {
 
     protected override void HitFunc()
     {
-        if (state != State.Hit && !_isHitEffectDelay)
+        if (!_isHitEffectDelay)
         {
-            state = State.Hit;
+            _statePattern.SetState("Hit");
             _isHitEffectDelay = true;
         }
     }
