@@ -32,7 +32,6 @@ public partial class Enemy {
             {
                 if (_currentState == "Idle" || _currentState == "Move")
                 {
-                    Debug.Log("Search");
                     if (_enemy.Search(_enemy._player.transform, _enemy._attackRange))
                     {
                         if (attackDelay <= 0.0f)

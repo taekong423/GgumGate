@@ -5,7 +5,6 @@ using System;
 
 public partial class Squirrel{
 
-
     public class Normal : EnemyState
     {
 
@@ -24,9 +23,11 @@ public partial class Squirrel{
 
         PlayerCharacter _player;
 
+        Squirrel _squirrel;
+
         public Normal(Enemy enemy) : base(enemy)
         {
-            _enemy = enemy;
+            _squirrel = enemy as Squirrel;
         }
 
         public override void StartState()
@@ -54,6 +55,8 @@ public partial class Squirrel{
             SetState("Idle");
 
             yield return null;
+
+            _enemy.isInvincible = false;
 
             NextState(_state.ToString());
             //SearchUpdate();
@@ -119,7 +122,6 @@ public partial class Squirrel{
         IEnumerator AttackState()
         {
             _enemy.animator.SetTrigger("Attack");
-
             _enemy._player.OnHit(_enemy.pHitData);
 
             yield return null;
@@ -161,9 +163,7 @@ public partial class Squirrel{
         {
             _enemy.animator.SetTrigger("Dead");
 
-            _enemy.GetComponent<BoxCollider2D>().enabled = false;
-            _enemy.GetComponent<CircleCollider2D>().enabled = false;
-            _enemy.GetComponent<Rigidbody2D>().gravityScale = 0;
+            _enemy.isInvincible = true;
 
             while (_state == State.Dead)
             {
@@ -193,7 +193,8 @@ public partial class Squirrel{
 
         IEnumerator CinematicState()
         {
-            
+            _enemy.isInvincible = true;
+
             yield return null;
 
             while (!_enemy._gm.flags[_enemy._gm.flagKeys[0]])
@@ -210,6 +211,7 @@ public partial class Squirrel{
             _character._statePattern = statePattern;
 
             statePattern.SetState("Idle");
+            _enemy.isInvincible = false;
 
             yield return null;
 

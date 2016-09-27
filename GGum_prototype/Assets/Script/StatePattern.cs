@@ -7,7 +7,7 @@ public abstract class StatePattern : MonoBehaviour {
 
     protected Character _character;
 
-    protected string _currentState;
+    public string _currentState = "Init";
 
     T ParseEnum<T>(string value)
     {
@@ -43,7 +43,7 @@ public abstract class StatePattern : MonoBehaviour {
 
     }
 
-    public void SetState<T>(ref T stateEnum, string value) where T : IConvertible
+    protected void SetState<T>(ref T stateEnum, string value) where T : IConvertible
     {
         stateEnum = ParseEnum<T>(value);
         _currentState = value;

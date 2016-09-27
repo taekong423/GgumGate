@@ -25,9 +25,10 @@ public class Character : MonoBehaviour {
 
     [HideInInspector]
     public bool isStop;
-
-    protected bool onGround;
-    protected bool isInvincible;
+    [HideInInspector]
+    public bool onGround;
+    //[HideInInspector]
+    public bool isInvincible;
     protected float invincibleTime;
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
@@ -123,7 +124,7 @@ public class Character : MonoBehaviour {
 
     public void OnHit(HitData hitInfo)
     {
-        if (state != State.Dead && !isInvincible)
+        if (/*_statePattern._currentState != "Dead"*/ state != State.Dead && !isInvincible)
         {
             int damage = hitInfo.damage;
 
@@ -140,6 +141,7 @@ public class Character : MonoBehaviour {
             {
                 // When Dead
                 state = State.Dead;
+                //_statePattern.SetState("Dead");
             }
             else
                 HitFunc();

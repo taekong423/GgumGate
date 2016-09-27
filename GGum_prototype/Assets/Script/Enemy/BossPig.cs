@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BossPig : Enemy {
+public partial class BossPig : Enemy {
 
     
     CameraController _camera;
@@ -16,7 +16,7 @@ public class BossPig : Enemy {
 
     float _baseMoveSpeed;
 
-    bool _isHide = false;
+    public bool _isHide = false;
 
     Vector3 _baseSize;
 
@@ -262,14 +262,14 @@ public class BossPig : Enemy {
             case 0:
 
                 stayTime = 5.0f;
-                StartCoroutine(Pattern0());
+                StartCoroutine(Pattern10());
                 
                 break;
 
             case 1:
 
                 stayTime = 4.0f;
-                StartCoroutine(Pattern1());
+                StartCoroutine(Pattern11());
 
                 break;
 
@@ -357,7 +357,7 @@ public class BossPig : Enemy {
     }
 
 
-    IEnumerator Pattern0()
+    IEnumerator Pattern10()
     {
         _camera.ShakeCamera(1.0f);
 
@@ -379,7 +379,7 @@ public class BossPig : Enemy {
         yield return null;
     }
 
-    IEnumerator Pattern1()
+    IEnumerator Pattern11()
     {
         Hide(true, 1);
 
@@ -451,7 +451,7 @@ public class BossPig : Enemy {
         return null;
     }
 
-    void SpawNormalPig()
+    public void SpawNormalPig()
     {
         for (int i = 0; i < 4; i++)
         {
@@ -474,7 +474,7 @@ public class BossPig : Enemy {
         }
     }
 
-    void RandomSpawnPig()
+    public void RandomSpawnPig()
     {
         int pigkind;
 
@@ -528,7 +528,7 @@ public class BossPig : Enemy {
         
     }
 
-    void Hide(bool isHide, int kind = 0)
+    public void Hide(bool isHide, int kind = 0)
     {
         isInvincible = isHide;
         m_collider.enabled = !isHide;
@@ -545,7 +545,7 @@ public class BossPig : Enemy {
 
     }
 
-    void ChildAllDead()
+    public void ChildAllDead()
     {
         foreach (GameObject pig in _normalPigs)
         {

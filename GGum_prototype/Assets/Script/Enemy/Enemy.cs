@@ -6,10 +6,17 @@ public partial class Enemy : AICharacter {
 
     protected HitData _hitData;
 
+    protected Collider2D _bodyCollider;
+    protected Collider2D _footCollider;
+
+    [HideInInspector]
+    public bool _isGround = false;
     [HideInInspector]
     public bool _isHitEffectDelay = false;
 
     public HitData pHitData { get { return _hitData; } set { _hitData = value; } }
+
+    
 
     public GameManager _gm;
 
@@ -17,16 +24,13 @@ public partial class Enemy : AICharacter {
 
     // Use this for initialization
     void Awake () {
-        Debug.Log("Awake");
         InitCharacter();
 	}
 
     void OnEnable()
     {
-        Debug.Log("Enable");
+        SetStatePattern();
         _statePattern.StartState();
-        //NextState();
-        //StartCoroutine(InitState());
     }
     
     protected override void InitCharacter()
@@ -36,6 +40,32 @@ public partial class Enemy : AICharacter {
 
         _hitData.attacker = gameObject;
         _hitData.damage = attackDamage;
+
+        _bodyCollider = GetComponent<BoxCollider2D>();
+        _footCollider = container.GetComponent<CircleCollider2D>();
+
+    }
+
+    public virtual void SetStatePattern()
+    {
+
+    }
+
+    public void SetEnabled(bool enabled, bool setGravity = true)
+    {
+        _bodyCollider.enabled = enabled;
+        _footCollider.enabled = enabled;
+
+        if(setGravity)
+            m_rigidbody.gravityScale = (enabled) ? 50 : 0;
+    }
+
+    public void LookTarget(Transform target)
+    {
+        Vector3 dir = target.transform.position - transform.position;
+        float dirX = dir.x / Mathf.Abs(dir.x);
+
+        Flip(dirX);
     }
 
     public virtual IEnumerator SearchUpdate()
@@ -86,22 +116,5 @@ public partial class Enemy : AICharacter {
 
         yield return null;
     }
-
-    protected override IEnumerator InitState()
-    {
-        return base.InitState();
-    }
-
-    protected override IEnumerator IdleState()
-    {
-        return base.IdleState();
-    }
-
-    protected override IEnumerator MoveState()
-    {
-        return base.MoveState();
-    }
-
-
 
 }
