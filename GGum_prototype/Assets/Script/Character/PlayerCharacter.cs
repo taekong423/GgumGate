@@ -13,8 +13,11 @@ public class PlayerCharacter : Character
     }
 
     public int maxJumps;
+    public Transform fairyPoint;
     
-    float alpha;
+
+    public float currExp;
+    public float nextLevelExp;
 
     private State lastState;
     private PlayerState playerState;
@@ -33,6 +36,7 @@ public class PlayerCharacter : Character
     private bool currGroundCheck;
     private bool lastGroundCheck;
 
+    float alpha;
     float rayPosX;
     float rayPosY;
 
@@ -40,6 +44,7 @@ public class PlayerCharacter : Character
     bool check;
 
     CameraController cameraController;
+
 
     // Use this for initialization
     void Start()
