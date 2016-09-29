@@ -24,6 +24,8 @@ public partial class Enemy {
 
         }
 
+
+
         protected virtual IEnumerator SearchUpdate<T>() where T : IConvertible
         {
             float attackDelay = 0;

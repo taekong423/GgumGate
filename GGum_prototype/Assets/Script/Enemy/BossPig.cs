@@ -603,9 +603,11 @@ public partial class BossPig : Enemy {
     {
         if (_isHide)
         {
+            Debug.Log("BossOnHIt");
             OnHit(hitdata);
-            if (_statePattern._currentState == "Idle" && _statePattern._currentState == "Move")
+            if (_statePattern._currentState == "Idle" || _statePattern._currentState == "Move")
             {
+                Debug.Log("BossHit");
                 _statePattern.SetState("Hit");
             }
             

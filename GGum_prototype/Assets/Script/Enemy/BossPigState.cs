@@ -53,7 +53,7 @@ public partial class BossPig {
             NextState(_state.ToString());
         }
 
-        IEnumerator HitState()
+        protected IEnumerator HitState()
         {
             _bossPig.animator.SetTrigger("Hit");
 
@@ -69,7 +69,7 @@ public partial class BossPig {
             NextState(_state.ToString());
         }
 
-        IEnumerator DeadState()
+        protected IEnumerator DeadState()
         {
             _bossPig.ChildAllDead();
 
@@ -238,7 +238,7 @@ public partial class BossPig {
 
             _bossPig.animator.SetTrigger("Attack");
 
-            //_bossPig.SpawNormalPig();
+            _bossPig.SpawNormalPig();
 
             yield return new WaitForSeconds(3.0f);
 
@@ -395,12 +395,11 @@ public partial class BossPig {
             _attackCount++;
 
             _bossPig._numWayPoint = Random.Range(0, _bossPig._wayPoints.Length);
-            //_bossPig._target = _bossPig._wayPoints[_bossPig._numWayPoint];
 
             if (_attackCount >= 4)
             {
                 _attackCount = 0;
-                //_bossPig.RandomSpawnPig();
+                _bossPig.RandomSpawnPig();
             }
 
             yield return new WaitForSeconds(1.0f);

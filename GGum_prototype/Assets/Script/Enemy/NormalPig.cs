@@ -2,18 +2,14 @@
 using System.Collections;
 
 
-public class NormalPig : Enemy {
+public partial class NormalPig : Enemy {
 
-    protected BossPig _boss;
+    [HideInInspector]
+    public BossPig _boss;
 
     protected static int _deathNum;
 
     protected Transform _centerPivot;
-        
-    void OnEnable()
-    {
-        StartCoroutine(InitState());
-    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -29,7 +25,7 @@ public class NormalPig : Enemy {
         }
     }
 
-    void Sprinkle()
+    public void Sprinkle()
     {
         float power = Random.Range(20000, 25000);
 
@@ -58,11 +54,23 @@ public class NormalPig : Enemy {
 
     }
 
+    protected override void InitCharacter()
+    {
+        base.InitCharacter();
+
+        _statePatternList.Add(typeof(NormalState), new NormalState(this));
+    }
+
     public void Setting(BossPig boss, Transform[] waypoints, Transform center)
     {
         _boss = boss;
         _wayPoints = waypoints;
         _centerPivot = center;
+    }
+
+    public override void SetStatePattern()
+    {
+        _statePattern = _statePatternList[typeof(NormalState)];
     }
 
     protected override IEnumerator InitState()
@@ -76,6 +84,8 @@ public class NormalPig : Enemy {
         col.a = 1;
         GetComponentInChildren<SpriteRenderer>().color = col;
         Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
+
+        
 
         yield return null;
 
@@ -170,14 +180,38 @@ public class NormalPig : Enemy {
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<CircleCollider2D>().enabled = false;
         m_rigidbody.gravityScale = 0;
+
+        Dead();
+
+        animator.SetTrigger("Hit");
+
+        yield return new WaitForSeconds(0.5f);
+
+        animator.SetTrigger("Dead");
+
+        yield return new WaitForSeconds(0.5f);
+
+        gameObject.SetActive(false);
+    }
+
+    public string _state;
+
+    void Update()
+    {
+        _state = _statePattern._currentState;
+    }
+
+    public void Dead()
+    {
         if (_boss != null)
         {
             _deathNum++;
             _boss.ChildPigNum--;
 
 
-            if (_deathNum >= 3)
+            if (_deathNum >= 4)
             {
+                Debug.Log("Child OnHIt");
                 _deathNum = 0;
 
                 int damage = (int)((float)_boss.maxHP * 0.1f);
@@ -191,22 +225,13 @@ public class NormalPig : Enemy {
             }
 
         }
-        animator.SetTrigger("Hit");
-
-        yield return new WaitForSeconds(0.5f);
-
-        animator.SetTrigger("Dead");
-
-        yield return new WaitForSeconds(0.5f);
-
-        gameObject.SetActive(false);
     }
 
     protected override void HitFunc()
     {
-        if (state != State.Hit && !_isHitEffectDelay)
+        if (!_isHitEffectDelay)
         {
-            state = State.Hit;
+            _statePattern.SetState("Hit");
             _isHitEffectDelay = true;
         }
     }

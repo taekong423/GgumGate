@@ -30,7 +30,8 @@ public partial class Enemy : AICharacter {
     void OnEnable()
     {
         SetStatePattern();
-        _statePattern.StartState();
+        //if(_statePattern != null)
+            _statePattern.StartState();
     }
     
     protected override void InitCharacter()
