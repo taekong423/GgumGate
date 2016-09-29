@@ -135,7 +135,7 @@ public class Character : MonoBehaviour {
                 CalcDamage(ref currentHP, ref damage);
             }
 
-            Debug.Log("Shield = " + currentShield + "HP = " + currentHP);
+            //Debug.Log("Shield = " + currentShield + "HP = " + currentHP);
 
             if (currentHP <= 0)
             {

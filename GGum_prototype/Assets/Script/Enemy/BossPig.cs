@@ -33,8 +33,7 @@ public partial class BossPig : Enemy {
     protected override void InitCharacter()
     {
         base.InitCharacter();
-        if(Global.has_shared< CameraController>())
-            _camera = Global.shared<CameraController>();
+        
         _player = GameObject.FindObjectOfType<PlayerCharacter>();
         _normalPigs = new List<GameObject>();
         _explosionPigs = new List<GameObject>();
@@ -46,6 +45,13 @@ public partial class BossPig : Enemy {
         Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
 
         _baseSize = transform.localScale;
+
+        _statePatternList.Add(typeof(Pattern0), new Pattern0(this));
+        _statePatternList.Add(typeof(Pattern1), new Pattern1(this));
+        _statePatternList.Add(typeof(Pattern2), new Pattern2(this));
+
+        currentHP = 3;
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -60,6 +66,11 @@ public partial class BossPig : Enemy {
 
             Destroy(other.gameObject);
         }
+    }
+
+    public override void SetStatePattern()
+    {
+        _statePattern = _statePatternList[typeof(Pattern0)] as Pattern0;
     }
 
     protected override IEnumerator InitState()
@@ -251,49 +262,77 @@ public partial class BossPig : Enemy {
 
     }
 
+    protected override void HitFunc()
+    {
+        _statePattern.HitFunc();
+    }
+
     protected override IEnumerator AttackState()
     {
-        Debug.Log("Attack");
-
-        float stayTime = 0.0f;
-
-        switch (_patternNum)
-        {
-            case 0:
-
-                stayTime = 5.0f;
-                StartCoroutine(Pattern10());
-                
-                break;
-
-            case 1:
-
-                stayTime = 4.0f;
-                StartCoroutine(Pattern11());
-
-                break;
-
-            case 2:
-
-                break;
-        }
-
-        while (state == State.Attack)
-        {
-            if (stayTime <= 0)
-            {
-                state = State.Idle;
-            }
-            else
-                stayTime -= Time.deltaTime;
-
-            yield return null;
-        }
-
-        yield return null;
-
-        NextState();
+        return base.AttackState();
     }
+
+    void Update()
+    {
+        if (_statePattern is Pattern0)
+        {
+            Debug.Log("Pattern0");
+        }
+
+        if (_statePattern is Pattern1)
+        {
+            Debug.Log("Pattern1");
+        }
+
+        if (_statePattern is Pattern2)
+        {
+            Debug.Log("Pattern2");
+        }
+    }
+
+    //protected override IEnumerator AttackState()
+    //{
+    //    Debug.Log("Attack");
+
+    //    float stayTime = 0.0f;
+
+    //    switch (_patternNum)
+    //    {
+    //        case 0:
+
+    //            stayTime = 5.0f;
+    //            StartCoroutine(Pattern10());
+
+    //            break;
+
+    //        case 1:
+
+    //            stayTime = 4.0f;
+    //            StartCoroutine(Pattern11());
+
+    //            break;
+
+    //        case 2:
+
+    //            break;
+    //    }
+
+    //    while (state == State.Attack)
+    //    {
+    //        if (stayTime <= 0)
+    //        {
+    //            state = State.Idle;
+    //        }
+    //        else
+    //            stayTime -= Time.deltaTime;
+
+    //        yield return null;
+    //    }
+
+    //    yield return null;
+
+    //    NextState();
+    //}
 
     protected override IEnumerator HitState()
     {
@@ -564,9 +603,12 @@ public partial class BossPig : Enemy {
     {
         if (_isHide)
         {
-            isInvincible = false;
             OnHit(hitdata);
-            isInvincible = true;
+            if (_statePattern._currentState == "Idle" && _statePattern._currentState == "Move")
+            {
+                _statePattern.SetState("Hit");
+            }
+            
         }
         else
             OnHit(hitdata);

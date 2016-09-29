@@ -48,6 +48,11 @@ public abstract class StatePattern : MonoBehaviour {
         stateEnum = ParseEnum<T>(value);
         _currentState = value;
     }
+
+    public virtual void HitFunc()
+    {
+
+    }
         
 }
 

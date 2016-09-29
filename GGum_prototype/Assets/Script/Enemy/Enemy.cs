@@ -48,7 +48,7 @@ public partial class Enemy : AICharacter {
 
     public virtual void SetStatePattern()
     {
-
+        
     }
 
     public void SetEnabled(bool enabled, bool setGravity = true)
