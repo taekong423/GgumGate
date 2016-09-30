@@ -21,7 +21,7 @@ public partial class Squirrel{
         
         public State _state;
 
-        PlayerCharacter _player;
+        Player _player;
 
         public Normal(Enemy enemy) : base(enemy)
         {

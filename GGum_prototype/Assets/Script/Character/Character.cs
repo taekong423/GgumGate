@@ -33,9 +33,6 @@ public class Character : MonoBehaviour {
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
 
-    [HideInInspector]
-    public State state;
-
     //[HideInInspector]
     public StatePattern _statePattern;
 
@@ -76,11 +73,6 @@ public class Character : MonoBehaviour {
         m_rigidbody = GetComponent<Rigidbody2D>();
 
         _statePatternList = new Dictionary<Type, StatePattern>();
-
-        if (currentHP > 0)
-            state = State.Init;
-        else
-            state = State.Dead;
     }
 
     protected void Move(Axis axis, float keyValue)
@@ -124,7 +116,7 @@ public class Character : MonoBehaviour {
 
     public void OnHit(HitData hitInfo)
     {
-        if (/*_statePattern._currentState != "Dead"*/ state != State.Dead && !isInvincible)
+        if (_statePattern._currentState != "Dead" && !isInvincible)
         {
             int damage = hitInfo.damage;
 
@@ -140,8 +132,7 @@ public class Character : MonoBehaviour {
             if (currentHP <= 0)
             {
                 // When Dead
-                state = State.Dead;
-                //_statePattern.SetState("Dead");
+                _statePattern.SetState("Dead");
             }
             else
                 HitFunc();
@@ -179,42 +170,4 @@ public class Character : MonoBehaviour {
     }
 
     protected virtual void HitFunc() { }
-
-
-    protected virtual IEnumerator InitState()
-    {
-        yield return null;
-    }
-
-    protected virtual IEnumerator IdleState()
-    {
-        yield return null;
-    }
-
-    protected virtual IEnumerator MoveState()
-    {
-        yield return null;
-    }
-
-    protected virtual IEnumerator AttackState()
-    {
-        yield return null;
-    }
-
-    protected virtual IEnumerator HitState()
-    {
-        yield return null;
-    }
-
-    protected virtual IEnumerator DeadState()
-    {
-        yield return null;
-    }
-
-    public void NextState()
-    {
-        string methodName = state.ToString() + "State";
-        MethodInfo info = GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
-        StartCoroutine((IEnumerator)info.Invoke(this, null));
-    }
 }

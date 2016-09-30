@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerCharacter : Character
-{
-    enum PlayerState
+
+public partial class Player : Character {
+
+    enum PCState
     {
         Any,
         Jump,
@@ -14,13 +15,12 @@ public class PlayerCharacter : Character
 
     public int maxJumps;
     public Transform fairyPoint;
-    
 
     public float currExp;
     public float nextLevelExp;
 
-    private State lastState;
-    private PlayerState playerState;
+    private string lastState;
+    private PCState playerState;
     private int jumpCounter;
     private bool canShoot;
     private bool canClimb;
@@ -47,31 +47,16 @@ public class PlayerCharacter : Character
 
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-        StartCoroutine(InitState());
+        InitCharacter();
+        _statePattern = new PlayerState(this);
+        _statePattern.StartState();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("1"))
-        {
-            blinkOn = true;
-        }
-
-        if (Input.GetKeyDown("2"))
-        {
-            blinkOn = false;
-        }
-
-        if (Input.GetKeyDown("3"))
-        {
-            cameraController.ShakeCamera(2.0f);
-        }
-
-
-
         KeyInput();
 
         if (blinkOn)
@@ -80,69 +65,9 @@ public class PlayerCharacter : Character
         }
     }
 
-    void FixedUpdate()
-    {
-        
-    }
-
-    protected override IEnumerator InitState()
-    {
-        InitCharacter();
-        yield return null;
-
-        state = State.Idle;
-        yield return null;
-
-        NextState();
-    }
-
-    protected override IEnumerator IdleState()
-    {
-        if (!isStop)
-            animator.SetTrigger("Idle");
-        yield return null;
-
-        while (state == State.Idle)
-        {
-            AxisInput();
-            yield return new WaitForFixedUpdate();   
-        }
-
-        NextState();
-    }
-
-    protected override IEnumerator MoveState()
-    {
-        if (!isStop)
-            animator.SetTrigger("Run");
-        yield return null;
-
-        while (state == State.Move)
-        {
-            AxisInput();
-            yield return new WaitForFixedUpdate();
-        }
-
-        NextState();
-    }
-
-    protected override IEnumerator DeadState()
-    {
-        animator.SetTrigger("Die");
-        yield return null;
-
-        while (state == State.Dead)
-        {
-            yield return null;
-        }
-
-        NextState();
-    }
-
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        //Gizmos.DrawLine(rayPosCenter, rayPosCenter - new Vector3(0, y + rayLength, 0));
         Gizmos.DrawLine(rayPosRight, rayPosRight - new Vector3(0, rayLength, 0));
         Gizmos.DrawLine(rayPosLeft, rayPosLeft - new Vector3(0, rayLength, 0));
     }
@@ -171,7 +96,7 @@ public class PlayerCharacter : Character
     {
         GroundCheck();
 
-        if (!isStop && state != State.Dead)
+        if (!isStop && !CheckState("Dead"))
         {
             // Input Jump Key
             if (GameController.ButtonDown(EButtonCode.Jump))
@@ -190,8 +115,8 @@ public class PlayerCharacter : Character
 
                 if (jumpCounter < maxJumps)
                 {
-                    playerState = PlayerState.Jump;
-                    animator.SetTrigger("Jump");
+                    playerState = PCState.Jump;
+                    SetTrigger("Jump");
                     m_rigidbody.velocity = Vector2.zero;
                     Jump();
                     m_rigidbody.gravityScale = 50;
@@ -212,9 +137,9 @@ public class PlayerCharacter : Character
 
     private void AxisInput()
     {
-        if (!isStop && state != State.Dead)
+        if (!isStop && !CheckState("Dead"))
         {
-            
+
             hAxis = GameController.GetAxisRaw(EButtonCode.MoveX);
             vAxis = GameController.GetAxisRaw(EButtonCode.MoveY);
 
@@ -229,8 +154,8 @@ public class PlayerCharacter : Character
                 }
                 else if (vAxis == 0 && hAxis != 0)
                 {
-                    state = State.Move;
-                    animator.SetTrigger("Run");
+                    _statePattern.SetState("Move");
+                    SetTrigger("Run");
                     Move(Axis.Horizontal, hAxis);
                 }
             }
@@ -238,11 +163,11 @@ public class PlayerCharacter : Character
             {
                 if (hAxis == 0)
                 {
-                    state = State.Idle;
+                    _statePattern.SetState("Idle");
                 }
                 else
                 {
-                    state = State.Move;
+                    _statePattern.SetState("Move");
                     Move(Axis.Horizontal, hAxis);
                 }
             }
@@ -251,8 +176,8 @@ public class PlayerCharacter : Character
 
     private void InitLadder()
     {
-        playerState = PlayerState.Ladder;
-        animator.SetTrigger("Ladder");
+        playerState = PCState.Ladder;
+        SetTrigger("Ladder");
         m_rigidbody.gravityScale = 0;
         m_rigidbody.velocity = Vector2.zero;
         gameObject.transform.position = new Vector3(ladder.transform.position.x, gameObject.transform.position.y, 0);
@@ -278,16 +203,16 @@ public class PlayerCharacter : Character
         {
             if (currGroundCheck)
             {
-                if (playerState != PlayerState.Any)
+                if (playerState != PCState.Any)
                 {
                     SetAnimationBack();
-                    playerState = PlayerState.Any;
+                    playerState = PCState.Any;
                 }
                 m_rigidbody.gravityScale = 10;
             }
             else
             {
-                playerState = PlayerState.Jump;
+                playerState = PCState.Jump;
 
                 if (!canClimb)
                     m_rigidbody.gravityScale = 50;
@@ -314,16 +239,16 @@ public class PlayerCharacter : Character
     {
         canShoot = false;
 
-        if (playerState == PlayerState.Jump)
+        if (playerState == PCState.Jump)
         {
-            animator.SetBool("JumpAttack", true);
-            animator.SetTrigger("Attack");
+            SetBool("JumpAttack", true);
+            SetTrigger("Attack");
         }
         else
         {
-            animator.SetBool("JumpAttack", false);
-            animator.SetBool("CriticalAttack", false);
-            animator.SetTrigger("Attack");
+            SetBool("JumpAttack", false);
+            SetBool("CriticalAttack", false);
+            SetTrigger("Attack");
         }
 
         Attack(new HitData(gameObject, attackDamage));
@@ -337,10 +262,10 @@ public class PlayerCharacter : Character
 
     private void SetAnimationBack()
     {
-        if (state == State.Idle)
-            animator.SetTrigger("Idle");
-        else if (state == State.Move)
-            animator.SetTrigger("Run");
+        if (CheckState("Idle"))
+            SetTrigger("Idle");
+        else if (CheckState("Move"))
+            SetTrigger("Run");
     }
 
     private bool CheckColliderByLayer(string layerName, Collider2D other)
@@ -358,7 +283,7 @@ public class PlayerCharacter : Character
 
     protected IEnumerator Hit()
     {
-        animator.SetTrigger("Hit");
+        SetTrigger("Hit");
         isStop = true;
         isInvincible = true;
         yield return new WaitForSeconds(0.5f);
@@ -395,7 +320,25 @@ public class PlayerCharacter : Character
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
     }
 
-    void OnTriggerEnter2D (Collider2D other)
+    public bool CheckState(string stateName)
+    {
+        if (_statePattern._currentState == stateName)
+            return true;
+        else
+            return false;
+    }
+
+    public void SetTrigger(string name)
+    {
+        animator.SetTrigger(name);
+    }
+
+    public void SetBool(string name, bool check)
+    {
+        animator.SetBool(name, check);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (CheckColliderByLayer("Ladder", other))
         {

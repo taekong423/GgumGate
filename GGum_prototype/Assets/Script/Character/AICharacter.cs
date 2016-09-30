@@ -11,7 +11,7 @@ public class AICharacter : Character {
     public float _attackRange = 20.0f;
 
     [HideInInspector]
-    public PlayerCharacter _player;
+    public Player _player;
     [HideInInspector]
     public Transform _target;    
     [HideInInspector]
@@ -29,7 +29,7 @@ public class AICharacter : Character {
     protected override void InitCharacter()
     {
         base.InitCharacter();
-        _player = GameObject.FindObjectOfType<PlayerCharacter>();
+        _player = GameObject.FindObjectOfType<Player>();
     }
 
     public bool Search(Transform target, float detectionRange)

@@ -29,7 +29,7 @@ public partial class BossPig : Enemy {
     {
         base.InitCharacter();
         
-        _player = GameObject.FindObjectOfType<PlayerCharacter>();
+        _player = GameObject.FindObjectOfType<Player>();
         _normalPigs = new List<GameObject>();
         _explosionPigs = new List<GameObject>();
         m_collider = GetComponent<BoxCollider2D>();
@@ -207,14 +207,14 @@ public partial class BossPig : Enemy {
     {
         foreach (GameObject pig in _normalPigs)
         {
-            if (pig.activeSelf == true)
-                pig.GetComponent<Enemy>().state = State.Dead;
+            //if (pig.activeSelf == true)
+            //    pig.GetComponent<Enemy>().state = State.Dead;
         }
 
         foreach (GameObject pig in _explosionPigs)
         {
-            if (pig.activeSelf == true)
-                pig.GetComponent<Enemy>().state = State.Dead;
+            //if (pig.activeSelf == true)
+            //    pig.GetComponent<Enemy>().state = State.Dead;
         }
     }
 

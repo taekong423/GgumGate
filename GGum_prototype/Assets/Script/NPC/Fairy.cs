@@ -4,7 +4,7 @@ using System.Collections;
 public class Fairy : Character {
 
     public GameObject playerObject;
-    public PlayerCharacter playerCharacter;
+    public Player player;
 
     public float amplitude;
     public bool isFloating = true;
@@ -16,7 +16,7 @@ public class Fairy : Character {
     // Use this for initialization
     void Awake () {
         playerObject = GameObject.FindWithTag("Player");
-        playerCharacter = playerObject.GetComponent<PlayerCharacter>();
+        player = playerObject.GetComponent<Player>();
         _statePattern = new FairyState(this);
         _statePattern.StartState();
         StartCoroutine(ChangeTargetPosition());
@@ -32,10 +32,10 @@ public class Fairy : Character {
         while (isFloating)
         {
             float x = Random.Range(-0.5f, 0.5f);
-            targetPos.position = new Vector2(playerCharacter.fairyPoint.position.x + x, playerCharacter.fairyPoint.position.y + 3.0f);
+            targetPos.position = new Vector2(player.fairyPoint.position.x + x, player.fairyPoint.position.y + 3.0f);
             yield return new WaitForSeconds(0.5f);
             x = Random.Range(-0.5f, 0.5f);
-            targetPos.position = new Vector2(playerCharacter.fairyPoint.position.x + x, playerCharacter.fairyPoint.position.y - 3.0f);
+            targetPos.position = new Vector2(player.fairyPoint.position.x + x, player.fairyPoint.position.y - 3.0f);
             yield return new WaitForSeconds(0.5f);
         }
     }

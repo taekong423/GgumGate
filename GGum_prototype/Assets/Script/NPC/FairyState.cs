@@ -35,7 +35,7 @@ public class FairyState : StatePattern {
     {
         Debug.Log("FairyInit");
         SetState("Idle");
-        fairy.targetPos = fairy.playerCharacter.fairyPoint;
+        fairy.targetPos = fairy.player.fairyPoint;
         yield return null;
 
         NextState(fState.ToString());

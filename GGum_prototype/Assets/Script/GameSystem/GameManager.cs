@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour {
 
     public ScreenFade screen;
 
-    GameObject player;
+    GameObject playerObject;
+    Player player;
     public GameObject boss;
     public GameObject squirrel;
     CameraController cameraController;
@@ -26,7 +27,8 @@ public class GameManager : MonoBehaviour {
     bool zoom = true;
 	// Use this for initialization
 	void Start () {
-        player = GameObject.FindWithTag("Player");
+        playerObject = GameObject.FindWithTag("Player");
+        player = playerObject.GetComponent<Player>();
         cameraController = Camera.main.GetComponent<CameraController>();
         for (int i = 0; i < flagKeys.Length; i++)
         {
@@ -39,12 +41,12 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (player.GetComponent<PlayerCharacter>().state == State.Dead)
+	    if (player.CheckState("Dead"))
         {
             StartCoroutine(RestartGame());
         }
 
-        if (boss.GetComponent<Character>().state == State.Dead)
+        if (boss.GetComponent<Character>()._statePattern._currentState == "Dead")
         {
             flags[flagKeys[2]] = true;
         }
@@ -78,10 +80,10 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EngageSquirrel()
     {
-        player.GetComponent<PlayerCharacter>().isStop = true;
+        playerObject.GetComponent<Player>().isStop = true;
         cameraController.ZoomIn(squirrel.transform);
         yield return new WaitForSeconds(2.5f);
-        player.GetComponent<PlayerCharacter>().isStop = false;
+        playerObject.GetComponent<Player>().isStop = false;
         cameraController.ZoomOut();
     }
 
@@ -95,12 +97,12 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EnterOtherStage(int stageNumber)
     {
-        player.GetComponent<PlayerCharacter>().isStop = true;
+        playerObject.GetComponent<Player>().isStop = true;
         GameObject lastStage = stages[currentStageNumber];
         screen.FadeIn();
         yield return new WaitForSeconds(screen.fadeTime);
         currentStageNumber = stageNumber;
-        player.transform.position = playerRespawnPos;
+        playerObject.transform.position = playerRespawnPos;
         Camera.main.transform.position = new Vector3(-400, 0, Camera.main.transform.position.z);
         lastStage.transform.position = new Vector2(0, -1000);
         lastStage.SetActive(false);
@@ -109,6 +111,6 @@ public class GameManager : MonoBehaviour {
         
         yield return new WaitForSeconds(0.5f);
         screen.FadeOut();
-        player.GetComponent<PlayerCharacter>().isStop = false;
+        playerObject.GetComponent<Player>().isStop = false;
     }
 }

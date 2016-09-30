@@ -1,15 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum State
-{
-    Init,
-    Idle,
-    Move,
-    Attack,
-    Hit,
-    Dead,
-}
 
 public enum Axis
 {
