@@ -3,9 +3,10 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-public abstract class StatePattern : MonoBehaviour {
+public abstract class StatePattern {
 
     protected Character _character;
+
 
     public string _currentState = "Init";
 

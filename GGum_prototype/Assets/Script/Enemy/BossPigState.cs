@@ -146,6 +146,7 @@ public partial class BossPig {
         IEnumerator InitState()
         {
             SetState("Idle");
+            _bossPig.moveSpeed = _bossPig._baseMoveSpeed;
 
             yield return null;
 
@@ -178,7 +179,6 @@ public partial class BossPig {
 
         IEnumerator MoveState()
         {
-            Debug.Log("Pattern0 Move");
             if (!_bossPig._isHide)
             {
                 _camera.ShakeCamera(1.0f);
@@ -218,8 +218,6 @@ public partial class BossPig {
 
                 yield return new WaitForFixedUpdate();
             }
-
-            Debug.Log("MoveEnd");
 
             NextState(_state.ToString());
 
@@ -320,9 +318,6 @@ public partial class BossPig {
 
         IEnumerator MoveState()
         {
-
-            Debug.Log("Pattern1 Move");
-            StateLog();
             if (!_bossPig._isHide)
             {
                 _camera.ShakeCamera(1.0f);

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Deer : Enemy {
+public partial class Deer : Enemy {
 
     bool _isStanReady = false;
 
@@ -19,10 +19,26 @@ public class Deer : Enemy {
                 return;
 
             HitData hitdata = other.GetComponent<Bullet>().pHitData;
+
+            if (hitdata.attacker.tag == "Enemy")
+                return;
+
             OnHit(hitdata);
 
             Destroy(other.gameObject);
         }
+    }
+
+    protected override void InitCharacter()
+    {
+        base.InitCharacter();
+
+        _statePatternList.Add(typeof(Normal), new Normal(this));
+    }
+
+    public override void SetStatePattern()
+    {
+        _statePattern = _statePatternList[typeof(Normal)];
     }
 
     protected override IEnumerator InitState()
@@ -204,9 +220,9 @@ public class Deer : Enemy {
 
     protected override void HitFunc()
     {
-        if (state != State.Hit && !_isHitEffectDelay)
+        if (!_isHitEffectDelay)
         {
-            state = State.Hit;
+            _statePattern.SetState("Hit");
             _isHitEffectDelay = true;
         }
     }

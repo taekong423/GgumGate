@@ -7,7 +7,6 @@ public partial class Enemy : AICharacter {
     protected HitData _hitData;
 
     protected Collider2D _bodyCollider;
-    protected Collider2D _footCollider;
 
     [HideInInspector]
     public bool _isGround = false;
@@ -43,7 +42,6 @@ public partial class Enemy : AICharacter {
         _hitData.damage = attackDamage;
 
         _bodyCollider = GetComponent<BoxCollider2D>();
-        _footCollider = container.GetComponent<CircleCollider2D>();
 
     }
 
@@ -55,7 +53,6 @@ public partial class Enemy : AICharacter {
     public void SetEnabled(bool enabled, bool setGravity = true)
     {
         _bodyCollider.enabled = enabled;
-        _footCollider.enabled = enabled;
 
         if(setGravity)
             m_rigidbody.gravityScale = (enabled) ? 50 : 0;

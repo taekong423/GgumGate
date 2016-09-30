@@ -18,29 +18,19 @@ public partial class NormalPig {
 
         NormalPig _pig;
 
-        Stat _state;
+        protected Stat _state;
 
         protected Color _baseColor;
 
         public NormalState(Enemy enemy) : base(enemy)
         {
             _pig = enemy as NormalPig;
-            _baseColor = _pig.GetComponentInChildren<SpriteRenderer>().color;
+            //_baseColor = _pig.GetComponentInChildren<SpriteRenderer>().color;
         }
 
         public override void StartState()
         {
             NextState("Init");
-            _pig.StartCoroutine(StateLogUpdate());
-        }
-
-        IEnumerator StateLogUpdate()
-        {
-            while (true)
-            {
-                Debug.Log(_state);
-                yield return null;
-            }
         }
 
         public override void SetState(string value)
@@ -53,9 +43,9 @@ public partial class NormalPig {
             _pig.isInvincible = false;
             _pig.GetComponent<BoxCollider2D>().enabled = true;
 
-            _baseColor.a = 1;
+            //_baseColor.a = 1;
 
-            _pig.GetComponentInChildren<SpriteRenderer>().color = _baseColor;
+            //_pig.GetComponentInChildren<SpriteRenderer>().color = _baseColor;
 
             yield return null;
 

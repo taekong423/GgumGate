@@ -9,15 +9,21 @@ public class Global : MonoBehaviour
     private const string prefab_path = "Prefab/Manager/GlobalManager";
     private static bool _create_lock = false;
     private static Global _instance = null;
+
+    static object synLock = new object();
+
     private static Global _this
     {
         get
         {
-            if (!_create_lock && _instance == null)
+            if (_instance == null)
             {
-                GameObject prefab = Resources.Load<GameObject>(prefab_path);
-                GameObject new_object = GameObject.Instantiate<GameObject>(prefab);
-                new_object.name = prefab.name;
+                lock (synLock)
+                {
+                    GameObject prefab = Resources.Load<GameObject>(prefab_path);
+                    GameObject new_object = GameObject.Instantiate<GameObject>(prefab);
+                    new_object.name = prefab.name;
+                }
             }
 
             return _instance;
@@ -36,20 +42,24 @@ public class Global : MonoBehaviour
 
     void Awake()
     {
+        
         if (_instance == null)
+        {
+            Debug.Log(gameObject.name);
             _instance = this;
+            
+        }
         else
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
+
+        DontDestroyOnLoad(gameObject);
 
         foreach (MonoBehaviour mono in this.GetComponentsInChildren<MonoBehaviour>())
         {
             _component_objects.Add(mono.GetType(), mono);
         }
-
-        
-        DontDestroyOnLoad(gameObject);
     }
 
     void OnDestroy()
@@ -60,7 +70,7 @@ public class Global : MonoBehaviour
         _component_objects.Clear();
         _component_objects = null;
 
-        _instance = null;
+        //_instance = null;
     }
 
     void OnApplicationQuit()

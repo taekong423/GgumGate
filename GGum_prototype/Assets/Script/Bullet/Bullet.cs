@@ -5,10 +5,12 @@ public class Bullet : MonoBehaviour
 {
     protected HitData hitData;
 
-    protected float destroyTime = 2.0f;
+    
 
     [Header("Bullet Setting")]
     public float bulletSpeed;
+    public float destroyTime = 2.0f;
+
     public GameObject effect;
 
     public HitData pHitData { get { return hitData; } set { hitData = value; } }

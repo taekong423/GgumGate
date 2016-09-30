@@ -67,10 +67,6 @@ public partial class Enemy {
                     }
 
                 }
-                else
-                {
-                    Debug.Log("Attack And Hit");
-                }
 
                 yield return null;
             }

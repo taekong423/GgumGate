@@ -23,11 +23,8 @@ public partial class Squirrel{
 
         PlayerCharacter _player;
 
-        Squirrel _squirrel;
-
         public Normal(Enemy enemy) : base(enemy)
         {
-            _squirrel = enemy as Squirrel;
         }
 
         public override void StartState()

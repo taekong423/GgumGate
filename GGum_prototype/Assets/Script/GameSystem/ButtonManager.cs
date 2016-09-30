@@ -39,16 +39,19 @@ public class ButtonManager : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-
+        
         if (_instance != null)
         {
             Destroy(gameObject);
         }
         else
         {
+            Debug.Log(gameObject.name);
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        
 
     }
 

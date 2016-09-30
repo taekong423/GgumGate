@@ -19,6 +19,10 @@ public partial class NormalPig : Enemy {
                 return;
 
             HitData hitdata = other.GetComponent<Bullet>().pHitData;
+
+            if (hitdata.attacker.tag == "Enemy")
+                return;
+
             OnHit(hitdata);
 
             Destroy(other.gameObject);
@@ -73,133 +77,6 @@ public partial class NormalPig : Enemy {
         _statePattern = _statePatternList[typeof(NormalState)];
     }
 
-    protected override IEnumerator InitState()
-    {
-        state = State.Idle;
-
-        GetComponent<BoxCollider2D>().enabled = true;
-        GetComponent<CircleCollider2D>().enabled = true;
-        m_rigidbody.gravityScale = 50;
-        Color col = GetComponentInChildren<SpriteRenderer>().color;
-        col.a = 1;
-        GetComponentInChildren<SpriteRenderer>().color = col;
-        Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
-
-        
-
-        yield return null;
-
-        Sprinkle();
-
-        
-
-        yield return null;
-
-        NextState();
-    }
-
-    protected override IEnumerator IdleState()
-    {
-        animator.SetTrigger("Idle");
-
-        while (state == State.Idle)
-        {
-            if (_currentMoveDleay <= 0.0f)
-            {
-                _currentMoveDleay = _moveDelay;
-                if (_wayPoints.Length != 0)
-                    _target = _wayPoints[_numWayPoint];
-
-                state = State.Move;
-            }
-            else
-            {
-                _currentMoveDleay -= Time.fixedDeltaTime;
-            }
-
-            yield return null;
-        }
-
-        yield return null;
-
-        NextState();
-    }
-
-    protected override IEnumerator MoveState()
-    {
-
-        while (state == State.Move)
-        {
-            if (_target != null)
-            {
-                //도착.
-                if (GoToTarget(_target.position))
-                {
-                    if (_target != _player.transform)
-                    {
-                        SetWayPointNum();
-                        _target = _wayPoints[_numWayPoint];
-                        state = State.Idle;
-                    }
-                }
-
-            }
-            yield return null;
-
-            
-        }
-        NextState();
-    }
-
-    protected override IEnumerator HitState()
-    {
-        animator.SetTrigger("Hit");
-
-        float hitDelay = 0;
-
-        while (hitDelay <= 1.5f)
-        {
-            hitDelay += Time.deltaTime;
-
-            if (hitDelay >= 1.0f && state == State.Hit)
-            {
-                state = State.Idle;
-                NextState();
-            }
-
-            yield return null;
-        }
-
-        _isHitEffectDelay = false;
-
-        yield return null;
-    }
-
-    protected override IEnumerator DeadState()
-    {
-        GetComponent<BoxCollider2D>().enabled = false;
-        GetComponent<CircleCollider2D>().enabled = false;
-        m_rigidbody.gravityScale = 0;
-
-        Dead();
-
-        animator.SetTrigger("Hit");
-
-        yield return new WaitForSeconds(0.5f);
-
-        animator.SetTrigger("Dead");
-
-        yield return new WaitForSeconds(0.5f);
-
-        gameObject.SetActive(false);
-    }
-
-    public string _state;
-
-    void Update()
-    {
-        _state = _statePattern._currentState;
-    }
 
     public void Dead()
     {
