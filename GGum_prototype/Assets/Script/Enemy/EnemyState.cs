@@ -14,14 +14,9 @@ public partial class Enemy {
             _enemy = enemy;
         }
 
-        public override void StartState()
-        {
-            throw new NotImplementedException();
-        }
-
         public virtual void SearchUpdate()
         {
-
+            Debug.Log(_enemy.gameObject.name + "의 StatePattern에 SearchUpdate가 제대로 구현 되어 있지 않습니다.");
         }
 
 

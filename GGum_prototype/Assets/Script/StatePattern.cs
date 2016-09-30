@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-public abstract class StatePattern {
+public class StatePattern {
 
     protected Character _character;
 
@@ -20,7 +20,10 @@ public abstract class StatePattern {
         _character = character;
     }
 
-    public abstract void StartState();
+    public virtual void StartState()
+    {
+        Debug.Log(_character.gameObject.name + "의 StatePattern에 StartState가 제대로 구현 되어 있지 않습니다.");
+    }
 
     public void NextState(string stateName)
     {
