@@ -54,6 +54,9 @@ public partial class Deer {
 
         IEnumerator IdleState()
         {
+            if (_deer._isHitEffectDelay)
+                _deer._isHitEffectDelay = false;
+
             _deer.animator.SetTrigger("Idle");
                         
             yield return null;
@@ -109,6 +112,9 @@ public partial class Deer {
 
         IEnumerator MoveState()
         {
+            if (_deer._isHitEffectDelay)
+                _deer._isHitEffectDelay = false;
+
             _deer.animator.SetTrigger("Move");
 
             yield return null;

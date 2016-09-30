@@ -10,7 +10,7 @@ public partial class Enemy : AICharacter {
 
     [HideInInspector]
     public bool _isGround = false;
-    [HideInInspector]
+    //[HideInInspector]
     public bool _isHitEffectDelay = false;
 
     public HitData pHitData { get { return _hitData; } set { _hitData = value; } }

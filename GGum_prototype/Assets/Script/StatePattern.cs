@@ -41,7 +41,7 @@ public abstract class StatePattern {
 
     public virtual void SetState(string value)
     {
-
+        _currentState = value;
     }
 
     protected void SetState<T>(ref T stateEnum, string value) where T : IConvertible
