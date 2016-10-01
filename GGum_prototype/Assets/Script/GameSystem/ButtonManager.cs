@@ -42,7 +42,7 @@ public class ButtonManager : MonoBehaviour
         
         if (_instance != null)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
         else
         {

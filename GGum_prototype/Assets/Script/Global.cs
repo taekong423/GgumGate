@@ -47,14 +47,15 @@ public class Global : MonoBehaviour
         {
             Debug.Log(gameObject.name);
             _instance = this;
-            
+            DontDestroyOnLoad(this.gameObject);
+
         }
         else
         {
             Destroy(this.gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+        
 
         foreach (MonoBehaviour mono in this.GetComponentsInChildren<MonoBehaviour>())
         {
