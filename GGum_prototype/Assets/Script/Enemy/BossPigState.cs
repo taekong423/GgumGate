@@ -482,10 +482,13 @@ public partial class BossPig {
             if (_bossPig._isHide)
             {
                 _camera.ShakeCamera(1.0f);
+
+                yield return new WaitForSeconds(0.5f);
+
                 _bossPig.isInvincible = false;
                 _bossPig._isHide = false;
 
-                yield return new WaitForSeconds(0.5f);
+                _bossPig.GetComponent<BoxCollider2D>().enabled = true;
 
                 _bossPig.animator.SetTrigger("Rush");
 

@@ -65,4 +65,10 @@ public partial class Enemy : AICharacter {
 
         Flip(dirX);
     }
+
+    protected override void HitFunc()
+    {
+        Debug.Log("HITFUNC");
+        _statePattern.HitFunc();
+    }
 }

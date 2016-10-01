@@ -51,6 +51,8 @@ public partial class BossPig : Enemy {
         _statePatternList.Add(typeof(Pattern0), new Pattern0(this));
         _statePatternList.Add(typeof(Pattern1), new Pattern1(this));
         _statePatternList.Add(typeof(Pattern2), new Pattern2(this));
+
+        currentHP = 5;
     }
 
     void OnTriggerEnter2D(Collider2D other)

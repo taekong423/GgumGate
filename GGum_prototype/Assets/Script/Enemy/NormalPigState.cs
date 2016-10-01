@@ -59,6 +59,7 @@ public partial class NormalPig {
 
         protected virtual IEnumerator IdleState()
         {
+
             _pig.animator.SetTrigger("Idle");
 
             yield return null;
@@ -116,19 +117,25 @@ public partial class NormalPig {
 
             float hitDelay = 0;
 
-            while (hitDelay <= 1.5f)
+            while (_state == Stat.Hit && hitDelay <= 1.5f)
             {
                 hitDelay += Time.deltaTime;
 
-                if (hitDelay >= 0.5f && _state == Stat.Hit)
+                if (hitDelay >= 0.5f)
                 {
                     SetState("Idle");
-                    NextState(_currentState);
                 }
                 yield return null;
             }
+            NextState(_state.ToString());
+
+            if (hitDelay > 1.5f)
+                hitDelay = 1.5f;
+
+            yield return new WaitForSeconds(1.5f - hitDelay);
 
             _pig._isHitEffectDelay = false;
+
         }
 
         protected virtual IEnumerator DeadState()
