@@ -25,6 +25,13 @@ public partial class BossPig : Enemy {
     
     public int ChildPigNum { get { return _childPigNum; } set { _childPigNum = value; } }
 
+    public string tt;
+
+    void Update()
+    {
+        tt = _statePattern._currentState;
+    }
+
     protected override void InitCharacter()
     {
         base.InitCharacter();
@@ -207,26 +214,28 @@ public partial class BossPig : Enemy {
     {
         foreach (GameObject pig in _normalPigs)
         {
-            //if (pig.activeSelf == true)
-            //    pig.GetComponent<Enemy>().state = State.Dead;
+            if (pig.activeSelf == true)
+                pig.GetComponent<Enemy>()._statePattern.SetState("Dead");
         }
 
         foreach (GameObject pig in _explosionPigs)
         {
-            //if (pig.activeSelf == true)
-            //    pig.GetComponent<Enemy>().state = State.Dead;
+            if (pig.activeSelf == true)
+                pig.GetComponent<Enemy>()._statePattern.SetState("Dead");
         }
     }
 
     public void ChildOnHit(HitData hitdata)
     {
+        Debug.Log("Damage : " + hitdata.damage);
+
+        isInvincible = false;
+
         if (_isHide)
         {
-            Debug.Log("BossOnHIt");
             OnHit(hitdata);
             if (_statePattern._currentState == "Idle" || _statePattern._currentState == "Move")
             {
-                Debug.Log("BossHit");
                 _statePattern.SetState("Hit");
             }
             

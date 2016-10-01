@@ -225,8 +225,22 @@ public partial class BossPig {
 
         IEnumerator AttackState()
         {
-            _camera.ShakeCamera(1.0f);
+            _bossPig.StartCoroutine(Attack());
 
+            while (_state == Stat.Attack)
+            {
+                yield return null;
+            }
+
+            if (_state == Stat.Dead)
+                _bossPig.StopAllCoroutines();
+
+            NextState(_state.ToString());
+        }
+
+        IEnumerator Attack()
+        {
+            _camera.ShakeCamera(1.0f);
             yield return new WaitForSeconds(1.0f);
 
             _bossPig.isInvincible = false;
@@ -240,12 +254,10 @@ public partial class BossPig {
 
             yield return new WaitForSeconds(3.0f);
 
-            SetState("Idle");
+            if (_state != Stat.Dead)
+                SetState("Idle");
 
             yield return null;
-
-            NextState(_currentState);
-
 
         }
 
@@ -360,7 +372,21 @@ public partial class BossPig {
 
         IEnumerator AttackState()
         {
-            StateLog();
+            _bossPig.StartCoroutine(Attack());
+
+            while (_state == Stat.Attack)
+            {
+                yield return null;
+            }
+
+            if (_state == Stat.Dead)
+                _bossPig.StopAllCoroutines();
+
+            NextState(_state.ToString());
+        }
+
+        IEnumerator Attack()
+        {
 
             _camera.ShakeCamera(1.0f);
             _bossPig.isInvincible = true;
@@ -399,11 +425,10 @@ public partial class BossPig {
 
             yield return new WaitForSeconds(1.0f);
 
-            SetState("Idle");
+            if(_state != Stat.Dead)
+                SetState("Idle");
 
             yield return null;
-
-            NextState(_state.ToString());
 
         }
 
