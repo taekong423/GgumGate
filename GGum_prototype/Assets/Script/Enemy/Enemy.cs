@@ -6,16 +6,10 @@ public partial class Enemy : AICharacter {
 
     protected HitData _hitData;
 
-    protected Collider2D _bodyCollider;
-
     [HideInInspector]
-    public bool _isGround = false;
-    //[HideInInspector]
     public bool _isHitEffectDelay = false;
 
     public HitData pHitData { get { return _hitData; } set { _hitData = value; } }
-
-    
 
     public GameManager _gm;
 
@@ -29,7 +23,7 @@ public partial class Enemy : AICharacter {
     void OnEnable()
     {
         SetStatePattern();
-        //if(_statePattern != null)
+        if(_statePattern != null)
             _statePattern.StartState();
     }
     
@@ -41,18 +35,16 @@ public partial class Enemy : AICharacter {
         _hitData.attacker = gameObject;
         _hitData.damage = attackDamage;
 
-        _bodyCollider = GetComponent<BoxCollider2D>();
-
     }
 
     public virtual void SetStatePattern()
     {
-        
+        Debug.Log(gameObject.name + " : StatePattern is Null");
     }
 
     public void SetEnabled(bool enabled, bool setGravity = true)
     {
-        _bodyCollider.enabled = enabled;
+        m_collider.enabled = enabled;
 
         if(setGravity)
             m_rigidbody.gravityScale = (enabled) ? 50 : 0;
@@ -68,7 +60,6 @@ public partial class Enemy : AICharacter {
 
     protected override void HitFunc()
     {
-        Debug.Log("HITFUNC");
         _statePattern.HitFunc();
     }
 }

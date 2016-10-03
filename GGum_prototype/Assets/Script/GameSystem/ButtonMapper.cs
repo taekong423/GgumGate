@@ -53,7 +53,6 @@ public class ButtonMapper : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     void OnDestroy()
     {
-        Debug.Log("MapperDestroy");
         if (_downMapping)
             ButtonManager.RemoveButtonDwonFunc(_buttonCode, IsDown);
         if (_PressMapping)

@@ -93,8 +93,6 @@ public partial class BossPig {
     public class Appear : BossPigState
     {
 
-        
-
         public Appear(Enemy enemy) : base(enemy)
         {
         }

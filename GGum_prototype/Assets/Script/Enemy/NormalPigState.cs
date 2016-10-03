@@ -40,17 +40,14 @@ public partial class NormalPig {
 
         protected virtual IEnumerator InitState()
         {
+            Debug.Log("asdfasdfaaaaaaaa");
             _pig.isInvincible = false;
             _pig.GetComponent<BoxCollider2D>().enabled = true;
-
-            //_baseColor.a = 1;
-
-            //_pig.GetComponentInChildren<SpriteRenderer>().color = _baseColor;
 
             yield return null;
 
             SetState("Idle");
-            _pig.Sprinkle();
+            //_pig.Sprinkle();
 
             yield return null;
 

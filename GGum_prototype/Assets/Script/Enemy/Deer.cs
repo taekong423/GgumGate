@@ -3,8 +3,6 @@ using System.Collections;
 
 public partial class Deer : Enemy {
 
-    bool _isStanReady = false;
-
     int _attackCount = 0;
 
     public GameObject[] _lightningRods;

@@ -25,14 +25,17 @@ public class StatePattern {
         Debug.Log(_character.gameObject.name + "의 StatePattern에 StartState가 제대로 구현 되어 있지 않습니다.");
     }
 
-    public void NextState(string stateName)
+    public virtual void StateLog()
     {
-        string methodName = stateName + "State";
-        MethodInfo info = GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-        _character.StartCoroutine((IEnumerator)info.Invoke(this, null));
+        Debug.Log(_character.gameObject.name + " State : " + _currentState);
     }
 
-    public virtual void StateLog()
+    public virtual void SetState(string value)
+    {
+        _currentState = value;
+    }
+
+    public virtual void HitFunc()
     {
 
     }
@@ -42,22 +45,19 @@ public class StatePattern {
         return stateEnum;
     }
 
-    public virtual void SetState(string value)
-    {
-        _currentState = value;
-    }
-
     protected void SetState<T>(ref T stateEnum, string value) where T : IConvertible
     {
         stateEnum = ParseEnum<T>(value);
         _currentState = value;
     }
 
-    public virtual void HitFunc()
+    public void NextState(string stateName)
     {
-
+        string methodName = stateName + "State";
+        MethodInfo info = GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        _character.StartCoroutine((IEnumerator)info.Invoke(this, null));
     }
-        
+
 }
 
 

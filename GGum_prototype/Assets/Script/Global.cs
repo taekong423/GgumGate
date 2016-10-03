@@ -45,7 +45,6 @@ public class Global : MonoBehaviour
         
         if (_instance == null)
         {
-            Debug.Log(gameObject.name);
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
 

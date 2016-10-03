@@ -25,34 +25,22 @@ public partial class BossPig : Enemy {
     
     public int ChildPigNum { get { return _childPigNum; } set { _childPigNum = value; } }
 
-    public string tt;
-
-    void Update()
-    {
-        tt = _statePattern._currentState;
-    }
-
     protected override void InitCharacter()
     {
         base.InitCharacter();
-        
-        _player = GameObject.FindObjectOfType<Player>();
+
+        isInvincible = true;
+        _baseMoveSpeed = moveSpeed;
+        _baseSize = transform.localScale;
+
         _normalPigs = new List<GameObject>();
         _explosionPigs = new List<GameObject>();
         m_collider = GetComponent<BoxCollider2D>();
-
-        _baseMoveSpeed = moveSpeed;
-
-        isInvincible = true;
-        Physics2D.IgnoreCollision(_player.GetComponent<Collider2D>(), GetComponent<CircleCollider2D>(), true);
-
-        _baseSize = transform.localScale;
 
         _statePatternList.Add(typeof(Pattern0), new Pattern0(this));
         _statePatternList.Add(typeof(Pattern1), new Pattern1(this));
         _statePatternList.Add(typeof(Pattern2), new Pattern2(this));
 
-        currentHP = 5;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -193,23 +181,6 @@ public partial class BossPig : Enemy {
             _childPigNum++;
         }
         
-    }
-
-    public void Hide(bool isHide, int kind = 0)
-    {
-        isInvincible = isHide;
-        m_collider.enabled = !isHide;
-        _isHide = isHide;
-
-        if (isHide)
-        {
-            if (kind == 0)
-                animator.SetTrigger("Hide");
-            else
-                animator.SetTrigger("Hide2");
-            
-        }
-
     }
 
     public void ChildAllDead()

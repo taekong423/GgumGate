@@ -46,7 +46,6 @@ public class ButtonManager : MonoBehaviour
         }
         else
         {
-            Debug.Log(gameObject.name);
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }

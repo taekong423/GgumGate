@@ -15,8 +15,14 @@ public partial class ExplosionPig
             _pig = enemy as ExplosionPig;
         }
 
+        public override void StartState()
+        {
+            NextState("Init");
+        }
+
         protected override IEnumerator InitState()
         {
+
             yield return base.InitState();
 
             _pig.StartCoroutine(Explosion());
@@ -36,18 +42,20 @@ public partial class ExplosionPig
                 _pig.animator.SetTrigger("Hit");
 
                 yield return new WaitForSeconds(0.5f);
+
+                SetState("Init");
+
+                _pig.gameObject.SetActive(false);
             }
             else
             {
                 GameObject obj = Instantiate(_pig._explosionPrefab, _pig.transform.position, Quaternion.identity) as GameObject;
                 obj.GetComponent<Explosion>().pHitData = _pig.pHitData;
+                SetState("Init");
+                _pig.gameObject.SetActive(false);
             }
 
-            yield return new WaitForSeconds(1.0f);
-
-            SetState("Init");
-
-            _pig.gameObject.SetActive(false);
+            
         }
 
         IEnumerator Explosion()
@@ -56,6 +64,7 @@ public partial class ExplosionPig
 
             while (_state != Stat.Dead)
             {
+                Debug.Log("ddd");
                 _pig._countText.text = string.Format("{0:F0}", delay);
 
                 if (delay <= 0)
