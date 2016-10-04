@@ -5,16 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F07E55AC-A0C1-4C94-0DC0-6ED4BF76D732}</ProjectGuid>
+    <ProjectGuid>{58EC248B-6A67-56F4-9984-2D1158F7BB59}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.4.0f3</UnityVersion>
     <RootNamespace></RootNamespace>
@@ -52,14 +52,47 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.EditorTestsRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.EditorTestsRunner.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -69,61 +102,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\AnimationController.cs" />
-    <Compile Include="Assets\Script\Bullet\Bullet.cs" />
-    <Compile Include="Assets\Script\Bullet\Figure.cs" />
-    <Compile Include="Assets\Script\CameraController.cs" />
-    <Compile Include="Assets\Script\CameraTrigger.cs" />
-    <Compile Include="Assets\Script\Character\AICharacter.cs" />
-    <Compile Include="Assets\Script\Character\Character.cs" />
-    <Compile Include="Assets\Script\CollisionTrigger.cs" />
-    <Compile Include="Assets\Script\Data\CommonTypes.cs" />
-    <Compile Include="Assets\Script\Enemy\BossOnTrigger.cs" />
-    <Compile Include="Assets\Script\Enemy\BossPig.cs" />
-    <Compile Include="Assets\Script\Enemy\BossPigState.cs" />
-    <Compile Include="Assets\Script\Enemy\Deer.cs" />
-    <Compile Include="Assets\Script\Enemy\DeerState.cs" />
-    <Compile Include="Assets\Script\Enemy\Enemy.cs" />
-    <Compile Include="Assets\Script\Enemy\EnemyState.cs" />
-    <Compile Include="Assets\Script\Enemy\ExplosionPig.cs" />
-    <Compile Include="Assets\Script\Enemy\ExplosionPigState.cs" />
-    <Compile Include="Assets\Script\Enemy\LightningRod.cs" />
-    <Compile Include="Assets\Script\Enemy\NormalPig.cs" />
-    <Compile Include="Assets\Script\Enemy\NormalPigState.cs" />
-    <Compile Include="Assets\Script\Enemy\Squirrel.cs" />
-    <Compile Include="Assets\Script\Enemy\SquirrelState.cs" />
-    <Compile Include="Assets\Script\Enemy\TutoEnemy.cs" />
-    <Compile Include="Assets\Script\Enemy\TutoSquirrel.cs" />
-    <Compile Include="Assets\Script\Explosion.cs" />
-    <Compile Include="Assets\Script\FlagTrigger.cs" />
-    <Compile Include="Assets\Script\GameSystem\ButtonData.cs" />
-    <Compile Include="Assets\Script\GameSystem\ButtonManager.cs" />
-    <Compile Include="Assets\Script\GameSystem\ButtonMapper.cs" />
-    <Compile Include="Assets\Script\GameSystem\GameController.cs" />
-    <Compile Include="Assets\Script\GameSystem\GameManager.cs" />
-    <Compile Include="Assets\Script\GameSystem\SoundManager.cs" />
-    <Compile Include="Assets\Script\GameSystem\SoundPlayer.cs" />
-    <Compile Include="Assets\Script\Global.cs" />
-    <Compile Include="Assets\Script\Item\Item.cs" />
-    <Compile Include="Assets\Script\Item\ItemSpawner.cs" />
-    <Compile Include="Assets\Script\JoyStick.cs" />
-    <Compile Include="Assets\Script\LadderCollisionTrigger.cs" />
-    <Compile Include="Assets\Script\NPC\Fairy.cs" />
-    <Compile Include="Assets\Script\NPC\FairyState.cs" />
-    <Compile Include="Assets\Script\Object\Rafflesia.cs" />
-    <Compile Include="Assets\Script\Player\Inventory.cs" />
-    <Compile Include="Assets\Script\Player\Player.cs" />
-    <Compile Include="Assets\Script\Player\PlayerState.cs" />
-    <Compile Include="Assets\Script\PlayerAnimation.cs" />
-    <Compile Include="Assets\Script\Rocket.cs" />
-    <Compile Include="Assets\Script\ScreenFade.cs" />
-    <Compile Include="Assets\Script\Spawner\ObjectSpawner.cs" />
-    <Compile Include="Assets\Script\Spawner\Spawner.cs" />
-    <Compile Include="Assets\Script\StatePattern.cs" />
-    <Compile Include="Assets\Script\Trigger\ActiveTrigger.cs" />
-    <Compile Include="Assets\Script\Trigger\EnableTrigger.cs" />
-    <Compile Include="Assets\Script\Trigger\Trigger.cs" />
-    <Compile Include="Assets\Script\TriggerChecker.cs" />
+    <ProjectReference Include="GGum_prototype.CSharp.csproj">
+      <Project>{F07E55AC-A0C1-4C94-0DC0-6ED4BF76D732}</Project>
+      <Name>GGum_prototype.CSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Editor\ItemEditor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

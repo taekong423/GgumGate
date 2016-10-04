@@ -15,6 +15,13 @@ public enum MoveType
     Random,
 }
 
+public enum ItemType
+{
+    Quest,
+    Equipable,
+    Consumable,
+}
+
 public enum EButtonCode
 {
     None,
@@ -22,6 +29,16 @@ public enum EButtonCode
     MoveY,
     Attack,
     Jump,
+}
+
+public enum EItemEffect
+{
+    Hp,
+    MaxHp,
+    Shield,
+    AttackDamage,
+    AttackSpeed,
+    MoveSpeed,
 }
 
 public struct HitData
@@ -34,4 +51,24 @@ public struct HitData
         this.attacker = attacker;
         this.damage = damage;
     }
+}
+
+[System.Serializable]
+public struct ItemData
+{
+    public int id;
+    public string name;
+
+    public ItemData(int id, string name)
+    {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+[System.Serializable]
+public struct ItemEffect
+{
+    public EItemEffect effect;
+    public float value;
 }
