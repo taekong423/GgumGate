@@ -25,7 +25,6 @@ public partial class NormalPig {
         public NormalState(Enemy enemy) : base(enemy)
         {
             _pig = enemy as NormalPig;
-            //_baseColor = _pig.GetComponentInChildren<SpriteRenderer>().color;
         }
 
         public override void StartState()
@@ -40,14 +39,13 @@ public partial class NormalPig {
 
         protected virtual IEnumerator InitState()
         {
-            Debug.Log("asdfasdfaaaaaaaa");
             _pig.isInvincible = false;
             _pig.GetComponent<BoxCollider2D>().enabled = true;
 
             yield return null;
 
             SetState("Idle");
-            //_pig.Sprinkle();
+            _pig.Sprinkle();
 
             yield return null;
 
@@ -149,10 +147,6 @@ public partial class NormalPig {
             _pig.animator.SetTrigger("Hit");
 
             yield return new WaitForSeconds(0.5f);
-
-            //_pig.animator.SetTrigger("Dead");
-
-            //yield return new WaitForSeconds(0.5f);
 
             SetState("Init");
 
