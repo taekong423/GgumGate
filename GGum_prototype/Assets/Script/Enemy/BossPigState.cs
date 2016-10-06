@@ -59,6 +59,7 @@ public partial class BossPig {
 
             _bossPig.isInvincible = false;
             _bossPig._isHide = false;
+            _bossPig.m_collider.enabled = true;
 
             yield return new WaitForSeconds(1.0f);
 
@@ -77,7 +78,8 @@ public partial class BossPig {
 
             _bossPig.isInvincible = true;
             _bossPig._isHide = true;
-            
+            _bossPig.m_collider.enabled = false;
+
             yield return new WaitForSeconds(0.5f);
 
             _camera.ShakeCamera(1.0f);
@@ -105,6 +107,7 @@ public partial class BossPig {
         IEnumerator AppearState()
         {
             _bossPig.isInvincible = true;
+            _bossPig.m_collider.enabled = false;
 
             yield return null;
 
@@ -161,6 +164,7 @@ public partial class BossPig {
                 _camera.ShakeCamera(1.0f);
                 _bossPig.isInvincible = true;
                 _bossPig._isHide = true;
+                _bossPig.m_collider.enabled = false;
 
                 yield return new WaitForSeconds(0.5f);
 
@@ -182,6 +186,7 @@ public partial class BossPig {
                 _camera.ShakeCamera(1.0f);
                 _bossPig.isInvincible = true;
                 _bossPig._isHide = true;
+                _bossPig.m_collider.enabled = false;
 
                 yield return new WaitForSeconds(0.5f);
 
@@ -243,6 +248,7 @@ public partial class BossPig {
 
             _bossPig.isInvincible = false;
             _bossPig._isHide = false;
+            _bossPig.m_collider.enabled = true;
 
             _bossPig.LookTarget(_bossPig._player.transform);
 
@@ -313,6 +319,7 @@ public partial class BossPig {
                 _camera.ShakeCamera(1.0f);
                 _bossPig.isInvincible = true;
                 _bossPig._isHide = true;
+                _bossPig.m_collider.enabled = false;
 
                 yield return new WaitForSeconds(0.5f);
 
@@ -333,6 +340,7 @@ public partial class BossPig {
                 _camera.ShakeCamera(1.0f);
                 _bossPig.isInvincible = true;
                 _bossPig._isHide = true;
+                _bossPig.m_collider.enabled = false;
 
                 yield return new WaitForSeconds(0.5f);
 
@@ -389,6 +397,7 @@ public partial class BossPig {
             _camera.ShakeCamera(1.0f);
             _bossPig.isInvincible = true;
             _bossPig._isHide = true;
+            _bossPig.m_collider.enabled = false;
 
             yield return new WaitForSeconds(0.5f);
 
@@ -408,6 +417,7 @@ public partial class BossPig {
 
             _bossPig.isInvincible = false;
             _bossPig._isHide = false;
+            _bossPig.m_collider.enabled = true;
 
             _bossPig.animator.SetTrigger("Attack");
 
@@ -485,6 +495,7 @@ public partial class BossPig {
 
                 _bossPig.isInvincible = false;
                 _bossPig._isHide = false;
+                _bossPig.m_collider.enabled = true;
 
                 _bossPig.GetComponent<BoxCollider2D>().enabled = true;
 
