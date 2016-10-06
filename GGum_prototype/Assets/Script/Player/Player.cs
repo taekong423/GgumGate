@@ -15,9 +15,16 @@ public partial class Player : Character {
 
     public int maxJumps;
     public Transform fairyPoint;
-
     public float currExp;
     public float nextLevelExp;
+    [HideInInspector]
+    public int maxHpItem;
+    [HideInInspector]
+    public int attackDamageItem;
+    [HideInInspector]
+    public float attackSpeedItem;
+    [HideInInspector]
+    public float moveSpeedItem;
 
     private string lastState;
     private PCState playerState;
@@ -251,9 +258,9 @@ public partial class Player : Character {
             SetTrigger("Attack");
         }
 
-        Attack(new HitData(gameObject, attackDamage));
+        Attack(new HitData(gameObject, attackDamage + attackDamageItem));
 
-        yield return new WaitForSeconds(GetAttackSpeed(attackSpeed));
+        yield return new WaitForSeconds(GetAttackSpeed(attackSpeed + attackSpeedItem));
 
         SetAnimationBack();
 
