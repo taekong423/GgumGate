@@ -11,6 +11,7 @@ public class Inventory : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        player = GetComponent<Player>();
         questItems = new Dictionary<ItemData, int>();
         equipableItems = new Dictionary<ItemData, List<ItemEffect>>();
 	}
@@ -22,7 +23,36 @@ public class Inventory : MonoBehaviour {
 
     void ApplyEquipable()
     {
+        int maxHpItem = 0;
+        int attackDamageItem = 0;
+        float attackSpeedItem = 0;
+        float moveSpeedItem = 0;
 
+        foreach (List<ItemEffect> list in equipableItems.Values)
+        {
+            foreach (ItemEffect ie in list)
+            {
+                switch (ie.effect)
+                {
+                    case EItemEffect.Hp:
+                        break;
+                    case EItemEffect.MaxHp:
+                        maxHpItem += (int)ie.value;
+                        break;
+                    case EItemEffect.Shield:
+                        break;
+                    case EItemEffect.AttackDamage:
+                        attackDamageItem += (int)ie.value;
+                        break;
+                    case EItemEffect.AttackSpeed:
+                        attackSpeedItem += ie.value;
+                        break;
+                    case EItemEffect.MoveSpeed:
+                        moveSpeedItem += ie.value;
+                        break;
+                }
+            }
+        }
     }
 
     void ApplyConsumable(List<ItemEffect> list)
@@ -55,7 +85,7 @@ public class Inventory : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Item")
+        if (other.gameObject.tag == "Item")
         {
             Item item = other.GetComponent<Item>();
             if (item.type == ItemType.Quest)
