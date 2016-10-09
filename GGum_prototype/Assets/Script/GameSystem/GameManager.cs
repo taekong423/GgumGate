@@ -41,11 +41,6 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (player.CheckState("Dead"))
-        {
-            StartCoroutine(RestartGame());
-        }
-
         if (boss.activeInHierarchy)
         {
             if (boss.GetComponent<Character>()._statePattern._currentState == "Dead")

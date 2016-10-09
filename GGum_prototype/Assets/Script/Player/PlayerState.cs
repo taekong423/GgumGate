@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public partial class Player
 {
@@ -57,6 +58,7 @@ public partial class Player
                 yield return new WaitForFixedUpdate();
             }
 
+            yield return null;
             NextState(state.ToString());
         }
 
@@ -72,12 +74,18 @@ public partial class Player
                 yield return new WaitForFixedUpdate();
             }
 
+            yield return null;
             NextState(state.ToString());
         }
 
         IEnumerator DeadState()
         {
             player.SetTrigger("Die");
+            yield return new WaitForSeconds(1.0f);
+            player.screen.FadeIn();
+            yield return new WaitForSeconds(player.screen.fadeTime);
+            SceneManager.LoadScene("Scene1");
+            /*
             yield return null;
 
             while (state == State.Dead)
@@ -85,7 +93,9 @@ public partial class Player
                 yield return null;
             }
 
+            yield return null;
             NextState(state.ToString());
+            */
         }
     }
 }

@@ -26,6 +26,8 @@ public partial class Player : Character {
     [HideInInspector]
     public float moveSpeedItem;
 
+    public ScreenFade screen;
+
     private string lastState;
     private PCState playerState;
     private int jumpCounter;
@@ -51,7 +53,7 @@ public partial class Player : Character {
     bool check;
 
     CameraController cameraController;
-
+    GameManager gm;
 
     // Use this for initialization
     void Awake()
@@ -97,6 +99,7 @@ public partial class Player : Character {
         cameraController = Camera.main.GetComponent<CameraController>();
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void KeyInput()
