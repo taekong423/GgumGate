@@ -13,6 +13,10 @@ public partial class Squirrel : Enemy {
                 return;
 
             HitData hitdata = other.GetComponent<Bullet>().pHitData;
+
+            if (hitdata.attacker.tag == "Enemy")
+                return;
+
             OnHit(hitdata);
 
             Destroy(other.gameObject);
