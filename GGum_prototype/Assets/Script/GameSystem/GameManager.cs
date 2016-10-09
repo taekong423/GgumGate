@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour {
 
     public ScreenFade screen;
 
-    GameObject playerObject;
     Player player;
     public GameObject boss;
     public GameObject squirrel;
@@ -25,10 +24,12 @@ public class GameManager : MonoBehaviour {
     private Vector2 playerRespawnPos;
 
     bool zoom = true;
+
+
+
 	// Use this for initialization
 	void Start () {
-        playerObject = GameObject.FindWithTag("Player");
-        player = playerObject.GetComponent<Player>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         cameraController = Camera.main.GetComponent<CameraController>();
         for (int i = 0; i < flagKeys.Length; i++)
         {
@@ -78,10 +79,10 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EngageSquirrel()
     {
-        playerObject.GetComponent<Player>().isStop = true;
+        player.isStop = true;
         cameraController.ZoomIn(squirrel.transform);
         yield return new WaitForSeconds(2.5f);
-        playerObject.GetComponent<Player>().isStop = false;
+        player.isStop = false;
         cameraController.ZoomOut();
     }
 
@@ -95,12 +96,12 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EnterOtherStage(int stageNumber)
     {
-        playerObject.GetComponent<Player>().isStop = true;
+        player.isStop = true;
         GameObject lastStage = stages[currentStageNumber];
         screen.FadeIn();
         yield return new WaitForSeconds(screen.fadeTime);
         currentStageNumber = stageNumber;
-        playerObject.transform.position = playerRespawnPos;
+        player.transform.position = playerRespawnPos;
         Camera.main.transform.position = new Vector3(-400, 0, Camera.main.transform.position.z);
         lastStage.transform.position = new Vector2(0, -1000);
         lastStage.SetActive(false);
@@ -109,6 +110,6 @@ public class GameManager : MonoBehaviour {
         
         yield return new WaitForSeconds(0.5f);
         screen.FadeOut();
-        playerObject.GetComponent<Player>().isStop = false;
+        player.isStop = false;
     }
 }

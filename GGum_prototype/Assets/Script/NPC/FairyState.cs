@@ -33,7 +33,6 @@ public class FairyState : StatePattern {
 
     IEnumerator InitState()
     {
-        Debug.Log("FairyInit");
         SetState("Idle");
         fairy.targetPos = fairy.player.fairyPoint;
         yield return null;
