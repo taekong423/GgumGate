@@ -9,6 +9,8 @@ public class AnimationController : MonoBehaviour {
 
     Character _character;
 
+    bool _condition;
+
     public FuncList _funcList;
 
     void Awake()
@@ -24,5 +26,16 @@ public class AnimationController : MonoBehaviour {
     public void FuncInvoke()
     {
         _funcList.Invoke();
+    }
+
+    public void ConditionCheck(string condition)
+    {
+        _condition = _character._statePattern._currentState == condition; 
+    }
+
+    public void ConditionSetState(string setState)
+    {
+        if (_condition)
+            SetState(setState);
     }
 }

@@ -61,6 +61,7 @@ public partial class Squirrel{
 
         IEnumerator IdleState()
         {
+            StateLog();
             _enemy.animator.SetTrigger("Idle");
 
             yield return null;
@@ -86,12 +87,17 @@ public partial class Squirrel{
                 yield return null;
             }
 
+            yield return null;
+
             NextState(_state.ToString());
         }
 
         IEnumerator MoveState()
         {
+            StateLog();
             _enemy.animator.SetTrigger("Move");
+
+            yield return null;
 
             while (_state == State.Move)
             {
@@ -113,11 +119,15 @@ public partial class Squirrel{
                 yield return new WaitForFixedUpdate();
             }
 
+            yield return null;
+
             NextState(_state.ToString());
         }
 
         IEnumerator AttackState()
         {
+            StateLog();
+
             _enemy.animator.SetTrigger("Attack");
             _enemy._player.OnHit(_enemy.pHitData);
 
@@ -127,6 +137,8 @@ public partial class Squirrel{
             {
                 yield return null;
             }
+
+            yield return null;
 
             NextState(_state.ToString());
         }
@@ -151,6 +163,8 @@ public partial class Squirrel{
 
                 yield return null;
             }
+
+            yield return null;
 
             _enemy._isHitEffectDelay = false;
             

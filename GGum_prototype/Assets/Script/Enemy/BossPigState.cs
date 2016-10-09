@@ -267,7 +267,7 @@ public partial class BossPig {
 
         public override void HitFunc()
         {
-            if (_bossPig.currentHP <= _bossPig.maxHP * 0.5f)
+            if (_bossPig.currentHP <= _bossPig.maxHP * 0.7f)
             {
                 SetState("Init");
 
@@ -442,7 +442,7 @@ public partial class BossPig {
 
         public override void HitFunc()
         {
-            if (_bossPig.currentHP <= _bossPig.maxHP * 0.15f)
+            if (_bossPig.currentHP <= _bossPig.maxHP * 0.4f)
             {
                 SetState("Init");
 
