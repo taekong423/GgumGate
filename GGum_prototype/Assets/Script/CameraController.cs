@@ -8,10 +8,10 @@ public class CameraController : MonoBehaviour {
     private float xSmooth = 2f;
     private float ySmooth = 2f;
 
-    private float minX = -400f;
-    private float maxX = 400f;
-    private float minY = -5.0f;
-    private float maxY = 5.0f;
+    private float minX = 1080f;
+    private float maxX = 1880f;
+    private float minY = 45.0f;
+    private float maxY = 55.0f;
     
     private float targetX;
     private float targetY;
@@ -142,14 +142,14 @@ public class CameraController : MonoBehaviour {
         currTarget = target;
         targetSize = 50.0f;
         minY = -50.0f;
-        maxY = 50.0f;
+        maxY = 100.0f;
     }
 
     public void ZoomOut()
     {
         currTarget = GameObject.Find("CameraPoint").transform;
         targetSize = 100.0f;
-        minY = -4f;
-        maxY = 4f;
+        minY = 45f;
+        maxY = 55f;
     }
 }

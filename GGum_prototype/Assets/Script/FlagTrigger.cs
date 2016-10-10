@@ -22,11 +22,17 @@ public class FlagTrigger : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {
-            if (triggerOn)
+            if (gameObject.tag != "Entrance")
             {
-                gm.flags[flagName] = true;
-                triggerOn = false;
+                if (triggerOn)
+                {
+                    gm.flags[flagName] = true;
+                    triggerOn = false;
+                }
             }
+            else
+                gm.flags[flagName] = true;
+
         }
     }
 }

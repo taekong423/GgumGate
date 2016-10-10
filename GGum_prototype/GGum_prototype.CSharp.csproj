@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\AnimationController.cs" />
+    <Compile Include="Assets\Script\Ball.cs" />
     <Compile Include="Assets\Script\Bullet\Bullet.cs" />
     <Compile Include="Assets\Script\Bullet\Figure.cs" />
     <Compile Include="Assets\Script\CameraController.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Assets\Script\Character\Character.cs" />
     <Compile Include="Assets\Script\CollisionTrigger.cs" />
     <Compile Include="Assets\Script\Data\CommonTypes.cs" />
+    <Compile Include="Assets\Script\Data\GameData.cs" />
     <Compile Include="Assets\Script\Enemy\BossOnTrigger.cs" />
     <Compile Include="Assets\Script\Enemy\BossPig.cs" />
     <Compile Include="Assets\Script\Enemy\BossPigState.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Assets\Script\Enemy\NormalPigState.cs" />
     <Compile Include="Assets\Script\Enemy\Squirrel.cs" />
     <Compile Include="Assets\Script\Enemy\SquirrelState.cs" />
+    <Compile Include="Assets\Script\Enemy\ThrowSquirrel.cs" />
     <Compile Include="Assets\Script\Enemy\TutoEnemy.cs" />
     <Compile Include="Assets\Script\Enemy\TutoSquirrel.cs" />
     <Compile Include="Assets\Script\Explosion.cs" />

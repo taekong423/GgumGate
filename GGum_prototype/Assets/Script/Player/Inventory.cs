@@ -112,6 +112,7 @@ public class Inventory : MonoBehaviour {
             else if (item.type == ItemType.Consumable)
             {
                 ApplyConsumable(item.effectList);
+                Destroy(other.gameObject);
             }
         }
     }

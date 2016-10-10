@@ -6,9 +6,10 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
-    public ScreenFade screen;
-
     Player player;
+    GameData gameData;
+
+    public ScreenFade screen;
     public GameObject boss;
     public GameObject squirrel;
     CameraController cameraController;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        gameData = GameObject.Find("GameData").GetComponent<GameData>();
         cameraController = Camera.main.GetComponent<CameraController>();
         for (int i = 0; i < flagKeys.Length; i++)
         {
@@ -37,7 +39,7 @@ public class GameManager : MonoBehaviour {
         }
 
         currentStageNumber = 0;
-        playerRespawnPos = new Vector2(-500, -30);
+        playerRespawnPos = new Vector2(1000, 0);
     }
 	
 	// Update is called once per frame
@@ -75,6 +77,12 @@ public class GameManager : MonoBehaviour {
             flags[flagKeys[3]] = false;
             StartCoroutine(EnterOtherStage(1));
         }
+
+        if (flags[flagKeys[4]] == true)
+        {
+            flags[flagKeys[4]] = false;
+            StartCoroutine(BackToLastStage());
+        }
     }
 
     IEnumerator EngageSquirrel()
@@ -102,12 +110,31 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(screen.fadeTime);
         currentStageNumber = stageNumber;
         player.transform.position = playerRespawnPos;
-        Camera.main.transform.position = new Vector3(-400, 0, Camera.main.transform.position.z);
-        lastStage.transform.position = new Vector2(0, -1000);
+        Camera.main.transform.position = new Vector3(1080, 0, Camera.main.transform.position.z);
+        lastStage.transform.position = new Vector2(1000, -1000);
         lastStage.SetActive(false);
-        stages[stageNumber].transform.position = Vector2.zero;
+        stages[stageNumber].transform.position = new Vector2(1000, 0);
         stages[stageNumber].SetActive(true);
         
+        yield return new WaitForSeconds(0.5f);
+        screen.FadeOut();
+        player.isStop = false;
+    }
+
+    IEnumerator BackToLastStage()
+    {
+        player.isStop = true;
+        GameObject lastStage = stages[currentStageNumber];
+        screen.FadeIn();
+        yield return new WaitForSeconds(screen.fadeTime);
+        currentStageNumber--;
+        player.transform.position = gameData.entrancePositions[currentStageNumber].exit;
+        Camera.main.transform.position = new Vector3(gameData.entrancePositions[currentStageNumber].exit.x, gameData.entrancePositions[currentStageNumber].exit.y, Camera.main.transform.position.z);
+        lastStage.transform.position = new Vector2(1000, -1000);
+        lastStage.SetActive(false);
+        stages[currentStageNumber].transform.position = new Vector2(1000, 0);
+        stages[currentStageNumber].SetActive(true);
+
         yield return new WaitForSeconds(0.5f);
         screen.FadeOut();
         player.isStop = false;
