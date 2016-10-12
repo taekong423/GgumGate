@@ -7,11 +7,11 @@ public class Figure : Bullet {
 	void Start () {
         SelfDestroy();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    void FixedUpdate ()
+    {
         Move();
-	}
+    }
 
     public override void DestroyBullet(float time)
     {
