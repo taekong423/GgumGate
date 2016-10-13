@@ -56,7 +56,7 @@ public partial class Squirrel{
             _enemy.isInvincible = false;
 
             NextState(_state.ToString());
-            //SearchUpdate();
+            SearchUpdate();
         }
 
         IEnumerator IdleState()
@@ -151,39 +151,43 @@ public partial class Squirrel{
 
             float hitDelay = 0;
 
-            while (hitDelay <= 1.5f)
+            while (_state == State.Hit && hitDelay <= 1.5f)
             {
                 hitDelay += Time.deltaTime;
 
-                if (hitDelay >= 0.5f && _state == State.Hit)
+                if (hitDelay >= 0.5f)
                 {
                     SetState("Idle");
-                    NextState(_state.ToString());
                 }
 
                 yield return null;
             }
 
-            yield return null;
+            NextState(_state.ToString());
+
+            if (hitDelay > 1.5f)
+                hitDelay = 1.5f;
+
+            yield return new WaitForSeconds(1.5f - hitDelay);
 
             _enemy._isHitEffectDelay = false;
-            
+
         }
 
         IEnumerator DeadState()
         {
-            _enemy.animator.SetTrigger("Dead");
-
             _enemy.isInvincible = true;
-
-            while (_state == State.Dead)
-            {
-                yield return null;
-            }
-
-            _enemy.gameObject.SetActive(false);
+            _enemy.GetComponent<BoxCollider2D>().enabled = false;
 
             yield return null;
+
+            _enemy.animator.SetTrigger("Sturn");
+
+            yield return new WaitForSeconds(0.5f);
+
+            SetState("Init");
+
+            _enemy.gameObject.SetActive(false);
         }
 
     }
