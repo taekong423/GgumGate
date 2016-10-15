@@ -10,7 +10,6 @@ public class Search_Attack_Chase : Search_Chase_Attack
 
     public override void Operate()
     {
-        Debug.Log("SearchAttackChase");
 
         if (!AttackSearch() && Search())
         {

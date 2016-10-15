@@ -45,11 +45,11 @@ public partial class NormalPig {
             yield return null;
 
             SetState("Idle");
-            _pig.Sprinkle();
+            //_pig.Sprinkle();
 
             yield return null;
 
-            NextState(_currentState);
+            NextState(CurrentState);
         }
 
         protected virtual IEnumerator IdleState()
@@ -76,7 +76,7 @@ public partial class NormalPig {
                 yield return null;
             }
 
-            NextState(_currentState);
+            NextState(CurrentState);
         }
 
         protected virtual IEnumerator MoveState()
@@ -101,7 +101,7 @@ public partial class NormalPig {
                 yield return new WaitForFixedUpdate();
             }
 
-            NextState(_currentState);
+            NextState(CurrentState);
         }
 
         protected virtual IEnumerator HitState()
@@ -149,6 +149,9 @@ public partial class NormalPig {
             yield return new WaitForSeconds(0.5f);
 
             SetState("Init");
+
+            _enemy.currentHP = _enemy.maxHP;
+            _enemy._isHitEffectDelay = false;
 
             _pig.gameObject.SetActive(false);
         }

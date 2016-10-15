@@ -19,7 +19,7 @@ public class ItemSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (character._statePattern._currentState == "Dead" && check)
+	    if (character._statePattern.CurrentState == "Dead" && check)
         {
             check = false;
             DropItem();

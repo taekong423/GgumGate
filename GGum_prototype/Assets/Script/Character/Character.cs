@@ -10,7 +10,7 @@ public class Character : MonoBehaviour {
     public string id;
 
     public int maxHP;
-    [HideInInspector]
+    //[HideInInspector]
     public int currentHP;
 
     public int maxShield;
@@ -116,7 +116,7 @@ public class Character : MonoBehaviour {
 
     public void OnHit(HitData hitInfo)
     {
-        if (_statePattern._currentState != "Dead" && !isInvincible)
+        if (_statePattern.CurrentState != "Dead" && !isInvincible)
         {
             int damage = hitInfo.damage;
 
@@ -127,7 +127,7 @@ public class Character : MonoBehaviour {
                 CalcDamage(ref currentHP, ref damage);
             }
 
-            //Debug.Log("Shield = " + currentShield + "HP = " + currentHP);
+            Debug.Log("Shield = " + currentShield + "HP = " + currentHP);
 
             if (currentHP <= 0)
             {

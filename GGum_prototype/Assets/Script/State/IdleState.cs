@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IdleState : EnemyState{
+public class IdleState<T> : EnemyState where T : StatePattern{
 
     float _moveDelay;
 
-    public IdleState(Enemy enemy, Searchable searchable) : base(enemy, searchable)
+    public IdleState(Enemy enemy, Searchable searchable) : base(enemy, searchable) 
     {
 
     }
 
     protected override IEnumerator Enter()
     {
-        Debug.Log("Idle");
         _enemy.animator.SetTrigger("Idle");
 
         yield return null;
@@ -20,11 +19,11 @@ public class IdleState : EnemyState{
 
     protected override IEnumerator Execute()
     {
-        while (_enemy._statePattern is IdleState)
+        while (_enemy._statePattern is IdleState<T>)
         {
             if (_moveDelay <= 0)
             {
-                _enemy.SetStatePattern<MoveState>();
+                _enemy.SetStatePattern<T>();
                 _moveDelay = _enemy._moveDelay;
             }
             else

@@ -10,9 +10,6 @@ public class Search_Chase_Attack : Search_Chase {
 
     public override void Operate()
     {
-        Debug.Log("SearchChaseAttack");
-
-
         if (AttackSearch())
         {
             _character.SetStatePattern<AttackState>();

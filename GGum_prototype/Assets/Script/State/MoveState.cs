@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MoveState : EnemyState {
 
-    Transform _target;
+    protected Transform _target;
 
     public MoveState(Enemy enemy, Searchable searchable) : base(enemy, searchable)
     {
@@ -25,7 +25,7 @@ public class MoveState : EnemyState {
         {
             if (_enemy.GoToTarget(_target.position))
             {
-                _enemy.SetStatePattern<IdleState>();
+                _enemy.SetStatePattern<IdleState<MoveState>>();
                 _enemy.SetWayPointNum();
             }
 

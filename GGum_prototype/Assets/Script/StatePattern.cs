@@ -5,10 +5,11 @@ using System.Reflection;
 
 public class StatePattern {
 
+    string _currentState = "Init";
 
     protected Character _character;
         
-    public string _currentState = "Init";
+    public string CurrentState { get { return _currentState; } set { _currentState = value; } }
 
     T ParseEnum<T>(string value)
     {
@@ -27,12 +28,12 @@ public class StatePattern {
 
     public virtual void StateLog()
     {
-        Debug.Log(_character.gameObject.name + " State : " + _currentState);
+        Debug.Log(_character.gameObject.name + " State : " + CurrentState);
     }
 
     public virtual void SetState(string value)
     {
-        _currentState = value;
+        CurrentState = value;
     }
 
     public virtual void HitFunc()
@@ -48,7 +49,7 @@ public class StatePattern {
     protected void SetState<T>(ref T stateEnum, string value) where T : IConvertible
     {
         stateEnum = ParseEnum<T>(value);
-        _currentState = value;
+        CurrentState = value;
     }
 
     public void NextState(string stateName)

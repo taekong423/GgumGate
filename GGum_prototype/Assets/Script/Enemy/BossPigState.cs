@@ -281,7 +281,7 @@ public partial class BossPig {
 
                 statePattern.SetState("Init");
 
-                statePattern.NextState(statePattern._currentState);
+                statePattern.NextState(statePattern.CurrentState);
             }
         }
 
@@ -298,7 +298,7 @@ public partial class BossPig {
 
         public override void StateLog()
         {
-            Debug.Log(_currentState);
+            Debug.Log(CurrentState);
         }
 
         IEnumerator InitState()
@@ -457,7 +457,7 @@ public partial class BossPig {
 
                 statePattern.SetState("Init");
 
-                statePattern.NextState(statePattern._currentState);
+                statePattern.NextState(statePattern.CurrentState);
             }
         }
 
@@ -472,7 +472,7 @@ public partial class BossPig {
 
         public override void StateLog()
         {
-            Debug.Log("CurrentState : "+_currentState);
+            Debug.Log("CurrentState : "+CurrentState);
         }
 
         IEnumerator InitState()

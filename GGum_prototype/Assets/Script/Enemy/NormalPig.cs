@@ -25,7 +25,6 @@ public partial class NormalPig : Enemy {
 
     public void Sprinkle()
     {
-        Debug.Log("AAAAAAAAAAAAA");
         float power = Random.Range(20000, 25000);
 
         Vector3 centerDir = _centerPivot.position - transform.position;
@@ -57,13 +56,17 @@ public partial class NormalPig : Enemy {
     {
         base.InitCharacter();
 
-        _statePatternList.Add(typeof(InitState), new InitState(this));
-        _statePatternList.Add(typeof(IdleState), new IdleState(this, new NoSearch()));
-        _statePatternList.Add(typeof(MoveState), new MoveState(this, new NoSearch()));
-        _statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, new NoSearch()));
-        _statePatternList.Add(typeof(DeadState), new DeadState(this, new NoSearch()));
+        _statePatternList.Add(typeof(NormalState), new NormalState(this));
 
-        SetStatePattern<InitState>();
+        SetStatePattern<NormalState>();
+
+        //_statePatternList.Add(typeof(InitState), new InitState(this));
+        //_statePatternList.Add(typeof(IdleState<MoveState>), new IdleState<MoveState>(this, new NoSearch()));
+        //_statePatternList.Add(typeof(MoveState), new MoveState(this, new NoSearch()));
+        //_statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, new NoSearch()));
+        //_statePatternList.Add(typeof(DeadState), new DeadState(this, new NoSearch()));
+
+        //SetStatePattern<InitState>();
 
     }
 
@@ -102,6 +105,15 @@ public partial class NormalPig : Enemy {
                 //보스 넉백 애니메이션 실행 1.5초 뒤 하이드 상태
             }
 
+        }
+    }
+
+    protected override void HitFunc()
+    {
+        if (!_isHitEffectDelay)
+        {
+            _isHitEffectDelay = true;
+            _statePattern.SetState("Hit");
         }
     }
 

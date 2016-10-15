@@ -27,7 +27,7 @@ public partial class Enemy : AICharacter {
 
             if (hitdata.attacker.tag == "Enemy")
                 return;
-
+            Debug.Log("aaaaaaaaaaaaaaaaaaa");
             OnHit(hitdata);
 
             Destroy(other.gameObject);
@@ -36,6 +36,7 @@ public partial class Enemy : AICharacter {
 
     // Use this for initialization
     void Awake () {
+        Debug.Log("asdfasdf");
         InitCharacter();
 	}
 
@@ -47,9 +48,13 @@ public partial class Enemy : AICharacter {
         }
     }
 
+    public string aaaa;
+
     void Update()
     {
         _statePattern.Search();
+
+        aaaa = _statePattern.CurrentState;
     }
 
     protected override void InitCharacter()
@@ -59,8 +64,6 @@ public partial class Enemy : AICharacter {
 
         _hitData.attacker = gameObject;
         _hitData.damage = attackDamage;
-
-        Debug.Log("EnemyAwake");
     }
 
     public void SetEnabled(bool enabled, bool setGravity = true)

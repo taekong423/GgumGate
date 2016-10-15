@@ -12,8 +12,6 @@ public class ChaseState : EnemyState {
 
     protected override IEnumerator Enter()
     {
-        Debug.Log("Chase");
-
         _enemy.animator.SetTrigger("Move");
 
         _target = _enemy._player.transform;

@@ -261,7 +261,7 @@ public partial class Player : Character {
             SetTrigger("Attack");
         }
 
-        Instantiate(effect, attackBox.position, Quaternion.identity);
+        //Instantiate(effect, attackBox.position, Quaternion.identity);
         Attack(new HitData(gameObject, attackDamage + attackDamageItem));
 
         yield return new WaitForSeconds(GetAttackSpeed(attackSpeed + attackSpeedItem));
@@ -333,7 +333,7 @@ public partial class Player : Character {
 
     public bool CheckState(string stateName)
     {
-        if (_statePattern._currentState == stateName)
+        if (_statePattern.CurrentState == stateName)
             return true;
         else
             return false;

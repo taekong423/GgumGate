@@ -20,6 +20,7 @@ public class AnimationController : MonoBehaviour {
 
     public void SetState(string setState)
     {
+        Debug.Log("asdfasdfasdf");
         _character._statePattern.SetState(setState);
     }
 
@@ -30,7 +31,7 @@ public class AnimationController : MonoBehaviour {
 
     public void ConditionCheck(string condition)
     {
-        _condition = _character._statePattern._currentState == condition; 
+        _condition = _character._statePattern.CurrentState == condition; 
     }
 
     public void ConditionSetState(string setState)

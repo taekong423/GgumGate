@@ -119,7 +119,7 @@ public partial class Deer {
 
             yield return null;
 
-            float restDelay = 3.0f;
+            float restDelay = 1.5f;
 
             while (_state == State.Move)
             {
@@ -169,7 +169,7 @@ public partial class Deer {
             while (_state == State.Attack)
             {
 
-                if (_deer.AttackCount <= 3)
+                if (_deer.AttackCount >= 3)
                 {
                     SetState("Rest");
                     _restDelay = 2.0f;

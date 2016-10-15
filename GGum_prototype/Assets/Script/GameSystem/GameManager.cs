@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         if (boss.activeInHierarchy)
         {
-            if (boss.GetComponent<Character>()._statePattern._currentState == "Dead")
+            if (boss.GetComponent<Character>()._statePattern.CurrentState == "Dead")
             {
                 flags[flagKeys[2]] = true;
             }

@@ -31,7 +31,7 @@ public class HitState : EnemyState {
 
             if (delay >= _delay)
             {
-                _enemy.SetStatePattern<IdleState>();
+                _enemy.SetStatePattern<IdleState<MoveState>>();
             }
 
             yield return null;

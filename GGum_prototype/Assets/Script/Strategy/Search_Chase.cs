@@ -11,7 +11,6 @@ public class Search_Chase : Searchable {
 
     public override void Operate()
     {
-        Debug.Log("SearchChase");
         if (Search())
         {
             _character.SetStatePattern<ChaseState>();

@@ -10,6 +10,8 @@ public class DeadState : EnemyState {
 
     protected override IEnumerator Enter()
     {
+        Debug.Log("DeadEnter");
+
         _enemy.isInvincible = true;
         _enemy.GetComponent<BoxCollider2D>().enabled = false;
 
@@ -27,11 +29,15 @@ public class DeadState : EnemyState {
 
     protected override IEnumerator Exit()
     {
+        _enemy._statePattern.SetState("Init");
         _enemy.SetStatePattern<InitState>();
-        _enemy.gameObject.SetActive(false);
+        
 
         _enemy.currentHP = _enemy.maxHP;
+        _enemy._isHitEffectDelay = false;
 
         yield return null;
+
+        _enemy.gameObject.SetActive(false);
     }
 }

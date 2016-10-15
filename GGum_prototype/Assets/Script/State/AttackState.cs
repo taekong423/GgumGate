@@ -11,13 +11,11 @@ public class AttackState : EnemyState {
 
     protected override IEnumerator Enter()
     {
-        Debug.Log("Attack : ");
         _enemy.animator.SetTrigger("Attack");
-        _enemy.OnAttack();
         animTime = _enemy.animator.GetCurrentAnimatorStateInfo(0).length;
 
         yield return null;
-            
+
     }
 
     protected override IEnumerator Execute()
@@ -27,14 +25,16 @@ public class AttackState : EnemyState {
 
         while (_enemy._statePattern is AttackState)
         {
+
+            delay += Time.deltaTime;
+
             if (delay >= animTime)
             {
                 _enemy.animator.SetTrigger("Idle");
                 break;
             }
-            else
-                delay += Time.deltaTime;
-
+            else if(delay >= animTime/2)
+                _enemy.OnAttack();
 
             yield return null;
         }
@@ -59,8 +59,6 @@ public class AttackState : EnemyState {
 
     protected override IEnumerator Exit()
     {
-        Debug.Log("Exit");
-
         _enemy._currentAttackDelay = 0.0f;
 
         _enemy._statePattern.StartState();

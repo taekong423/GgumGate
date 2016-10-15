@@ -41,6 +41,7 @@ public partial class BossPig : Enemy {
         _statePatternList.Add(typeof(Pattern1), new Pattern1(this));
         _statePatternList.Add(typeof(Pattern2), new Pattern2(this));
 
+        SetStatePattern<Pattern0>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -113,6 +114,7 @@ public partial class BossPig : Enemy {
                 GameObject obj = Instantiate(_normalPig, transform.position, Quaternion.identity) as GameObject;
                 obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
                 _normalPigs.Add(obj);
+                obj.SetActive(true);
             }
             else
             {
@@ -202,7 +204,7 @@ public partial class BossPig : Enemy {
         if (_isHide)
         {
             OnHit(hitdata);
-            if (_statePattern._currentState == "Idle" || _statePattern._currentState == "Move")
+            if (_statePattern.CurrentState == "Idle" || _statePattern.CurrentState == "Move")
             {
                 _statePattern.SetState("Hit");
             }
@@ -210,5 +212,10 @@ public partial class BossPig : Enemy {
         }
         else
             OnHit(hitdata);
+    }
+
+    protected override void HitFunc()
+    {
+        _statePattern.HitFunc();
     }
 }

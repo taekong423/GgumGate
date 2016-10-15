@@ -24,15 +24,14 @@ public class EnemyState : StatePattern
 
     public override void SetState(string value)
     {
+        CurrentState = value;
         switch (value)
         {
             case "Hit":
-                _currentState = "Hit";
                 _enemy.SetStatePattern<HitState>();
                 break;
 
             case "Dead":
-                _currentState = "Dead";
                 _enemy.SetStatePattern<DeadState>();
                 break;
         }
@@ -47,9 +46,12 @@ public class EnemyState : StatePattern
     {
         float attackDelay = 0;
 
-        while (_currentState != "Dead")
+        while (CurrentState != "Dead")
         {
-            if (_currentState == "Idle" || _currentState == "Move")
+            if(CurrentState != "Attack")
+                attackDelay -= Time.deltaTime;
+
+            if (CurrentState == "Idle" || CurrentState == "Move")
             {
                 if (_enemy.Search(_enemy._player.transform, _enemy._attackRange))
                 {
@@ -57,9 +59,7 @@ public class EnemyState : StatePattern
                     {
                         SetState("Attack");
                         attackDelay = _enemy._attackDelay;
-                    }
-                    else
-                        attackDelay -= Time.deltaTime;
+                    }   
 
                 }
                 else if (_enemy.Search(_enemy._player.transform, _enemy._detectionRange))

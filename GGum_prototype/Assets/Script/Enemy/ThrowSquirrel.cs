@@ -3,29 +3,14 @@ using System.Collections;
 
 public class ThrowSquirrel : Enemy {
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Bullet")
-        {
-            if (isInvincible)
-                return;
-
-            HitData hitdata = other.GetComponent<Bullet>().pHitData;
-
-            if (hitdata.attacker.tag == "Enemy")
-                return;
-
-            OnHit(hitdata);
-
-            Destroy(other.gameObject);
-        }
-    }
 
     protected override void InitCharacter()
     {
         base.InitCharacter();
 
         _statePatternList.Add(typeof(ThrowPattern), new ThrowPattern(this));
+
+        SetStatePattern<ThrowPattern>();
     }
 
 
@@ -54,24 +39,27 @@ public class ThrowSquirrel : Enemy {
 
         IEnumerator InitState()
         {
+            Debug.Log("ThrowInit");
             SetState("Idle");
             _enemy.GetComponent<BoxCollider2D>().enabled = true;
 
             yield return null;
 
-            NextState(_currentState);
+            NextState(CurrentState);
 
         }
 
         IEnumerator IdleState()
         {
+            Debug.Log("ThrowIdle");
+
             _enemy.animator.SetTrigger("Idle");
 
             yield return null;
 
             float delay = _squirrel._attackDelay;
 
-            while (_currentState == "Idle")
+            while (CurrentState == "Idle")
             {
                 if (delay <= 0.0f)
                 {
@@ -85,7 +73,7 @@ public class ThrowSquirrel : Enemy {
                 yield return null;
             }
 
-            NextState(_currentState);
+            NextState(CurrentState);
         }
 
 
@@ -99,12 +87,20 @@ public class ThrowSquirrel : Enemy {
 
             yield return null;
 
-            while (_currentState == "Throw")
-            {
-                yield return null;
-            }
+            //while (CurrentState == "Throw")
+            //{
+            //    Debug.Log("ThrowLoop");
+            //    yield return null;
+            //}
 
-            NextState(_currentState);
+            yield return new WaitForSeconds(0.5f);
+
+            SetState("Idle");
+
+            yield return null;
+
+            Debug.Log("ThrowEnd");
+            NextState(CurrentState);
         }
 
         IEnumerator HitState()
@@ -119,10 +115,10 @@ public class ThrowSquirrel : Enemy {
             {
                 hitDelay += Time.deltaTime;
 
-                if (hitDelay >= 0.5f && _currentState == "Hit")
+                if (hitDelay >= 0.5f && CurrentState == "Hit")
                 {
                     SetState("Idle");
-                    NextState(_currentState);
+                    NextState(CurrentState);
                 }
 
                 yield return null;
@@ -134,20 +130,24 @@ public class ThrowSquirrel : Enemy {
 
         IEnumerator DeadState()
         {
-            _enemy.animator.SetTrigger("Dead");
-
+            
             _enemy.isInvincible = true;
-
             _enemy.GetComponent<BoxCollider2D>().enabled = false;
 
-            while (_currentState == "Dead")
-            {
-                yield return null;
-            }
-
-            _enemy.gameObject.SetActive(false);
+            _enemy.Dead();
 
             yield return null;
+
+            _enemy.animator.SetTrigger("Hit");
+
+            yield return new WaitForSeconds(0.5f);
+
+            SetState("Init");
+
+            _enemy.currentHP = _enemy.maxHP;
+            _enemy._isHitEffectDelay = false;
+
+            _enemy.gameObject.SetActive(false);
         }
 
     }

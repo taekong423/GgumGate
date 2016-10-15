@@ -12,6 +12,8 @@ public partial class ExplosionPig : NormalPig {
         base.InitCharacter();
 
         _statePatternList.Add(typeof(ExplosionState), new ExplosionState(this));
+
+        SetStatePattern<ExplosionState>();
     }
 
 }
