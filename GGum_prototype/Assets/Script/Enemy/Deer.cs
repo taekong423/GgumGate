@@ -34,11 +34,6 @@ public partial class Deer : Enemy {
         _statePatternList.Add(typeof(Normal), new Normal(this));
     }
 
-    public override void SetStatePattern()
-    {
-        _statePattern = _statePatternList[typeof(Normal)];
-    }
-
     protected override void HitFunc()
     {
         if (!_isHitEffectDelay)

@@ -61,11 +61,6 @@ public partial class BossPig : Enemy {
         }
     }
 
-    public override void SetStatePattern()
-    {
-        _statePattern = _statePatternList[typeof(Pattern0)] as Pattern0;
-    }
-
     bool HasPigs(string pigName)
     {
         switch (pigName)

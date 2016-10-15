@@ -4,6 +4,8 @@ using System.Collections;
 
 public partial class NormalPig : Enemy {
 
+    bool _isSet = false;
+
     [HideInInspector]
     public BossPig _boss;
 
@@ -11,26 +13,19 @@ public partial class NormalPig : Enemy {
 
     protected Transform _centerPivot;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnEnable()
     {
-        if (other.tag == "Bullet")
+        if (_statePattern != null)
         {
-            if (isInvincible)
-                return;
-
-            HitData hitdata = other.GetComponent<Bullet>().pHitData;
-
-            if (hitdata.attacker.tag == "Enemy")
-                return;
-
-            OnHit(hitdata);
-
-            Destroy(other.gameObject);
+            _statePattern.StartState();
         }
+        if(_isSet)
+            Sprinkle();
     }
 
     public void Sprinkle()
     {
+        Debug.Log("AAAAAAAAAAAAA");
         float power = Random.Range(20000, 25000);
 
         Vector3 centerDir = _centerPivot.position - transform.position;
@@ -62,23 +57,27 @@ public partial class NormalPig : Enemy {
     {
         base.InitCharacter();
 
-        _statePatternList.Add(typeof(NormalState), new NormalState(this));
+        _statePatternList.Add(typeof(InitState), new InitState(this));
+        _statePatternList.Add(typeof(IdleState), new IdleState(this, new NoSearch()));
+        _statePatternList.Add(typeof(MoveState), new MoveState(this, new NoSearch()));
+        _statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, new NoSearch()));
+        _statePatternList.Add(typeof(DeadState), new DeadState(this, new NoSearch()));
+
+        SetStatePattern<InitState>();
+
     }
 
     public void Setting(BossPig boss, Transform[] waypoints, Transform center)
     {
+        _isSet = true;
         _boss = boss;
         _wayPoints = waypoints;
         _centerPivot = center;
     }
 
-    public override void SetStatePattern()
-    {
-        _statePattern = _statePatternList[typeof(NormalState)];
-    }
 
 
-    public void Dead()
+    public override void Dead()
     {
         if (_boss != null)
         {
@@ -106,12 +105,4 @@ public partial class NormalPig : Enemy {
         }
     }
 
-    protected override void HitFunc()
-    {
-        if (!_isHitEffectDelay)
-        {
-            _statePattern.SetState("Hit");
-            _isHitEffectDelay = true;
-        }
-    }
 }

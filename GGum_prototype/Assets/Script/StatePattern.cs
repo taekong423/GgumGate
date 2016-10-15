@@ -5,9 +5,9 @@ using System.Reflection;
 
 public class StatePattern {
 
+
     protected Character _character;
-
-
+        
     public string _currentState = "Init";
 
     T ParseEnum<T>(string value)
@@ -56,6 +56,10 @@ public class StatePattern {
         string methodName = stateName + "State";
         MethodInfo info = GetType().GetMethod(methodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         _character.StartCoroutine((IEnumerator)info.Invoke(this, null));
+    }
+
+    public virtual void Search()
+    {
     }
 
 }

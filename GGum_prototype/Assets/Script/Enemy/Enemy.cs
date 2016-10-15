@@ -4,16 +4,35 @@ using System.Reflection;
 
 public partial class Enemy : AICharacter {
 
-    protected HitData _hitData;
-
     [HideInInspector]
     public bool _isHitEffectDelay = false;
 
-    public HitData pHitData { get { return _hitData; } set { _hitData = value; } }
+    
 
     public GameManager _gm;
 
-    public float AttackDelay = 1.0f;
+    public float _attackDelay = 1.0f;
+
+    [HideInInspector]
+    public float _currentAttackDelay;
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Bullet")
+        {
+            if (isInvincible)
+                return;
+
+            HitData hitdata = other.GetComponent<Bullet>().pHitData;
+
+            if (hitdata.attacker.tag == "Enemy")
+                return;
+
+            OnHit(hitdata);
+
+            Destroy(other.gameObject);
+        }
+    }
 
     // Use this for initialization
     void Awake () {
@@ -22,11 +41,17 @@ public partial class Enemy : AICharacter {
 
     void OnEnable()
     {
-        SetStatePattern();
-        if(_statePattern != null)
+        if (_statePattern != null)
+        {
             _statePattern.StartState();
+        }
     }
-    
+
+    void Update()
+    {
+        _statePattern.Search();
+    }
+
     protected override void InitCharacter()
     {
         base.InitCharacter();
@@ -35,11 +60,7 @@ public partial class Enemy : AICharacter {
         _hitData.attacker = gameObject;
         _hitData.damage = attackDamage;
 
-    }
-
-    public virtual void SetStatePattern()
-    {
-        Debug.Log(gameObject.name + " : StatePattern is Null");
+        Debug.Log("EnemyAwake");
     }
 
     public void SetEnabled(bool enabled, bool setGravity = true)
@@ -60,6 +81,13 @@ public partial class Enemy : AICharacter {
 
     protected override void HitFunc()
     {
-        _statePattern.HitFunc();
+        if(!_isHitEffectDelay)
+            SetStatePattern<HitState>();
     }
+
+    public virtual void Dead()
+    {
+
+    }
+
 }

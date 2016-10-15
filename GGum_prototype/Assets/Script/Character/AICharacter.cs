@@ -5,6 +5,8 @@ public class AICharacter : Character {
 
     int addNum = 1;
 
+    protected HitData _hitData;
+
     [Header("AI Setting")]
     public float _detectionRange = 100.0f;
 
@@ -24,12 +26,19 @@ public class AICharacter : Character {
     public float _moveDelay;
     public Transform[] _wayPoints;
 
+    public HitData pHitData { get { return _hitData; } set { _hitData = value; } }
+
     //public float DetectionRange { get { return _detectionRange; } set { _detectionRange = value; } }
 
     protected override void InitCharacter()
     {
         base.InitCharacter();
         _player = GameObject.FindObjectOfType<Player>();
+    }
+
+    public virtual void SetStatePattern<T>() where T : StatePattern
+    {
+        _statePattern = _statePatternList[typeof(T)] as T;
     }
 
     public bool Search(Transform target, float detectionRange)
@@ -71,7 +80,6 @@ public class AICharacter : Character {
 
             case MoveType.PingPong:
 
-
                 if (addNum > 0 && _numWayPoint >= _wayPoints.Length - 1)
                 {
                     addNum = -1;
@@ -85,6 +93,11 @@ public class AICharacter : Character {
 
                 break;
         }
+    }
+
+    public void OnAttack()
+    {
+        Attack(pHitData);
     }
 
 }

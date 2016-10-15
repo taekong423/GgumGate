@@ -28,11 +28,6 @@ public class ThrowSquirrel : Enemy {
         _statePatternList.Add(typeof(ThrowPattern), new ThrowPattern(this));
     }
 
-    public override void SetStatePattern()
-    {
-        _statePattern = _statePatternList[typeof(ThrowPattern)];
-    }
-
 
     protected override void HitFunc()
     {
@@ -74,7 +69,7 @@ public class ThrowSquirrel : Enemy {
 
             yield return null;
 
-            float delay = _squirrel.AttackDelay;
+            float delay = _squirrel._attackDelay;
 
             while (_currentState == "Idle")
             {

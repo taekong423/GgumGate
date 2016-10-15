@@ -14,9 +14,4 @@ public partial class ExplosionPig : NormalPig {
         _statePatternList.Add(typeof(ExplosionState), new ExplosionState(this));
     }
 
-    public override void SetStatePattern()
-    {
-        _statePattern = _statePatternList[typeof(ExplosionState)];
-    }
-
 }
