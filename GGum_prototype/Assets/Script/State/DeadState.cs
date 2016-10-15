@@ -29,7 +29,7 @@ public class DeadState : EnemyState {
 
     protected override IEnumerator Exit()
     {
-        _enemy._statePattern.SetState("Init");
+        //_enemy._statePattern.SetState("Init");
         _enemy.SetStatePattern<InitState>();
         
 

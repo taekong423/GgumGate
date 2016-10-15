@@ -29,6 +29,7 @@ public partial class BossPig {
 
         public override void SetState(string value)
         {
+            Debug.Log("bosspig : " + value);
             SetState<Stat>(ref _state, value);
         }
 

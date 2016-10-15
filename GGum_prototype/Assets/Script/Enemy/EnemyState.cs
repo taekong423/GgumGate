@@ -24,7 +24,6 @@ public class EnemyState : StatePattern
 
     public override void SetState(string value)
     {
-        CurrentState = value;
         switch (value)
         {
             case "Hit":
@@ -35,6 +34,10 @@ public class EnemyState : StatePattern
                 _enemy.SetStatePattern<DeadState>();
                 break;
         }
+
+        Debug.Log("enemyState : " + value);
+        CurrentState = value;
+        
     }
 
     public virtual void SearchUpdate()

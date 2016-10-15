@@ -10,6 +10,7 @@ public class InitState : EnemyState {
 
     protected override IEnumerator Enter()
     {
+        CurrentState = "Init";
         _enemy.isInvincible = false;
         _enemy.GetComponent<BoxCollider2D>().enabled = true;
 
