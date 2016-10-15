@@ -261,6 +261,7 @@ public partial class Player : Character {
             SetTrigger("Attack");
         }
 
+        Instantiate(effect, attackBox.position, Quaternion.identity);
         Attack(new HitData(gameObject, attackDamage + attackDamageItem));
 
         yield return new WaitForSeconds(GetAttackSpeed(attackSpeed + attackSpeedItem));
