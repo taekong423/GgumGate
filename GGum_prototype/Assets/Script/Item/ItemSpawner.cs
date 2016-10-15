@@ -30,6 +30,6 @@ public class ItemSpawner : MonoBehaviour {
     {
         int itemNum = Random.Range(0, items.Length);
         GameObject obj = (GameObject)Instantiate(items[itemNum], transform.position, Quaternion.identity);
-        obj.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-0.2f, 0.2f), 1.0f) * 8000f);
+        obj.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-0.2f, 0.2f), 1.0f) * 7000f);
     }
 }

@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Rafflesia : MonoBehaviour {
 
-    public float pushForce;
+    public float firstForce;
+    public float secondForce;
+    public Vector2 pushDirection;
     GameManager gm;
 	// Use this for initialization
 	void Start () {
@@ -23,13 +25,12 @@ public class Rafflesia : MonoBehaviour {
             if (gm.flags["DefeatBossPig"] == true)
             {
                 m_rigidbody.velocity = Vector2.zero;
-                m_rigidbody.AddForce(Vector2.up * pushForce * 2, ForceMode2D.Impulse);
+                m_rigidbody.AddForce(Vector2.up * secondForce, ForceMode2D.Impulse);
             }
             else
             {
-                
                 m_rigidbody.velocity = Vector2.zero;
-                m_rigidbody.AddForce(new Vector2(-1, 1) * pushForce, ForceMode2D.Impulse);
+                m_rigidbody.AddForce(pushDirection * firstForce, ForceMode2D.Impulse);
             }
             
         }
