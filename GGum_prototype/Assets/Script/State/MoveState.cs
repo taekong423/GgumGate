@@ -7,7 +7,7 @@ public class MoveState : EnemyState {
 
     public MoveState(Enemy enemy, Searchable searchable) : base(enemy, searchable)
     {
-
+        CurrentState = "Move";
     }
 
     protected override IEnumerator Enter()
@@ -25,7 +25,7 @@ public class MoveState : EnemyState {
         {
             if (_enemy.GoToTarget(_target.position))
             {
-                _enemy.SetStatePattern<IdleState<MoveState>>();
+                _enemy.SetStatePattern<IdleState>();
                 _enemy.SetWayPointNum();
             }
 

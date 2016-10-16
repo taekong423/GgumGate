@@ -18,7 +18,7 @@ public class InitState : EnemyState {
 
     protected override IEnumerator Execute()
     {
-        _enemy.SetStatePattern<IdleState<MoveState>>();
+        _enemy.SetStatePattern<IdleState>();
 
         yield return null;
     }

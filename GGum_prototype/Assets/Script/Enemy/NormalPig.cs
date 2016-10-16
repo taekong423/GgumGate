@@ -56,17 +56,17 @@ public partial class NormalPig : Enemy {
     {
         base.InitCharacter();
 
-        _statePatternList.Add(typeof(NormalState), new NormalState(this));
+        //_statePatternList.Add(typeof(NormalState), new NormalState(this));
 
-        SetStatePattern<NormalState>();
+        //SetStatePattern<NormalState>();
 
-        //_statePatternList.Add(typeof(InitState), new InitState(this));
-        //_statePatternList.Add(typeof(IdleState<MoveState>), new IdleState<MoveState>(this, new NoSearch()));
-        //_statePatternList.Add(typeof(MoveState), new MoveState(this, new NoSearch()));
-        //_statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, new NoSearch()));
-        //_statePatternList.Add(typeof(DeadState), new DeadState(this, new NoSearch()));
+        _statePatternList.Add(typeof(InitState), new InitState(this));
+        _statePatternList.Add(typeof(IdleState), new IdleState(this, new NoSearch()));
+        _statePatternList.Add(typeof(MoveState), new MoveState(this, new NoSearch()));
+        _statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, new NoSearch()));
+        _statePatternList.Add(typeof(DeadState), new DeadState(this, new NoSearch()));
 
-        //SetStatePattern<InitState>();
+        SetStatePattern<InitState>();
 
     }
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class Search_Chase_Attack : Search_Chase {
+public class Search_Chase_Attack : Searchable {
 
     public Search_Chase_Attack(AICharacter character) : base(character)
     {
@@ -14,14 +14,15 @@ public class Search_Chase_Attack : Search_Chase {
         {
             _character.SetStatePattern<AttackState>();
         }
-        else if (Search())
+        else if (ChaseSearch())
         {
             _character.SetStatePattern<ChaseState>();
         }
-        else
-        {
-            _character.SetStatePattern<MoveState>();
-        }
+    }
+
+    protected bool ChaseSearch()
+    {
+        return _character.Search(_character._player.transform, _character._detectionRange);
     }
 
     protected bool AttackSearch()

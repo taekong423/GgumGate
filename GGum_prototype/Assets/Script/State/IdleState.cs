@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IdleState<T> : EnemyState where T : StatePattern{
+public class IdleState : EnemyState {
 
     float _moveDelay;
 
     public IdleState(Enemy enemy, Searchable searchable) : base(enemy, searchable) 
     {
-
+        CurrentState = "Idle";
     }
 
     protected override IEnumerator Enter()
@@ -19,11 +19,11 @@ public class IdleState<T> : EnemyState where T : StatePattern{
 
     protected override IEnumerator Execute()
     {
-        while (_enemy._statePattern is IdleState<T>)
+        while (_enemy._statePattern is IdleState)
         {
             if (_moveDelay <= 0)
             {
-                _enemy.SetStatePattern<T>();
+                _enemy.SetStatePattern<MoveState>();
                 _moveDelay = _enemy._moveDelay;
             }
             else

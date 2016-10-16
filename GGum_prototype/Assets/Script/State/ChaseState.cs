@@ -7,7 +7,7 @@ public class ChaseState : EnemyState {
 
     public ChaseState(Enemy enemy, Searchable searchable) : base(enemy, searchable)
     {
-
+        CurrentState = "Chase";
     }
 
     protected override IEnumerator Enter()

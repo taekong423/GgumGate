@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class Search_Attack : MonoBehaviour {
+public class Search_Attack : Searchable {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public Search_Attack(AICharacter chracter) : base(chracter)
+    {
+
+    }
+
+    public override void Operate()
+    {
+        if (AttackSearch())
+        {
+            _character.SetStatePattern<AttackState>();
+        }
+    }
+
+    protected bool AttackSearch()
+    {
+        return _character.Search(_character._player.transform, _character._attackRange);
+    }
 }

@@ -7,14 +7,7 @@ public partial class Enemy : AICharacter {
     [HideInInspector]
     public bool _isHitEffectDelay = false;
 
-    
-
     public GameManager _gm;
-
-    public float _attackDelay = 1.0f;
-
-    [HideInInspector]
-    public float _currentAttackDelay;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -64,6 +57,7 @@ public partial class Enemy : AICharacter {
 
         _hitData.attacker = gameObject;
         _hitData.damage = attackDamage;
+        _currentAttackDelay = _attackDelay;
     }
 
     public void SetEnabled(bool enabled, bool setGravity = true)

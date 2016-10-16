@@ -49,7 +49,6 @@ public class StatePattern {
 
     protected void SetState<T>(ref T stateEnum, string value) where T : IConvertible
     {
-        Debug.Log("StatePattern2 : " + value);
         stateEnum = ParseEnum<T>(value);
         CurrentState = value;
     }

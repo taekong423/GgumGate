@@ -8,6 +8,7 @@ public class HitState : EnemyState {
 
     public HitState(Enemy enemy, float keepTime, float delay, Searchable searchable) : base(enemy, searchable)
     {
+        CurrentState = "Hit";
         _keepTime = keepTime;
         _delay = delay;
     }
@@ -31,7 +32,7 @@ public class HitState : EnemyState {
 
             if (delay >= _delay)
             {
-                _enemy.SetStatePattern<IdleState<MoveState>>();
+                _enemy.SetStatePattern<IdleState>();
             }
 
             yield return null;

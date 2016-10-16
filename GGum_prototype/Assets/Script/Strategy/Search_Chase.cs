@@ -11,13 +11,13 @@ public class Search_Chase : Searchable {
 
     public override void Operate()
     {
-        if (Search())
+        if (ChaseSearch())
         {
             _character.SetStatePattern<ChaseState>();
         }
     }
 
-    protected bool Search()
+    protected bool ChaseSearch()
     {
         return _character.Search(_character._player.transform, _character._detectionRange);
     }

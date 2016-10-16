@@ -12,6 +12,11 @@ public class AICharacter : Character {
 
     public float _attackRange = 20.0f;
 
+    public float _attackDelay = 1.0f;
+
+    //[HideInInspector]
+    public float _currentAttackDelay;
+
     [HideInInspector]
     public Player _player;
     [HideInInspector]
