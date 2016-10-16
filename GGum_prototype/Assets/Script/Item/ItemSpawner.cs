@@ -10,16 +10,19 @@ public class ItemSpawner : MonoBehaviour {
 
     private bool check;
 
+    public string currState;
+
 	// Use this for initialization
 	void Start () {
         character = GetComponent<Character>();
         check = true;
-        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	    if (character._statePattern.CurrentState == "Dead" && check)
+        currState = character._statePattern.CurrentState;
+
+        if (character._statePattern.CurrentState == "Dead" && check)
         {
             check = false;
             DropItem();
