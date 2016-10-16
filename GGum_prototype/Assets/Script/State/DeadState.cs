@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DeadState : EnemyState {
 
-    public DeadState(Enemy enemy, Searchable searchable) : base(enemy, searchable)
+    public DeadState(Enemy enemy) : base(enemy)
     {
         CurrentState = "Dead";
     }
@@ -30,7 +30,6 @@ public class DeadState : EnemyState {
     protected override IEnumerator Exit()
     {
         _enemy.SetStatePattern<InitState>();
-        
 
         _enemy.currentHP = _enemy.maxHP;
         _enemy._isHitEffectDelay = false;
@@ -38,5 +37,27 @@ public class DeadState : EnemyState {
         yield return null;
 
         _enemy.gameObject.SetActive(false);
+    }
+}
+
+public class NewDeadState : DeadState
+{
+    public NewDeadState(Enemy enemy) : base(enemy)
+    {
+
+    }
+
+    protected override IEnumerator Execute()
+    {
+        _enemy.animator.SetTrigger("Dead");
+
+        float animTime = _enemy.animator.GetCurrentAnimatorStateInfo(0).length;
+
+        while (animTime > 0.0f)
+        {
+            animTime -= Time.deltaTime;
+            yield return null;
+        }
+
     }
 }

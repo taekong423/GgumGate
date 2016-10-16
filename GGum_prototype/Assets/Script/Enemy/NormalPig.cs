@@ -64,7 +64,7 @@ public partial class NormalPig : Enemy {
         _statePatternList.Add(typeof(IdleState), new IdleState(this, new NoSearch()));
         _statePatternList.Add(typeof(MoveState), new MoveState(this, new NoSearch()));
         _statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, new NoSearch()));
-        _statePatternList.Add(typeof(DeadState), new DeadState(this, new NoSearch()));
+        _statePatternList.Add(typeof(DeadState), new NewDeadState(this));
 
         SetStatePattern<InitState>();
 
@@ -116,5 +116,7 @@ public partial class NormalPig : Enemy {
             _statePattern.SetState("Hit");
         }
     }
+
+    
 
 }

@@ -28,12 +28,10 @@ public class EnemyState : StatePattern
         {
             case "Hit":
                 _enemy.SetStatePattern<HitState>();
-                CurrentState = value;
                 break;
 
             case "Dead":
                 _enemy.SetStatePattern<DeadState>();
-                CurrentState = value;
                 break;
         }
         

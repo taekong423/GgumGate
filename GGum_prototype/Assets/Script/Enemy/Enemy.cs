@@ -20,7 +20,6 @@ public partial class Enemy : AICharacter {
 
             if (hitdata.attacker.tag == "Enemy")
                 return;
-            Debug.Log("aaaaaaaaaaaaaaaaaaa");
             OnHit(hitdata);
 
             Destroy(other.gameObject);
@@ -29,7 +28,6 @@ public partial class Enemy : AICharacter {
 
     // Use this for initialization
     void Awake () {
-        Debug.Log("asdfasdf");
         InitCharacter();
 	}
 

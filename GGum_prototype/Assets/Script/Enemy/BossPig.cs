@@ -44,24 +44,6 @@ public partial class BossPig : Enemy {
         SetStatePattern<Pattern0>();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Bullet")
-        {
-            if (isInvincible)
-                return;
-
-            HitData hitdata = other.GetComponent<Bullet>().pHitData;
-
-            if (hitdata.attacker.tag == "Enemy")
-                return;
-
-            OnHit(hitdata);
-
-            Destroy(other.gameObject);
-        }
-    }
-
     bool HasPigs(string pigName)
     {
         switch (pigName)
@@ -147,6 +129,7 @@ public partial class BossPig : Enemy {
                         GameObject obj = Instantiate(_normalPig, transform.position, Quaternion.identity) as GameObject;
                         obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
                         _normalPigs.Add(obj);
+                        obj.SetActive(true);
                     }
                     else
                     {
@@ -165,6 +148,7 @@ public partial class BossPig : Enemy {
                         GameObject obj = Instantiate(_explosionPig, transform.position, Quaternion.identity) as GameObject;
                         obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
                         _explosionPigs.Add(obj);
+                        obj.SetActive(true);
                     }
                     else
                     {

@@ -25,7 +25,7 @@ public partial class ExplosionPig
 
             yield return base.InitState();
 
-            _pig.StartCoroutine(Explosion());
+            //_pig.StartCoroutine(Explosion());
         }
 
         protected override IEnumerator DeadState()
@@ -58,26 +58,7 @@ public partial class ExplosionPig
             
         }
 
-        IEnumerator Explosion()
-        {
-            float delay = 4;
-
-            while (_state != Stat.Dead)
-            {
-                Debug.Log("ddd");
-                _pig._countText.text = string.Format("{0:F0}", delay);
-
-                if (delay <= 0)
-                {
-                    SetState("Dead");
-                    _isExplosion = true;
-                }
-                else
-                    delay -= Time.deltaTime;
-
-                yield return null;
-            }
-        }
+        
 
     }
 	

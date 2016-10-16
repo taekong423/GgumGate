@@ -20,7 +20,7 @@ public partial class Deer : Enemy {
         _statePatternList.Add(typeof(ChaseState), new ChaseState(this, new Search_Move_Attack(this)));
         _statePatternList.Add(typeof(AttackState), new DeerAttackState(this, new Search_Move_Chase(this)));
         _statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, new NoSearch()));
-        _statePatternList.Add(typeof(DeadState), new DeadState(this, new NoSearch()));
+        _statePatternList.Add(typeof(DeadState), new DeadState(this));
 
         SetStatePattern<InitState>();
 
