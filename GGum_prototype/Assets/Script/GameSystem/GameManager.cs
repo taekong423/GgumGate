@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour {
 
     bool zoom = true;
 
-
+    int touchCount;
+    bool isTouching;
 
 	// Use this for initialization
 	void Start () {
@@ -40,10 +41,26 @@ public class GameManager : MonoBehaviour {
 
         currentStageNumber = 0;
         playerRespawnPos = new Vector2(1000, 0);
+        touchCount = 0;
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (!isTouching)
+                {
+                    StartCoroutine(TouchCheck(0.5f));
+                }
+
+                touchCount++;
+                if (touchCount == 1) Application.Quit();
+            }
+        }
+
         if (boss.activeInHierarchy)
         {
             if (boss.GetComponent<Character>()._statePattern.CurrentState == "Dead")
@@ -83,6 +100,15 @@ public class GameManager : MonoBehaviour {
             flags[flagKeys[4]] = false;
             StartCoroutine(BackToLastStage());
         }
+    }
+
+    IEnumerator TouchCheck(float time)
+    {
+        isTouching = true;
+
+        yield return new WaitForSeconds(time);
+        touchCount = 0;
+        isTouching = false;
     }
 
     IEnumerator EngageSquirrel()
