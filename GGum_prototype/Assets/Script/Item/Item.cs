@@ -12,7 +12,6 @@ public class Item : MonoBehaviour {
     private GameObject effect;
     private Collider2D _collider;
     private Rigidbody2D _rigidbody;
-    private bool groundCheck;
     private bool searchOn;
 
     void Awake()
@@ -21,8 +20,6 @@ public class Item : MonoBehaviour {
         _collider = GetComponent<Collider2D>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _rigidbody.velocity = Vector2.zero;
-        groundCheck = false;
-        //Invoke("StartGroundCheck", 0.5f);
     }
 
     void Update()
@@ -47,11 +44,6 @@ public class Item : MonoBehaviour {
         {
             Instantiate(effect, transform.position, Quaternion.identity);
         }
-    }
-
-    void StartGroundCheck()
-    {
-        groundCheck = true;
     }
 
     protected bool IsGround(Vector2 originPos, float rayLength)
