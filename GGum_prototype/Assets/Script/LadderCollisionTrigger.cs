@@ -7,13 +7,13 @@ public class LadderCollisionTrigger : MonoBehaviour {
 
     [SerializeField]
     private Collider2D platformCollider;
-    [SerializeField]
     private Collider2D ladderTrigger;
 
     // Use this for initialization
     void Start()
     {
         playerCollider = GameObject.FindWithTag("Player").GetComponent<Collider2D>();
+        ladderTrigger = GetComponent<Collider2D>();
         Physics2D.IgnoreCollision(platformCollider, ladderTrigger, true);
     }
 
