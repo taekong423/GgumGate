@@ -5,7 +5,7 @@ public class DeadState : EnemyState {
 
     public DeadState(Enemy enemy, Searchable searchable) : base(enemy, searchable)
     {
-
+        CurrentState = "Dead";
     }
 
     protected override IEnumerator Enter()
@@ -29,7 +29,6 @@ public class DeadState : EnemyState {
 
     protected override IEnumerator Exit()
     {
-        //_enemy._statePattern.SetState("Init");
         _enemy.SetStatePattern<InitState>();
         
 

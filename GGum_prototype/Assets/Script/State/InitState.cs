@@ -5,12 +5,11 @@ public class InitState : EnemyState {
 
     public InitState(Enemy enemy) : base(enemy)
     {
-
+        CurrentState = "Init";
     }
 
     protected override IEnumerator Enter()
     {
-        CurrentState = "Init";
         _enemy.isInvincible = false;
         _enemy.GetComponent<BoxCollider2D>().enabled = true;
 
