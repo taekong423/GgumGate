@@ -20,14 +20,22 @@ public class Loader : MonoBehaviour {
 
         async.allowSceneActivation = false;
 
+        float speed = Random.Range(0.0f, 2.0f);
+        float delay = Random.Range(0.0f, 0.1f);
+        Debug.Log(delay);
         while (!async.isDone)
         {
-            _logo.fillAmount = async.progress + 0.1f;
+            //_logo.fillAmount = async.progress + 0.1f;
+
+            _logo.fillAmount += Time.deltaTime * speed;
 
             if (_logo.fillAmount >= 1.0f)
                 break;
 
-            yield return null;
+            yield return new WaitForSeconds(delay);
+
+            speed = Random.Range(0.0f, 2.0f);
+            delay = Random.Range(0.0f, 0.5f);
         }
 
         _touchMe.SetActive(true);
