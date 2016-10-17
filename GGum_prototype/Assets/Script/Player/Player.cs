@@ -100,6 +100,7 @@ public partial class Player : Character {
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        soundPlayer = GetComponent<SoundPlayer>();
     }
 
     private void KeyInput()
@@ -127,6 +128,7 @@ public partial class Player : Character {
                 {
                     playerState = PCState.Jump;
                     SetTrigger("Jump");
+                    PlaySound("Jump");
                     m_rigidbody.velocity = Vector2.zero;
                     Jump();
                     m_rigidbody.gravityScale = 50;
@@ -248,6 +250,7 @@ public partial class Player : Character {
     IEnumerator Shoot()
     {
         canShoot = false;
+        PlaySound("Attack");
 
         if (playerState == PCState.Jump)
         {
@@ -261,7 +264,7 @@ public partial class Player : Character {
             SetTrigger("Attack");
         }
 
-        //Instantiate(effect, attackBox.position, Quaternion.identity);
+        Instantiate(effect, attackBox.position, Quaternion.identity);
         Attack(new HitData(gameObject, attackDamage + attackDamageItem));
 
         yield return new WaitForSeconds(GetAttackSpeed(attackSpeed + attackSpeedItem));
@@ -294,6 +297,7 @@ public partial class Player : Character {
 
     protected IEnumerator Hit()
     {
+        PlaySound("Hit");
         isInvincible = true;
 
         if (playerState != PCState.Ladder)

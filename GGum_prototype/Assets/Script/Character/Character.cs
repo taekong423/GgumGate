@@ -32,6 +32,7 @@ public class Character : MonoBehaviour {
     protected float invincibleTime;
     protected Rigidbody2D m_rigidbody;
     protected Collider2D m_collider;
+    protected SoundPlayer soundPlayer;
 
     //[HideInInspector]
     public StatePattern _statePattern;
@@ -106,7 +107,7 @@ public class Character : MonoBehaviour {
             Debug.Log("Null Rigidbody...");
     }
 
-    virtual protected void Attack(HitData hitInfo) { }
+    protected virtual void Attack(HitData hitInfo) { }
 
     protected void CreateBullet(HitData hitInfo)
     {
@@ -137,6 +138,11 @@ public class Character : MonoBehaviour {
             else
                 HitFunc();
         }
+    }
+
+    public void PlaySound(string name)
+    {
+        soundPlayer.Play(name);
     }
 
     public IEnumerator NoDamageForSeconds(float time)
