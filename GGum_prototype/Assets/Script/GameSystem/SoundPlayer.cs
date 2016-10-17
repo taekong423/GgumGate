@@ -11,7 +11,7 @@ public class SoundPlayer : MonoBehaviour {
         public AudioClip _clip;
     }
 
-    public List<AudioData> _audioDates;
+    public List<AudioData> _audioData;
 
     public AudioSource _source;
 
@@ -26,7 +26,7 @@ public class SoundPlayer : MonoBehaviour {
 
     AudioClip GetClip(string dataName)
     {
-        return _audioDates.Find(x=>x._name == dataName)._clip;
+        return _audioData.Find(x=>x._name == dataName)._clip;
     }
 
 

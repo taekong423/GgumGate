@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -26,6 +27,7 @@ public partial class BossPig : Enemy {
     public Transform _centerPivot;
         
     public GameObject[] _ororas;
+    public Image _hpBar;
 
     public int ChildPigNum { get { return _childPigNum; } set { _childPigNum = value; } }
 
@@ -46,6 +48,17 @@ public partial class BossPig : Enemy {
         _statePatternList.Add(typeof(Pattern2), new Pattern2(this));
 
         SetStatePattern<Pattern0>();
+    }
+
+    void Update()
+    {
+        if (_hpBar != null)
+        {
+            if (_hpBar.transform.parent.gameObject.activeSelf)
+            {
+                _hpBar.fillAmount = (float)currentHP / (float)maxHP;
+            }
+        }
     }
 
     bool HasPigs(string pigName)

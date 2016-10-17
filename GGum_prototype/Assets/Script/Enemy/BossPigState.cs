@@ -114,6 +114,8 @@ public partial class BossPig {
 
             _bossPig.SetOrora(0);
             _bossPig.OroraActive(true);
+            if (_bossPig._hpBar)
+                _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
 
             yield return null;
 
@@ -156,6 +158,8 @@ public partial class BossPig {
             _bossPig.moveSpeed = _bossPig._baseMoveSpeed;
             _bossPig.SetOrora(0);
             _bossPig.OroraActive(true);
+            if (_bossPig._hpBar)
+                _bossPig._hpBar.transform.parent.gameObject.SetActive(true);
 
             yield return null;
 
