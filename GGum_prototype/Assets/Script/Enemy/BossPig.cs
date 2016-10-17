@@ -18,11 +18,15 @@ public partial class BossPig : Enemy {
     List<GameObject> _normalPigs;
     List<GameObject> _explosionPigs;
 
+    GameObject _currentOrora;
+
     public GameObject _normalPig;
     public GameObject _explosionPig;
 
     public Transform _centerPivot;
-    
+        
+    public GameObject[] _ororas;
+
     public int ChildPigNum { get { return _childPigNum; } set { _childPigNum = value; } }
 
     protected override void InitCharacter()
@@ -82,6 +86,16 @@ public partial class BossPig : Enemy {
         }
 
         return null;
+    }
+
+    public void SetOrora(int num)
+    {
+        _currentOrora = _ororas[num];
+    }
+
+    public void OroraActive(bool active)
+    {
+        _currentOrora.SetActive(active);
     }
 
     public void SpawNormalPig()

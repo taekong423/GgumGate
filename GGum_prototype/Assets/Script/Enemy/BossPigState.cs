@@ -57,7 +57,7 @@ public partial class BossPig {
         protected IEnumerator HitState()
         {
             _bossPig.animator.SetTrigger("Hit");
-
+            _bossPig.OroraActive(true);
             _bossPig.isInvincible = false;
             _bossPig._isHide = false;
             _bossPig.m_collider.enabled = true;
@@ -75,6 +75,7 @@ public partial class BossPig {
         {
             _bossPig.ChildAllDead();
 
+            _bossPig.OroraActive(true);
             _bossPig.animator.SetTrigger("Hit");
 
             _bossPig.isInvincible = true;
@@ -109,6 +110,9 @@ public partial class BossPig {
         {
             _bossPig.isInvincible = true;
             _bossPig.m_collider.enabled = false;
+
+            _bossPig.SetOrora(0);
+            _bossPig.OroraActive(true);
 
             yield return null;
 
@@ -149,6 +153,8 @@ public partial class BossPig {
         {
             SetState("Idle");
             _bossPig.moveSpeed = _bossPig._baseMoveSpeed;
+            _bossPig.SetOrora(0);
+            _bossPig.OroraActive(true);
 
             yield return null;
 
@@ -169,6 +175,7 @@ public partial class BossPig {
 
                 yield return new WaitForSeconds(0.5f);
 
+                _bossPig.OroraActive(false);
                 _bossPig.animator.SetTrigger("Hide");
 
                 yield return new WaitForSeconds(0.5f);
@@ -191,6 +198,7 @@ public partial class BossPig {
 
                 yield return new WaitForSeconds(0.5f);
 
+                _bossPig.OroraActive(false);
                 _bossPig.animator.SetTrigger("Hide");
 
                 yield return new WaitForSeconds(0.5f);
@@ -253,6 +261,7 @@ public partial class BossPig {
 
             _bossPig.LookTarget(_bossPig._player.transform);
 
+            _bossPig.OroraActive(true);
             _bossPig.animator.SetTrigger("Attack");
 
             _bossPig.SpawNormalPig();
@@ -305,7 +314,8 @@ public partial class BossPig {
         IEnumerator InitState()
         {
             SetState("Idle");
-
+            _bossPig.OroraActive(false);
+            _bossPig.SetOrora(1);
             yield return null;
 
             _camera = Global.shared<CameraController>();
@@ -324,6 +334,7 @@ public partial class BossPig {
 
                 yield return new WaitForSeconds(0.5f);
 
+                _bossPig.OroraActive(false);
                 _bossPig.animator.SetTrigger("Hide");
 
                 yield return new WaitForSeconds(0.5f);
@@ -345,6 +356,7 @@ public partial class BossPig {
 
                 yield return new WaitForSeconds(0.5f);
 
+                _bossPig.OroraActive(false);
                 _bossPig.animator.SetTrigger("Hide");
 
                 yield return new WaitForSeconds(0.5f);
@@ -420,6 +432,7 @@ public partial class BossPig {
             _bossPig._isHide = false;
             _bossPig.m_collider.enabled = true;
 
+            _bossPig.OroraActive(true);
             _bossPig.animator.SetTrigger("Attack");
 
             _attackCount++;
@@ -479,7 +492,8 @@ public partial class BossPig {
         IEnumerator InitState()
         {
             SetState("Idle");
-            
+            _bossPig.OroraActive(false);
+            _bossPig.SetOrora(2);
             yield return null;
 
             _camera = Global.shared<CameraController>();
@@ -500,12 +514,13 @@ public partial class BossPig {
 
                 _bossPig.GetComponent<BoxCollider2D>().enabled = true;
 
+                
                 _bossPig.animator.SetTrigger("Rush");
 
                 yield return new WaitForSeconds(0.5f);
 
             }
-
+            _bossPig.OroraActive(true);
             yield return null;
 
             yield return IdleStay();
