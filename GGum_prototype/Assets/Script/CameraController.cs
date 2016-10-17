@@ -8,10 +8,7 @@ public class CameraController : MonoBehaviour {
     private float xSmooth = 2f;
     private float ySmooth = 2f;
 
-    private float minX = 1080f;
-    private float maxX = 1880f;
-    private float minY = 45.0f;
-    private float maxY = 55.0f;
+    private CameraClamp cameraClamp;
     
     private float targetX;
     private float targetY;
@@ -29,14 +26,21 @@ public class CameraController : MonoBehaviour {
     private Transform currTarget;
     public Transform CurrTarget { get { return currTarget; } set { currTarget = value; } }
 
+    private GameManager gameManager;
+    private GameData gameData;
+
     void Awake()
     {
-        currTarget = GameObject.Find("CameraPoint").transform;
-        targetSize = 100f;
+        
     }
 
     void Start()
     {
+        currTarget = GameObject.Find("CameraPoint").transform;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameData = GameObject.Find("GameData").GetComponent<GameData>();
+        cameraClamp = gameData.cameraClamp[gameManager.currentStageNumber];
+        targetSize = 100f;
         Global.shared<CameraController>(this);
     }
 
@@ -81,8 +85,8 @@ public class CameraController : MonoBehaviour {
             targetY = Mathf.Lerp(transform.position.y, currTarget.position.y, ySmooth * Time.deltaTime);
         }
 
-        targetX = Mathf.Clamp(targetX, minX, maxX);
-        targetY = Mathf.Clamp(targetY, minY, maxY);
+        targetX = Mathf.Clamp(targetX, cameraClamp.xMin, cameraClamp.xMax);
+        targetY = Mathf.Clamp(targetY, cameraClamp.yMin, cameraClamp.yMax);
 
         transform.position = new Vector3(targetX, targetY, transform.position.z);
     }
@@ -122,8 +126,8 @@ public class CameraController : MonoBehaviour {
             float x = transform.position.x + Random.Range(-shakeRange, shakeRange);
             float y = transform.position.y + Random.Range(-shakeRange, shakeRange);
 
-            x = Mathf.Clamp(x, minX, maxX);
-            y = Mathf.Clamp(y, minY, maxY);
+            x = Mathf.Clamp(x, cameraClamp.xMin, cameraClamp.xMax);
+            y = Mathf.Clamp(y, cameraClamp.yMin, cameraClamp.yMax);
 
             transform.position = new Vector3(x, y, transform.position.z);
             yield return new WaitForSeconds(shakeFreq);
@@ -141,15 +145,16 @@ public class CameraController : MonoBehaviour {
     {
         currTarget = target;
         targetSize = 50.0f;
-        minY = -50.0f;
-        maxY = 100.0f;
+        cameraClamp.yMin -= 50.0f;
+        cameraClamp.yMax += 50.0f;
+        cameraClamp.xMin -= 80.0f;
+        cameraClamp.xMax += 80.0f;
     }
 
     public void ZoomOut()
     {
         currTarget = GameObject.Find("CameraPoint").transform;
         targetSize = 100.0f;
-        minY = 45f;
-        maxY = 55f;
+        cameraClamp = gameManager.gameData.cameraClamp[gameManager.currentStageNumber];
     }
 }

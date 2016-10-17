@@ -11,6 +11,7 @@ public class GameData : MonoBehaviour {
     }
 
     public EntrancePosition[] entrancePositions;
+    public CameraClamp[] cameraClamp;
 
 	// Use this for initialization
 	void Start () {

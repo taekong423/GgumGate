@@ -72,3 +72,12 @@ public struct ItemEffect
     public EItemEffect effect;
     public float value;
 }
+
+[System.Serializable]
+public struct CameraClamp
+{
+    public float xMin;
+    public float xMax;
+    public float yMin;
+    public float yMax;
+}

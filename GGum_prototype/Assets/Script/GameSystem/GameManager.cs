@@ -7,8 +7,8 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour {
 
     Player player;
-    GameData gameData;
 
+    public GameData gameData;
     public ScreenFade screen;
     public GameObject boss;
     public GameObject squirrel;
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
     public Transform[] cameraStopPoints;
     public GameObject[] stages;
 
-    private int currentStageNumber;
+    public int currentStageNumber;
 
     private Vector2 playerRespawnPos;
 
