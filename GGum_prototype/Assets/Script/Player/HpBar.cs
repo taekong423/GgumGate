@@ -3,16 +3,26 @@ using System.Collections;
 
 public class HpBar : MonoBehaviour {
 
-    Player player;
-    Animator hpAnimator;
+    [System.Serializable]
+    public struct Clamp
+    {
+        public float min;
+        public float max;
+    }
 
-    public float hpPercent;
-    float lastHp;
-	// Use this for initialization
-	void Start () {
+    public RectTransform hpObject;
+    [Range(0, 1)]
+    public float hp;
+    public Clamp yRange;
+    public float yPos;
+
+    private float lastHp;
+    private Player player;
+
+    // Use this for initialization
+    void Start () {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        hpAnimator = GetComponentInChildren<Animator>();
-        hpPercent = (player.currentHP / player.maxHP) * 100f;
+        hp = ((float)player.currentHP / player.maxHP);
         lastHp = player.currentHP;
     }
 	
@@ -20,8 +30,9 @@ public class HpBar : MonoBehaviour {
 	void Update () {
         if (IsHpChanged(player.currentHP))
         {
-            hpPercent = ((float)player.currentHP / player.maxHP) * 100f;
-            hpAnimator.SetFloat("Percent", hpPercent);
+            hp = ((float)player.currentHP / player.maxHP);
+            float y = yRange.max * hp;
+            hpObject.anchoredPosition = new Vector2(0, y);
             lastHp = player.currentHP;
         }
 	}
