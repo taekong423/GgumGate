@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(1.0f);
         screen.FadeIn();
         yield return new WaitForSeconds(screen.fadeTime);
-        SceneManager.LoadScene("Scene1");
+        SceneManager.LoadScene("InGame");
     }
 
     IEnumerator EnterOtherStage(int stageNumber)

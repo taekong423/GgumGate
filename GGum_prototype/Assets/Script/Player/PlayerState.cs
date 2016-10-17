@@ -84,7 +84,7 @@ public partial class Player
             yield return new WaitForSeconds(1.0f);
             player.screen.FadeIn();
             yield return new WaitForSeconds(player.screen.fadeTime);
-            SceneManager.LoadScene("Scene1");
+            SceneManager.LoadScene("InGame");
             /*
             yield return null;
 
