@@ -47,14 +47,12 @@ public class DialogueCaller : MonoBehaviour {
             {
                 if (!_dm.DialogueActive)
                 {
-                    _dm.DisplayDialogue(_dialogueID);
+                    if(!_dm.Displaying)
+                        _dm.DisplayDialogue(_dialogueID);
                 }
                 else
                 {
                     _dm.NextContent();
-
-                    if (_dm.Displaying && _dm._useDelay)
-                        _dm.Displaying = false;
                 }
 
             }
@@ -65,19 +63,24 @@ public class DialogueCaller : MonoBehaviour {
                 {
                     if (!_dm.DialogueActive)
                     {
-                        _dm.DisplayDialogue(_dialogueID);
+                        if (!_dm.Displaying)
+                            _dm.DisplayDialogue(_dialogueID);
                     }
                     else
                     {
-                        _dm.NextContent();
-
-                        if (_dm.Displaying && _dm._useDelay)
-                        {
-                            Debug.Log("fas");
-                            _dm.Displaying = false;
-                        }
+                       
                     }
 
+                }
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                _dm.NextContent();
+
+                if (_dm.Displaying && _dm._useDelay)
+                {
+                    _dm.Displaying = false;
                 }
             }
 
