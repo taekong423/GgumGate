@@ -294,13 +294,18 @@ public partial class Player : Character {
 
     protected IEnumerator Hit()
     {
-        SetTrigger("Hit");
-        isStop = true;
         isInvincible = true;
-        yield return new WaitForSeconds(0.5f);
-        isStop = false;
+
+        if (playerState != PCState.Ladder)
+        {
+            SetTrigger("Hit");
+            isStop = true;
+            yield return new WaitForSeconds(0.5f);
+            isStop = false;
+            SetAnimationBack();
+        }
+ 
         blinkOn = true;
-        SetAnimationBack();
 
         yield return new WaitForSeconds(invincibleTime);
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1.0f);
