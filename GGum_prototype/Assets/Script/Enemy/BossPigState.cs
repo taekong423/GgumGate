@@ -56,6 +56,7 @@ public partial class BossPig {
 
         protected IEnumerator HitState()
         {
+            _bossPig.SoundPlay("Hit");
             _bossPig.animator.SetTrigger("Hit");
             _bossPig.OroraActive(true);
             _bossPig.isInvincible = false;

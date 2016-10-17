@@ -4,11 +4,13 @@ using System.Reflection;
 
 public partial class Enemy : AICharacter {
 
+    protected SoundPlayer _soundPlayer;
+
     [HideInInspector]
     public bool _isHitEffectDelay = false;
 
     public GameManager _gm;
-
+    
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Bullet")
@@ -48,6 +50,11 @@ public partial class Enemy : AICharacter {
         aaaa = _statePattern.CurrentState;
     }
 
+    public void SoundPlay(string clipName)
+    {
+        _soundPlayer.Play(clipName);
+    }
+
     protected override void InitCharacter()
     {
         base.InitCharacter();
@@ -56,6 +63,8 @@ public partial class Enemy : AICharacter {
         _hitData.attacker = gameObject;
         _hitData.damage = attackDamage;
         _currentAttackDelay = _attackDelay;
+
+        _soundPlayer = GetComponent <SoundPlayer>();
     }
 
     public void SetEnabled(bool enabled, bool setGravity = true)
