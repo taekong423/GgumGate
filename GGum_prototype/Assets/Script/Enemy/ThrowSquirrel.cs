@@ -110,7 +110,8 @@ public class ThrowSquirrel : Enemy {
 
         IEnumerator HitState()
         {
-            _enemy.animator.SetTrigger("Sturn");
+            _enemy.animator.SetTrigger("Hit");
+            _enemy.PlaySound("Hit");
 
             yield return null;
 

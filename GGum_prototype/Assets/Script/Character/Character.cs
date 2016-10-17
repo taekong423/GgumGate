@@ -74,6 +74,7 @@ public class Character : MonoBehaviour {
         m_rigidbody = GetComponent<Rigidbody2D>();
 
         _statePatternList = new Dictionary<Type, StatePattern>();
+        soundPlayer = GetComponent<SoundPlayer>();
     }
 
     protected void Move(Axis axis, float keyValue)
