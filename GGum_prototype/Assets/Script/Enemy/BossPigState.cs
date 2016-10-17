@@ -472,7 +472,7 @@ public partial class BossPig {
 
                 _bossPig._statePattern = statePattern;
 
-                _bossPig.moveSpeed *= 3;
+                _bossPig.moveSpeed *= 6;
                 _bossPig.transform.localScale -= _bossPig._baseSize * 0.15f;
 
                 _bossPig.StopAllCoroutines();
@@ -552,7 +552,7 @@ public partial class BossPig {
                 {
                     SetState("Idle");
                     _bossPig.SetWayPointNum();
-                    _bossPig._currentMoveDleay = 3;
+                    _bossPig._currentMoveDleay = 1.5f;
                     _bossPig.LookTarget(_bossPig._player.transform);
                 }
 
