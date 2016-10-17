@@ -39,6 +39,8 @@ public class AttackState : EnemyState {
 
         float delay = 0.0f;
 
+        bool onAttack = false;
+
         while (_enemy._statePattern is AttackState)
         {
             delay += Time.deltaTime;
@@ -50,8 +52,11 @@ public class AttackState : EnemyState {
                 _enemy.SetStatePattern<IdleState>();
                 break;
             }
-            else if(delay >= animTime/2)
+            else if (delay >= animTime / 2 && !onAttack)
+            {
+                onAttack = true;
                 _enemy.OnAttack();
+            }
 
             yield return null;
         }

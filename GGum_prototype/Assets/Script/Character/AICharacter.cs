@@ -43,8 +43,8 @@ public class AICharacter : Character {
 
     public virtual void SetStatePattern<T>() where T : StatePattern
     {
-        if(_statePatternList.ContainsKey(typeof(T)))
-            _statePattern = _statePatternList[typeof(T)] as T;
+        if (_statePatternList.ContainsKey(typeof(T)))
+            _statePattern = _statePatternList[typeof(T)];
     }
 
     public bool Search(Transform target, float detectionRange)

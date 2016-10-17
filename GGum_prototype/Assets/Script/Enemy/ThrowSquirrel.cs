@@ -8,20 +8,35 @@ public class ThrowSquirrel : Enemy {
     {
         base.InitCharacter();
 
-        _statePatternList.Add(typeof(ThrowPattern), new ThrowPattern(this));
+        _statePatternList.Add(typeof(InitState), new InitState(this));
+        _statePatternList.Add(typeof(IdleState), new IdleState(this, null));
+        _statePatternList.Add(typeof(MoveState), new AttackState(this, null));
+        _statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, null));
+        _statePatternList.Add(typeof(DeadState), new DeadState(this));
 
-        SetStatePattern<ThrowPattern>();
+        SetStatePattern<InitState>();
+
+        //_statePatternList.Add(typeof(ThrowPattern), new ThrowPattern(this));
+
+        //SetStatePattern<ThrowPattern>();
     }
 
-
-    protected override void HitFunc()
+    protected override void Attack(HitData hitInfo)
     {
-        if (!_isHitEffectDelay)
-        {
-            _statePattern.SetState("Hit");
-            _isHitEffectDelay = true;
-        }
+        GameObject obj = Instantiate(bullet, attackBox.position, attackBox.rotation) as GameObject;
+
+        obj.GetComponent<Bullet>().pHitData = pHitData;
     }
+
+
+    //protected override void HitFunc()
+    //{
+    //    if (!_isHitEffectDelay)
+    //    {
+    //        _statePattern.SetState("Hit");
+    //        _isHitEffectDelay = true;
+    //    }
+    //}
 
     public class ThrowPattern : EnemyState
     {
