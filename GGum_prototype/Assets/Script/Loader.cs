@@ -22,7 +22,7 @@ public class Loader : MonoBehaviour {
 
         float speed = Random.Range(0.0f, 2.0f);
         float delay = Random.Range(0.0f, 0.1f);
-        Debug.Log(delay);
+
         while (!async.isDone)
         {
             //_logo.fillAmount = async.progress + 0.1f;
@@ -35,8 +35,10 @@ public class Loader : MonoBehaviour {
             yield return new WaitForSeconds(delay);
 
             speed = Random.Range(0.0f, 2.0f);
-            delay = Random.Range(0.0f, 0.5f);
+            delay = Random.Range(0.0f, 0.1f);
         }
+
+        _logo.transform.parent.gameObject.SetActive(false);
 
         _touchMe.SetActive(true);
 
