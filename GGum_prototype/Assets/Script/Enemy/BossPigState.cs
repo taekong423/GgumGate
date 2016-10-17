@@ -79,6 +79,9 @@ public partial class BossPig {
             _bossPig.OroraActive(true);
             _bossPig.animator.SetTrigger("Hit");
 
+            if (_bossPig._hpBar)
+                _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
+
             _bossPig.isInvincible = true;
             _bossPig._isHide = true;
             _bossPig.m_collider.enabled = false;
