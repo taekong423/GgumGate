@@ -5,9 +5,10 @@ public class Ball : Bullet {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (coll.collider.tag == "DestroyWall")
+        if (coll.collider.tag == "DestroyWall" || coll.collider.tag == "Player")
         {
             Destroy(gameObject);
+            Instantiate(effect, transform.position, Quaternion.identity);
         }
     }
 

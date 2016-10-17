@@ -37,6 +37,11 @@ public class ThrowSquirrel : Enemy {
             NextState("Init");
         }
 
+        public override void SetState(string value)
+        {
+            CurrentState = value;
+        }
+
         IEnumerator InitState()
         {
             Debug.Log("ThrowInit");
