@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
+    public Transform _transform;
+
     private float xMargin = 1f;
     private float yMargin = 1f;
     private float xSmooth = 2f;
@@ -36,6 +38,7 @@ public class CameraController : MonoBehaviour {
 
     void Start()
     {
+        _transform = transform;
         currTarget = GameObject.Find("CameraPoint").transform;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         gameData = GameObject.Find("GameData").GetComponent<GameData>();
@@ -73,22 +76,22 @@ public class CameraController : MonoBehaviour {
 
     void TrackTarget()
     {
-        targetX = transform.position.x;
-        targetY = transform.position.y;
+        targetX = _transform.position.x;
+        targetY = _transform.position.y;
 
         if (CheckXmargin())
         {
-            targetX = Mathf.Lerp(transform.position.x, currTarget.position.x, xSmooth * Time.deltaTime);
+            targetX = Mathf.Lerp(_transform.position.x, currTarget.position.x, xSmooth * Time.deltaTime);
         }
         if (CheckYmargin())
         {
-            targetY = Mathf.Lerp(transform.position.y, currTarget.position.y, ySmooth * Time.deltaTime);
+            targetY = Mathf.Lerp(_transform.position.y, currTarget.position.y, ySmooth * Time.deltaTime);
         }
 
         targetX = Mathf.Clamp(targetX, cameraClamp.xMin, cameraClamp.xMax);
         targetY = Mathf.Clamp(targetY, cameraClamp.yMin, cameraClamp.yMax);
 
-        transform.position = new Vector3(targetX, targetY, transform.position.z);
+        _transform.position = new Vector3(targetX, targetY, _transform.position.z);
     }
 
     void Zooming()
@@ -129,7 +132,7 @@ public class CameraController : MonoBehaviour {
             x = Mathf.Clamp(x, cameraClamp.xMin, cameraClamp.xMax);
             y = Mathf.Clamp(y, cameraClamp.yMin, cameraClamp.yMax);
 
-            transform.position = new Vector3(x, y, transform.position.z);
+            transform.position = new Vector3(x, y, _transform.position.z);
             yield return new WaitForSeconds(shakeFreq);
         }
     }

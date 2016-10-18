@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        /*
         if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour {
                 if (touchCount == 1) Application.Quit();
             }
         }
-
+        */
         if (boss.activeInHierarchy)
         {
             if (boss.GetComponent<Character>()._statePattern.CurrentState == "Dead")
@@ -76,7 +76,6 @@ public class GameManager : MonoBehaviour {
                 zoom = false;
                 StartCoroutine(EngageSquirrel());
             }
-            
         }
 
         if (flags[flagKeys[1]] == true)

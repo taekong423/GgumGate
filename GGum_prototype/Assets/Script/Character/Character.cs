@@ -6,17 +6,16 @@ using System.Collections.Generic;
 
 public class Character : MonoBehaviour {
 
+    [HideInInspector]
+    public Transform _transform;
+
     [Header("Status Setting")]
     public string id;
 
     public int maxHP;
     //[HideInInspector]
     public int currentHP;
-
-    public int maxShield;
-    [HideInInspector]
-    public int currentShield;
-
+    public int shield;
     public int attackDamage;
 
     public float attackSpeed;
@@ -27,25 +26,29 @@ public class Character : MonoBehaviour {
     public bool isStop;
     [HideInInspector]
     public bool onGround;
-    //[HideInInspector]
+    [HideInInspector]
+    public Rigidbody2D m_rigidbody;
+    [HideInInspector]
+    public Collider2D m_collider;
+    [HideInInspector]
+    public StatePattern _statePattern;
+    [HideInInspector]
     public bool isInvincible;
     protected float invincibleTime;
-    protected Rigidbody2D m_rigidbody;
-    protected Collider2D m_collider;
     protected SoundPlayer soundPlayer;
 
-    //[HideInInspector]
-    public StatePattern _statePattern;
+    
 
     public Dictionary<Type, StatePattern> _statePatternList;
 
     [Header("Object Setting")]
     public Transform attackBox;
+    public Transform container;
     public GameObject effect;
     public GameObject bullet;
-    public GameObject container;
     public Animator animator;
-    
+
+    RaycastHit2D hit;
 
     //public bool IsStop { get { return isStop; } set { isStop = value; } }
 
@@ -66,35 +69,37 @@ public class Character : MonoBehaviour {
 
     protected virtual void InitCharacter()
     {
+        _transform = transform;
         currentHP = maxHP;
-        currentShield = maxShield;
         onGround = false;
         isInvincible = false;
         isStop = false;
         m_rigidbody = GetComponent<Rigidbody2D>();
-
         _statePatternList = new Dictionary<Type, StatePattern>();
         soundPlayer = GetComponent<SoundPlayer>();
+        container = _transform.FindChild("Container");
+        attackBox = container.FindChild("AttackBox");
+        animator = GetComponentInChildren<Animator>();
     }
 
     protected void Move(Axis axis, float keyValue)
     {
         if (axis == Axis.Horizontal)
         {
-            transform.Translate(Vector2.right * keyValue * moveSpeed * Time.fixedDeltaTime);
+            _transform.Translate(Vector2.right * keyValue * moveSpeed * Time.fixedDeltaTime);
         }
         else if (axis == Axis.Vertical)
         {
-            transform.Translate(Vector2.up * keyValue * moveSpeed * Time.fixedDeltaTime);
+            _transform.Translate(Vector2.up * keyValue * moveSpeed * Time.fixedDeltaTime);
         }
     }
 
     protected void Flip(float dir)
     {
         if (dir > 0)
-            container.transform.rotation = Quaternion.Euler(0, 0, 0);
+            container.rotation = Quaternion.Euler(0, 0, 0);
         else if (dir < 0)
-            container.transform.rotation = Quaternion.Euler(0, 180, 0);
+            container.rotation = Quaternion.Euler(0, 180, 0);
     }
 
     protected void Jump()
@@ -105,7 +110,9 @@ public class Character : MonoBehaviour {
             m_rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
         else
-            Debug.Log("Null Rigidbody...");
+        {
+            //Debug.Log("Null Rigidbody...");
+        }
     }
 
     protected virtual void Attack(HitData hitInfo) { }
@@ -120,24 +127,24 @@ public class Character : MonoBehaviour {
     {
         if (_statePattern.CurrentState != "Dead" && !isInvincible)
         {
-            int damage = hitInfo.damage;
 
-            CalcDamage(ref currentShield, ref damage);
-
-            if (damage > 0)
+            if (shield > 0)
             {
-                CalcDamage(ref currentHP, ref damage);
-            }
-
-            Debug.Log("Shield = " + currentShield + "  HP = " + currentHP);
-
-            if (currentHP <= 0)
-            {
-                // When Dead
-                _statePattern.SetState("Dead");
+                shield--;
             }
             else
-                HitFunc();
+            {
+                currentHP -= hitInfo.damage;
+
+                if (currentHP <= 0)
+                {
+                    // When Dead
+                    _statePattern.SetState("Dead");
+                }
+                else
+                    HitFunc();
+            }
+            //Debug.Log("Shield = " + currentShield + "  HP = " + currentHP);
         }
     }
 
@@ -172,7 +179,7 @@ public class Character : MonoBehaviour {
 
     protected bool IsGround(Vector2 originPos, float rayLength)
     {
-        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.down, rayLength, LayerMask.GetMask("Ground"));
+        hit = Physics2D.Raycast(originPos, Vector2.down, rayLength, LayerMask.GetMask("Ground"));
         return (hit.collider != null);
     }
 

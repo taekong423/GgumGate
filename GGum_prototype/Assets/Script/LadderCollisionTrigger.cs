@@ -25,17 +25,15 @@ public class LadderCollisionTrigger : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            Debug.LogWarning(0);
             //Physics2D.IgnoreCollision(platformCollider, playerCollider, true);
         }
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            Debug.LogWarning(0);
             Physics2D.IgnoreCollision(platformCollider, playerCollider, false);
         }
     }

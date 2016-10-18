@@ -97,7 +97,6 @@ public partial class Player : Character {
         invincibleTime = 2.0f;
 
         cameraController = Camera.main.GetComponent<CameraController>();
-        animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         soundPlayer = GetComponent<SoundPlayer>();
@@ -166,7 +165,8 @@ public partial class Player : Character {
                 }
                 else if (vAxis == 0 && hAxis != 0)
                 {
-                    _statePattern.SetState("Move");
+                    if (_statePattern.CurrentState != "Move")
+                        _statePattern.SetState("Move");
                     SetTrigger("Run");
                     Move(Axis.Horizontal, hAxis);
                 }
@@ -175,11 +175,13 @@ public partial class Player : Character {
             {
                 if (hAxis == 0)
                 {
-                    _statePattern.SetState("Idle");
+                    if (_statePattern.CurrentState != "Idle")
+                        _statePattern.SetState("Idle");
                 }
                 else
                 {
-                    _statePattern.SetState("Move");
+                    if (_statePattern.CurrentState != "Move")
+                        _statePattern.SetState("Move");
                     Move(Axis.Horizontal, hAxis);
                 }
             }
@@ -364,22 +366,21 @@ public partial class Player : Character {
         {
             if (!canClimb)
             {
-                Debug.Log("OnLadder");
                 canClimb = true;
                 ladder = other.gameObject;
             }
         }
 
-        if (other.gameObject.tag == "Enemy")
+        if (other.CompareTag("Enemy"))
         {
             HitData hitData = other.GetComponent<Enemy>().pHitData;
             OnHit(hitData);
         }
 
-        if (other.gameObject.tag == "Bullet")
+        if (other.CompareTag("Bullet"))
         {
             HitData hitData = other.GetComponent<Bullet>().pHitData;
-            if (hitData.attacker.tag != "Player")
+            if (!hitData.attacker.CompareTag("Player"))
             {
                 OnHit(hitData);
                 other.GetComponent<Bullet>().DestroyBullet(0.0f);
@@ -393,7 +394,6 @@ public partial class Player : Character {
         {
             if (canClimb)
             {
-                Debug.Log("OffLadder");
                 canClimb = false;
                 m_rigidbody.gravityScale = 50;
                 jumpCounter = 0;

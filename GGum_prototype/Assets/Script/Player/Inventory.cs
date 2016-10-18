@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        ApplyEquipable();
+        //ApplyEquipable();
 	}
 
     void ApplyEquipable()
@@ -68,7 +68,7 @@ public class Inventory : MonoBehaviour {
                     player.maxHP += (int)ie.value;
                     break;
                 case EItemEffect.Shield:
-                    player.currentShield += (int)ie.value;
+                    player.shield += (int)ie.value;
                     break;
                 case EItemEffect.AttackDamage:
                     player.attackDamage += (int)ie.value;
@@ -85,7 +85,7 @@ public class Inventory : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Item")
+        if (other.CompareTag("Item"))
         {
             Item item = other.GetComponent<Item>();
             if (item.type == ItemType.Quest)

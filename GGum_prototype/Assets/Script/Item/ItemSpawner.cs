@@ -10,7 +10,7 @@ public class ItemSpawner : MonoBehaviour {
 
     private bool check;
 
-    public string currState;
+    //public string currState;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +20,7 @@ public class ItemSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        currState = character._statePattern.CurrentState;
+        //currState = character._statePattern.CurrentState;
 
         if (character._statePattern.CurrentState == "Dead" && check)
         {
