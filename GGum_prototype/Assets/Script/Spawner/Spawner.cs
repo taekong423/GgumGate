@@ -4,9 +4,13 @@ using System.Collections;
 public abstract class Spawner : MonoBehaviour {
 
 
+    float _currentDelay = 0;
+
     [Header("BaseSetting")]
 	public bool _isAuto = false;
     public bool _isRandomDelay = false;
+
+    public float _startDelay = 0;
 
     public float _minDelay = 0;
     public float _maxDelay = 1.0f;
@@ -21,6 +25,11 @@ public abstract class Spawner : MonoBehaviour {
 
     public abstract void Spawn();
 
+    void Awake()
+    {
+        _currentDelay = _startDelay;
+    }
+
     void OnEnable()
     {
         if(_isAuto)
@@ -29,7 +38,7 @@ public abstract class Spawner : MonoBehaviour {
 
     protected virtual IEnumerator SpawnUpdate()
     {
-        float currentDelay = 0;
+        
 
         int spawnCount = 0;
 
@@ -37,15 +46,15 @@ public abstract class Spawner : MonoBehaviour {
 
         while (isLoop)
         {
-            if (currentDelay <= 0)
+            if (_currentDelay <= 0)
             {
 
                 Spawn();
 
                 if (_isRandomDelay)
-                    currentDelay = Random.Range(_minDelay, _maxDelay);
+                    _currentDelay = Random.Range(_minDelay, _maxDelay);
                 else
-                    currentDelay = _spawnDelay;
+                    _currentDelay = _spawnDelay;
 
                 if (_spawnNum != 0)
                 {
@@ -58,7 +67,7 @@ public abstract class Spawner : MonoBehaviour {
 
             }
             else
-                currentDelay -= Time.deltaTime;
+                _currentDelay -= Time.deltaTime;
 
             yield return null;
         }
