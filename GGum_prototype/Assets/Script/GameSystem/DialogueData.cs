@@ -20,7 +20,7 @@ public class ContentData
 
     [TextArea(3, 5)]
     public string _content;
-
+    public string _imgName;
     public ButtonData[] _buttonData;
 
 }
@@ -38,5 +38,10 @@ public class DialogueData : MonoBehaviour {
             return "No Content";
 
         return _contents[index]._content;
+    }
+
+    public string GetIMGName(int index)
+    {
+        return _contents[index]._imgName;
     }
 }

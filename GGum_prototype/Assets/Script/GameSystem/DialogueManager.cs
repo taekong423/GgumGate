@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviour {
 
     Player _player;
 
+    GameObject _currentImg;
+
     public bool _useDelay;
 
     public float _secondsBetweenCharacters = 0.15f;
@@ -100,6 +102,20 @@ public class DialogueManager : MonoBehaviour {
             DialogueSetActive(false);
             return;
         }
+
+        if (_currentImg != null)
+            _currentImg.SetActive(false);
+
+        string imgName = _currentDialogueData.GetIMGName(index);
+
+        GameObject img = _dialogueUI.transform.FindChild(imgName).gameObject;//.GetComponent<Image>();
+
+        if (img != null)
+        {
+            img.SetActive(true);
+            _currentImg = img;
+        }
+
         _dialogueText.text = _currentDialogueData.GetContentText(index);
 
         _contentIndex++;
@@ -125,6 +141,19 @@ public class DialogueManager : MonoBehaviour {
 
             _dialogueText.text = "";
 
+            if (_currentImg != null)
+                _currentImg.SetActive(false);
+
+            string imgName = _currentDialogueData.GetIMGName(index);
+
+            GameObject img = _dialogueUI.transform.FindChild(imgName).gameObject;//.GetComponent<Image>();
+
+            if (img != null)
+            {
+                img.SetActive(true);
+                _currentImg = img;
+            }
+
             while (textIndex < text.Length)
             {
 
@@ -142,7 +171,7 @@ public class DialogueManager : MonoBehaviour {
 
                 yield return new WaitForSeconds(_secondsBetweenCharacters);
             }
-
+           
             _displaying = false;
             _contentIndex++;
         }
