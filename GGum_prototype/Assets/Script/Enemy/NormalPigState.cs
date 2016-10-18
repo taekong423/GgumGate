@@ -135,8 +135,6 @@ public partial class NormalPig {
 
         protected virtual IEnumerator DeadState()
         {
-            Debug.Log("Dead");
-
             _pig.isInvincible = true;
             _pig.GetComponent<BoxCollider2D>().enabled = false;
 

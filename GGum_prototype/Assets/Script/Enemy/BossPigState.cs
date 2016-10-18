@@ -29,7 +29,6 @@ public partial class BossPig {
 
         public override void SetState(string value)
         {
-            Debug.Log("bosspig : " + value);
             SetState<Stat>(ref _state, value);
         }
 
@@ -316,7 +315,6 @@ public partial class BossPig {
 
         public override void StateLog()
         {
-            Debug.Log(CurrentState);
         }
 
         IEnumerator InitState()
@@ -494,7 +492,6 @@ public partial class BossPig {
 
         public override void StateLog()
         {
-            Debug.Log("CurrentState : "+CurrentState);
         }
 
         IEnumerator InitState()

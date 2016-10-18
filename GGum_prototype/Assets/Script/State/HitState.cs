@@ -15,7 +15,6 @@ public class HitState : EnemyState {
 
     protected override IEnumerator Enter()
     {
-        Debug.Log("Hit");
         _enemy.SoundPlay("Hit");
         _enemy.animator.SetTrigger("Hit");
         _enemy._isHitEffectDelay = true;

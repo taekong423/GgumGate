@@ -10,8 +10,6 @@ public class DeadState : EnemyState {
 
     protected override IEnumerator Enter()
     {
-        Debug.Log("DeadEnter");
-
         _enemy.isInvincible = true;
         _enemy.GetComponent<BoxCollider2D>().enabled = false;
 

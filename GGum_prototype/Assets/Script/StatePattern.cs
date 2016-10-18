@@ -33,7 +33,6 @@ public class StatePattern {
 
     public virtual void SetState(string value)
     {
-        Debug.Log("StatePattern : " + value);
         CurrentState = value;
     }
 

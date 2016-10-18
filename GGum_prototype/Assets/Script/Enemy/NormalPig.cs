@@ -90,7 +90,6 @@ public partial class NormalPig : Enemy {
 
             if (_deathNum >= 4)
             {
-                Debug.Log("Child OnHIt");
                 _deathNum = 0;
 
                 int damage = (int)((float)_boss.maxHP * 0.1f);

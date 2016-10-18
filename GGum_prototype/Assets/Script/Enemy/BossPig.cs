@@ -208,8 +208,6 @@ public partial class BossPig : Enemy {
 
     public void ChildOnHit(HitData hitdata)
     {
-        Debug.Log("Damage : " + hitdata.damage);
-
         isInvincible = false;
 
         if (_isHide)

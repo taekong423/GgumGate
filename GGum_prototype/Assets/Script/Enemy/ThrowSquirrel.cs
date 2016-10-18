@@ -59,7 +59,6 @@ public class ThrowSquirrel : Enemy {
 
         IEnumerator InitState()
         {
-            Debug.Log("ThrowInit");
             SetState("Idle");
             _enemy.GetComponent<BoxCollider2D>().enabled = true;
 
@@ -71,8 +70,6 @@ public class ThrowSquirrel : Enemy {
 
         IEnumerator IdleState()
         {
-            Debug.Log("ThrowIdle");
-
             _enemy.animator.SetTrigger("Idle");
 
             yield return null;
@@ -119,7 +116,6 @@ public class ThrowSquirrel : Enemy {
 
             yield return null;
 
-            Debug.Log("ThrowEnd");
             NextState(CurrentState);
         }
 

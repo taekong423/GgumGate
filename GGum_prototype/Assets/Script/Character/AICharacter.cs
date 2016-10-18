@@ -5,6 +5,10 @@ public class AICharacter : Character {
 
     int addNum = 1;
 
+    float _distance;
+    float _directionX;
+    Vector3 _direction;
+
     protected HitData _hitData;
 
     [Header("AI Setting")]
@@ -61,16 +65,16 @@ public class AICharacter : Character {
     public bool GoToTarget(Vector3 targetPoint)
     {
 
-        float dist = Vector3.Distance(targetPoint, transform.position);
+        _distance = (targetPoint - transform.position).sqrMagnitude; //Vector3.Distance(targetPoint, transform.position);
 
-        if (dist <= 15.0f)
+        if (_distance <= 15.0f*15.0f)
             return true;
 
-        Vector3 dir = targetPoint - transform.position;
-        float dirX = dir.x / Mathf.Abs(dir.x);
+        _direction = targetPoint - transform.position;
+        _directionX = _direction.x / Mathf.Abs(_direction.x);
 
-        Move(Axis.Horizontal, dirX);
-        Flip(dirX);
+        Move(Axis.Horizontal, _directionX);
+        Flip(_directionX);
 
         return false;
     }

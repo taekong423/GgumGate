@@ -34,7 +34,6 @@ public partial class Squirrel{
 
         public override void StateLog()
         {
-            Debug.Log("Current State : " + _state.ToString());
         }
 
         public override void SetState(string value)

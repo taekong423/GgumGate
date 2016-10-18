@@ -94,7 +94,6 @@ public class DialogueManager : MonoBehaviour {
 
     void SetDIalogueText(int index)
     {
-        Debug.Log("AllSet");
         if (index >= _currentDialogueData._contents.Length)
         {
             _contentIndex = 0;

@@ -20,7 +20,6 @@ public class AnimationController : MonoBehaviour {
 
     public void SetState(string setState)
     {
-        Debug.Log("AnimationController : " + setState);
         _character._statePattern.SetState(setState);
     }
 

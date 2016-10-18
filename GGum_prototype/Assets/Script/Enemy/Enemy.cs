@@ -13,14 +13,14 @@ public partial class Enemy : AICharacter {
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Bullet")
+        if (other.CompareTag("Bullet"))
         {
             if (isInvincible)
                 return;
 
             HitData hitdata = other.GetComponent<Bullet>().pHitData;
 
-            if (hitdata.attacker.tag == "Enemy")
+            if (hitdata.attacker.CompareTag("Enemy"))
                 return;
             OnHit(hitdata);
 
