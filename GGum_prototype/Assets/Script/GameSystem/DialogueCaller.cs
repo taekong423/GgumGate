@@ -8,6 +8,8 @@ public class DialogueCaller : MonoBehaviour {
 
     bool _isEnter;
 
+    bool _autoPlay = false;
+
     public bool _isAuto = false;
 
     public string _dialogueID;
@@ -47,28 +49,24 @@ public class DialogueCaller : MonoBehaviour {
             {
                 if (!_dm.DialogueActive)
                 {
-                    if(!_dm.Displaying)
+                    if (!_dm.Displaying && !_autoPlay)
+                    {
+                        _autoPlay = true;
                         _dm.DisplayDialogue(_dialogueID);
+                    }
                 }
-                else
-                {
-                    _dm.NextContent();
-                }
+
 
             }
             else
             {
 
-                if (GameController.ButtonDown(EButtonCode.Attack))
+                if (GameController.ButtonPress(EButtonCode.Attack))
                 {
                     if (!_dm.DialogueActive)
                     {
                         if (!_dm.Displaying)
                             _dm.DisplayDialogue(_dialogueID);
-                    }
-                    else
-                    {
-                       
                     }
 
                 }
