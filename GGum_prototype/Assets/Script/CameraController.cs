@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour {
     private float xSmooth = 2f;
     private float ySmooth = 2f;
 
-    private CameraClamp cameraClamp;
+    public CameraClamp cameraClamp;
     
     private float targetX;
     private float targetY;

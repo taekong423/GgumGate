@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviour {
         currentStageNumber = stageNumber;
         player.transform.position = playerRespawnPos;
         Camera.main.transform.position = new Vector3(1080, 0, Camera.main.transform.position.z);
+        cameraController.cameraClamp = gameData.cameraClamp[currentStageNumber];
         lastStage.transform.position = new Vector2(1000, -1000);
         lastStage.SetActive(false);
         stages[stageNumber].transform.position = new Vector2(1000, 0);
@@ -155,6 +156,7 @@ public class GameManager : MonoBehaviour {
         currentStageNumber--;
         player.transform.position = gameData.entrancePositions[currentStageNumber].exit;
         Camera.main.transform.position = new Vector3(gameData.entrancePositions[currentStageNumber].exit.x, gameData.entrancePositions[currentStageNumber].exit.y, Camera.main.transform.position.z);
+        cameraController.cameraClamp = gameData.cameraClamp[currentStageNumber];
         lastStage.transform.position = new Vector2(1000, -1000);
         lastStage.SetActive(false);
         stages[currentStageNumber].transform.position = new Vector2(1000, 0);
