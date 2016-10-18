@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour {
 	void Start () {
         player = GetComponent<Player>();
         questItems = new Dictionary<ItemData, int>();
+        questItems.Add(new ItemData(1, "Fragment"), 0);
         equipableItems = new Dictionary<ItemData, List<ItemEffect>>();
 	}
 	
