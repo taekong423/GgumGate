@@ -432,7 +432,13 @@ public partial class BossPig {
 
             _bossPig.transform.position = hit.point;
 
+            if (_bossPig._WarringImg != null)
+                _bossPig._WarringImg.SetActive(true);
+
             yield return new WaitForSeconds(0.5f);
+
+            if (_bossPig._WarringImg != null)
+                _bossPig._WarringImg.SetActive(false);
 
             _bossPig.isInvincible = false;
             _bossPig._isHide = false;

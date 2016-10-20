@@ -29,6 +29,8 @@ public partial class BossPig : Enemy {
     public GameObject[] _ororas;
     public Image _hpBar;
 
+    public GameObject _WarringImg;
+
     public int ChildPigNum { get { return _childPigNum; } set { _childPigNum = value; } }
 
     protected override void InitCharacter()
