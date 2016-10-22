@@ -9,8 +9,8 @@ public class ThrowSquirrel : Enemy {
         base.InitCharacter();
 
         _statePatternList.Add(typeof(InitState), new InitState(this));
-        _statePatternList.Add(typeof(IdleState), new IdleState(this, null));
-        _statePatternList.Add(typeof(MoveState), new AttackState(this, null));
+        _statePatternList.Add(typeof(IdleState), new ThrowIdleState(this));
+        _statePatternList.Add(typeof(AttackState), new ThrowState(this));
         _statePatternList.Add(typeof(HitState), new HitState(this, 1.5f, 0.5f, null));
         _statePatternList.Add(typeof(DeadState), new DeadState(this));
 
@@ -26,6 +26,74 @@ public class ThrowSquirrel : Enemy {
         GameObject obj = Instantiate(bullet, attackBox.position, attackBox.rotation) as GameObject;
 
         obj.GetComponent<Bullet>().pHitData = pHitData;
+    }
+
+    public class ThrowIdleState : IdleState
+    {
+        public ThrowIdleState(Enemy enemy) : base(enemy, null)
+        {
+
+        }
+
+        protected override IEnumerator Execute()
+        {
+            while (_enemy._statePattern is IdleState)
+            {
+                if (_delay <= 0)
+                {
+                    _enemy.SetStatePattern<AttackState>();
+                    _delay = _enemy._attackDelay;
+                }
+                else
+                {
+                    _delay -= Time.deltaTime;
+                }
+
+                yield return null;
+            }
+
+            yield return null;
+        }
+
+    }
+
+
+    public class ThrowState : AttackState
+    {
+        public ThrowState(Enemy enemy) : base(enemy, null)
+        {
+        }
+
+        protected override IEnumerator Enter()
+        {
+            _enemy.animator.SetTrigger("Attack");
+
+            animTime = _enemy.animator.GetCurrentAnimatorStateInfo(0).length;
+
+            yield return null;
+        }
+
+        protected override IEnumerator Execute()
+        {
+            float delay = 0.0f;
+
+            while (_enemy._statePattern is AttackState)
+            {
+                delay += Time.deltaTime;
+
+                if (delay > animTime + 0.2f)
+                {
+                    _enemy.OnAttack();
+                    _enemy.SetStatePattern<IdleState>();
+                    break;                    
+                }
+
+                yield return null;
+            }
+
+            yield return null;
+        }
+
     }
 
 

@@ -19,7 +19,7 @@ public class AttackState : EnemyState {
                 _enemy._currentAttackDelay = 0.0f;
                 _enemy.animator.SetTrigger("Attack");
                 animTime = _enemy.animator.GetCurrentAnimatorStateInfo(0).length;
-
+                Debug.Log(animTime);
                 break;
             }
             else

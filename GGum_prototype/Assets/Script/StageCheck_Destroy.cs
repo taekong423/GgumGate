@@ -15,9 +15,12 @@ public class StageCheck_Destroy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (!_gm.stages[_gm.currentStageNumber].name.Equals(_stageName))
+        if (_gm != null)
         {
-            Destroy(gameObject);
+            if (!_gm.stages[_gm.currentStageNumber].name.Equals(_stageName))
+            {
+                Destroy(gameObject);
+            }
         }
 
 	}
