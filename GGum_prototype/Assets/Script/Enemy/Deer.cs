@@ -120,6 +120,8 @@ public partial class Deer : Enemy {
     {
         Deer _deer;
 
+        bool _onAttack = false;
+
         public DeerAttackState(Enemy enemy, Searchable searchable) : base(enemy, searchable)
         {
             _deer = enemy as Deer;
@@ -131,6 +133,7 @@ public partial class Deer : Enemy {
 
             while (_enemy._currentAttackDelay <= _enemy._attackDelay && !(_enemy._statePattern is DeadState))
             {
+                Debug.Log("EnterLoop");
                 _enemy._currentAttackDelay += Time.deltaTime;
 
                 yield return null;
@@ -140,6 +143,8 @@ public partial class Deer : Enemy {
             {
                 _enemy.animator.SetTrigger("Attack");
                 _enemy._currentAttackDelay = 0.0f;
+
+                _onAttack = true;
 
                 foreach (GameObject lighningRod in _deer._lightningRods)
                 {
@@ -157,11 +162,12 @@ public partial class Deer : Enemy {
 
         protected override IEnumerator Execute()
         {
-            while (_deer.AttackCount <= 3 && !(_enemy._statePattern is DeadState))
+            while (_onAttack && _deer.AttackCount <= 3 && !(_enemy._statePattern is DeadState))
             {
 
                 if (_deer.AttackCount >= 3)
                 {
+                    _onAttack = false;
                     _deer.AttackCount = 0;
                     _enemy.animator.SetTrigger("StandReady");
                     _enemy.StartCoroutine(AttackDelay());
