@@ -52,14 +52,13 @@ Temporary Items
 # Unity generated #
 
 # =============== #
+Temp/
 
-GGum_prototype/Temp/
+Obj/
 
-GGum_prototype/Obj/
+UnityGenerated/
 
-GGum_prototype/UnityGenerated/
-
-GGum_prototype/Library/
+Library/
 
 
 
@@ -112,3 +111,4 @@ Icon?
 ehthumbs.db
 
 Thumbs.db
+
