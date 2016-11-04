@@ -41,6 +41,19 @@ public enum EItemEffect
     MoveSpeed,
 }
 
+public enum SpeechType
+{
+    Pet,
+    Player,
+}
+
+[System.Serializable]
+public struct SpeechData
+{
+    public SpeechType type;
+    public string text;
+}
+
 public struct HitData
 {
     public GameObject attacker;
