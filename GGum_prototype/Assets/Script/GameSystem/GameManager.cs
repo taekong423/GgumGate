@@ -141,7 +141,9 @@ public class GameManager : MonoBehaviour {
         lastStage.SetActive(false);
         stages[stageNumber].transform.position = new Vector2(1000, 0);
         stages[stageNumber].SetActive(true);
-        
+
+        Global.shared<SoundManager>().ChangeBGM(stages[stageNumber].name);
+
         yield return new WaitForSeconds(0.5f);
         screen.FadeOut();
         player.isStop = false;
@@ -161,6 +163,8 @@ public class GameManager : MonoBehaviour {
         lastStage.SetActive(false);
         stages[currentStageNumber].transform.position = new Vector2(1000, 0);
         stages[currentStageNumber].SetActive(true);
+
+        Global.shared<SoundManager>().ChangeBGM(stages[currentStageNumber].name);
 
         yield return new WaitForSeconds(0.5f);
         screen.FadeOut();

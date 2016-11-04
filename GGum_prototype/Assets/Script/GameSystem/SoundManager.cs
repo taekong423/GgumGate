@@ -6,7 +6,19 @@ public class SoundManager : MonoBehaviour {
 
     public AudioMixer mixer;
 
-    
+    public SoundPlayer BGM;
+
+    void Start()
+    {
+        Global.shared<SoundManager>(this);
+    }
+
+    public void ChangeBGM(string clipName)
+    {
+        if(BGM != null)
+            BGM.Play(clipName);
+    }
+
     public void SetMasterVolume(float volume)
     {
         mixer.SetFloat("Master", volume);
