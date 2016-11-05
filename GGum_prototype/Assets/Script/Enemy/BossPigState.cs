@@ -77,9 +77,9 @@ public partial class BossPig {
 
             _bossPig.OroraActive(true);
             _bossPig.animator.SetTrigger("Hit");
-
-            if (_bossPig._hpBar)
-                _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
+            BossHPBar.Conceal();
+            //if (_bossPig._hpBar)
+            //    _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
 
             _bossPig.isInvincible = true;
             _bossPig._isHide = true;
@@ -116,8 +116,9 @@ public partial class BossPig {
 
             _bossPig.SetOrora(0);
             _bossPig.OroraActive(true);
-            if (_bossPig._hpBar)
-                _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
+            BossHPBar.Display(_bossPig);
+            //if (_bossPig._hpBar)
+            //    _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
 
             yield return null;
 
@@ -160,8 +161,9 @@ public partial class BossPig {
             _bossPig.moveSpeed = _bossPig._baseMoveSpeed;
             _bossPig.SetOrora(0);
             _bossPig.OroraActive(true);
-            if (_bossPig._hpBar)
-                _bossPig._hpBar.transform.parent.gameObject.SetActive(true);
+            BossHPBar.Display(_bossPig);
+            //if (_bossPig._hpBar)
+            //    _bossPig._hpBar.transform.parent.gameObject.SetActive(true);
 
             yield return null;
 

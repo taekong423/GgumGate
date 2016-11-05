@@ -52,16 +52,16 @@ public partial class BossPig : Enemy {
         SetStatePattern<Pattern0>();
     }
 
-    void Update()
-    {
-        if (_hpBar != null)
-        {
-            if (_hpBar.transform.parent.gameObject.activeSelf)
-            {
-                _hpBar.fillAmount = (float)currentHP / (float)maxHP;
-            }
-        }
-    }
+    //void Update()
+    //{
+    //    if (_hpBar != null)
+    //    {
+    //        if (_hpBar.transform.parent.gameObject.activeSelf)
+    //        {
+    //            _hpBar.fillAmount = (float)currentHP / (float)maxHP;
+    //        }
+    //    }
+    //}
 
     bool HasPigs(string pigName)
     {
