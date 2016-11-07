@@ -81,6 +81,8 @@ public partial class BossPig {
             //if (_bossPig._hpBar)
             //    _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
 
+            Global.shared<SoundManager>().ChangeBGM("Stage-000");
+
             _bossPig.isInvincible = true;
             _bossPig._isHide = true;
             _bossPig.m_collider.enabled = false;
@@ -119,6 +121,8 @@ public partial class BossPig {
             BossHPBar.Display(_bossPig);
             //if (_bossPig._hpBar)
             //    _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
+
+            Global.shared<SoundManager>().ChangeBGM("BossMode");
 
             yield return null;
 
@@ -164,6 +168,8 @@ public partial class BossPig {
             BossHPBar.Display(_bossPig);
             //if (_bossPig._hpBar)
             //    _bossPig._hpBar.transform.parent.gameObject.SetActive(true);
+
+            Global.shared<SoundManager>().ChangeBGM("BossMode");
 
             yield return null;
 
