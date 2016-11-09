@@ -33,6 +33,8 @@ public partial class ExplosionPig
             _pig.isInvincible = true;
             _pig.GetComponent<BoxCollider2D>().enabled = false;
 
+            _pig._boss.NumChild--;
+
             if (!_isExplosion)
             {
                 _pig.Dead();

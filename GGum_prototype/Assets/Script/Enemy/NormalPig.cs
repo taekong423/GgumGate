@@ -4,7 +4,7 @@ using System.Collections;
 
 public partial class NormalPig : Enemy {
 
-    bool _isSet = false;
+    protected bool _isSet = false;
 
     [HideInInspector]
     public BossPig _boss;
@@ -85,7 +85,7 @@ public partial class NormalPig : Enemy {
         if (_boss != null)
         {
             _deathNum++;
-            _boss.ChildPigNum--;
+            _boss.NumChild--;
 
 
             if (_deathNum >= 4)

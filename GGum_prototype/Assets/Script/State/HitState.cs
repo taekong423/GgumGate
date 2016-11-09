@@ -3,8 +3,8 @@ using System.Collections;
 
 public class HitState : EnemyState {
 
-    float _keepTime;
-    float _delay;
+    protected float _keepTime;
+    protected float _delay;
 
     public HitState(Enemy enemy, float keepTime, float delay, Searchable searchable) : base(enemy, searchable)
     {
@@ -53,3 +53,51 @@ public class HitState : EnemyState {
         _enemy._isHitEffectDelay = false;
     }
 }
+
+
+//    protected IEnumerator HitState()
+//    {
+//        _bossPig.SoundPlay("Hit");
+//        _bossPig.animator.SetTrigger("Hit");
+//        _bossPig.OroraActive(true);
+//        _bossPig.isInvincible = false;
+//        _bossPig._isHide = false;
+//        _bossPig.m_collider.enabled = true;
+
+//        yield return new WaitForSeconds(1.0f);
+
+//        SetState("Idle");
+
+//        yield return null;
+
+//        NextState(_state.ToString());
+//    }
+
+
+//    protected IEnumerator DeadState()
+//    {
+//        _bossPig.ChildAllDead();
+
+//        _bossPig.OroraActive(true);
+//        _bossPig.animator.SetTrigger("Hit");
+//        BossHPBar.Conceal();
+//        //if (_bossPig._hpBar)
+//        //    _bossPig._hpBar.transform.parent.gameObject.SetActive(false);
+
+//        Global.shared<SoundManager>().ChangeBGM("Stage-000");
+
+//        _bossPig.isInvincible = true;
+//        _bossPig._isHide = true;
+//        _bossPig.m_collider.enabled = false;
+
+//        yield return new WaitForSeconds(0.5f);
+
+//        _camera.ShakeCamera(1.0f);
+//        _bossPig.animator.SetTrigger("Hide");
+
+//        yield return new WaitForSeconds(1.0f);
+
+//        _bossPig.gameObject.SetActive(false);
+
+//    }
+//}

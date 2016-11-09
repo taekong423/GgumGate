@@ -5,33 +5,34 @@ using System.Collections.Generic;
 
 public partial class BossPig : Enemy {
 
-    
     CameraController _camera;
 
-    int _childPigNum = 0;
+    int _numChild = 0;
+    int _numPattern = 0;
+
 
     float _baseMoveSpeed;
 
-    public bool _isHide = false;
-
     Vector3 _baseSize;
 
-    List<GameObject> _normalPigs;
-    List<GameObject> _explosionPigs;
+    bool _isHide = false;
 
     GameObject _currentOrora;
+
+    List<GameObject> _normalPigList;
+    List<GameObject> _explosionPigList;
+
+    [Header("BossPig Object Setting")]
+    public Transform _centerPivot;
 
     public GameObject _normalPig;
     public GameObject _explosionPig;
 
-    public Transform _centerPivot;
-        
     public GameObject[] _ororas;
-    public Image _hpBar;
 
-    public GameObject _WarringImg;
+    public GameObject _warringImg;
 
-    public int ChildPigNum { get { return _childPigNum; } set { _childPigNum = value; } }
+    public int NumChild { get { return _numChild; } set { _numChild = value; } }
 
     protected override void InitCharacter()
     {
@@ -39,29 +40,41 @@ public partial class BossPig : Enemy {
 
         isInvincible = true;
         _baseMoveSpeed = moveSpeed;
-        _baseSize = transform.localScale;
+        _baseSize = _transform.localScale;
 
-        _normalPigs = new List<GameObject>();
-        _explosionPigs = new List<GameObject>();
+        _normalPigList = new List<GameObject>();
+        _explosionPigList = new List<GameObject>();
         m_collider = GetComponent<BoxCollider2D>();
 
-        _statePatternList.Add(typeof(Pattern0), new Pattern0(this));
-        _statePatternList.Add(typeof(Pattern1), new Pattern1(this));
-        _statePatternList.Add(typeof(Pattern2), new Pattern2(this));
+        _camera = Camera.main.GetComponent<CameraController>();
 
-        SetStatePattern<Pattern0>();
+        _statePatternList.Add(typeof(InitState), new BossPig_InitState(this));
+        _statePatternList.Add(typeof(IdleState), new BossPig_IdleState(this));
+        _statePatternList.Add(typeof(MoveState), new BossPig_MoveState(this));
+        _statePatternList.Add(typeof(HitState), new BossPig_HitState(this, 0.5f));
+        _statePatternList.Add(typeof(DeadState), new BossPig_DeadState(this));
+        _statePatternList.Add(typeof(AttackState), new BossPig_Attack0State(this));
+        _statePatternList.Add(typeof(BossPig_Attack1State), new BossPig_Attack1State(this));
+
+        SetStatePattern<InitState>();
+
     }
 
-    //void Update()
-    //{
-    //    if (_hpBar != null)
-    //    {
-    //        if (_hpBar.transform.parent.gameObject.activeSelf)
-    //        {
-    //            _hpBar.fillAmount = (float)currentHP / (float)maxHP;
-    //        }
-    //    }
-    //}
+
+    IEnumerator Hide()
+    {
+        _camera.ShakeCamera(1.0f);
+
+        yield return new WaitForSeconds(0.5f);
+
+        _isHide = true;
+        isInvincible = true;
+        m_collider.enabled = false;
+        OroraActive(false);
+        animator.SetTrigger("Hide");
+
+        yield return new WaitForSeconds(0.5f);
+    }
 
     bool HasPigs(string pigName)
     {
@@ -69,13 +82,13 @@ public partial class BossPig : Enemy {
         {
             case "NormalPig":
 
-                if (_normalPig !=null && _normalPigs.Count > 0)
+                if (_normalPig != null && _normalPigList.Count > 0)
                     return true;
                 break;
 
             case "ExplosionPig":
 
-                if (_normalPig != null && _explosionPigs.Count > 0)
+                if (_normalPig != null && _explosionPigList.Count > 0)
                     return true;
                 break;
         }
@@ -90,30 +103,30 @@ public partial class BossPig : Enemy {
             case "NormalPig":
 
                 if (HasPigs("NormalPig"))
-                    return _normalPigs.Find(x => x.activeSelf == false);
+                    return _normalPigList.Find(x => x.activeSelf == false);
                 break;
 
             case "ExplosionPig":
 
                 if (HasPigs("ExplosionPig"))
-                    return _explosionPigs.Find(x => x.activeSelf == false);
+                    return _explosionPigList.Find(x => x.activeSelf == false);
                 break;
         }
 
         return null;
     }
 
-    public void SetOrora(int num)
+    void SetOrora(int num)
     {
         _currentOrora = _ororas[num];
     }
 
-    public void OroraActive(bool active)
+    void OroraActive(bool active)
     {
         _currentOrora.SetActive(active);
     }
 
-    public void SpawNormalPig()
+    void SpawNormalPig()
     {
         for (int i = 0; i < 4; i++)
         {
@@ -124,7 +137,7 @@ public partial class BossPig : Enemy {
             {
                 GameObject obj = Instantiate(_normalPig, transform.position, Quaternion.identity) as GameObject;
                 obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
-                _normalPigs.Add(obj);
+                _normalPigList.Add(obj);
                 obj.SetActive(true);
             }
             else
@@ -133,11 +146,11 @@ public partial class BossPig : Enemy {
                 pig.SetActive(true);
             }
 
-            _childPigNum++;
+            NumChild++;
         }
     }
 
-    public void RandomSpawnPig()
+    void RandomSpawnPig()
     {
         int pigkind;
 
@@ -157,7 +170,7 @@ public partial class BossPig : Enemy {
                     {
                         GameObject obj = Instantiate(_normalPig, transform.position, Quaternion.identity) as GameObject;
                         obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
-                        _normalPigs.Add(obj);
+                        _normalPigList.Add(obj);
                         obj.SetActive(true);
                     }
                     else
@@ -176,7 +189,7 @@ public partial class BossPig : Enemy {
                     {
                         GameObject obj = Instantiate(_explosionPig, transform.position, Quaternion.identity) as GameObject;
                         obj.GetComponent<NormalPig>().Setting(this, _wayPoints, _centerPivot);
-                        _explosionPigs.Add(obj);
+                        _explosionPigList.Add(obj);
                         obj.SetActive(true);
                     }
                     else
@@ -188,20 +201,20 @@ public partial class BossPig : Enemy {
 
             }
 
-            _childPigNum++;
+            NumChild++;
         }
-        
+
     }
 
-    public void ChildAllDead()
+    void ChildAllDead()
     {
-        foreach (GameObject pig in _normalPigs)
+        foreach (GameObject pig in _normalPigList)
         {
             if (pig.activeSelf == true)
                 pig.GetComponent<Enemy>()._statePattern.SetState("Dead");
         }
 
-        foreach (GameObject pig in _explosionPigs)
+        foreach (GameObject pig in _explosionPigList)
         {
             if (pig.activeSelf == true)
                 pig.GetComponent<Enemy>()._statePattern.SetState("Dead");
@@ -217,9 +230,9 @@ public partial class BossPig : Enemy {
             OnHit(hitdata);
             if (_statePattern.CurrentState == "Idle" || _statePattern.CurrentState == "Move")
             {
-                _statePattern.SetState("Hit");
+                SetStatePattern<HitState>();
             }
-            
+
         }
         else
             OnHit(hitdata);
@@ -227,6 +240,18 @@ public partial class BossPig : Enemy {
 
     protected override void HitFunc()
     {
-        _statePattern.HitFunc();
+        if (_numPattern == 0 && currentHP <= maxHP * 0.5f)
+        {
+            OroraActive(false);
+            _numPattern++;
+            moveSpeed *= 6;
+            _moveDelay = 3;
+            SetOrora(_numPattern);
+            _transform.localScale -= _baseSize * 0.3f;
+            StopAllCoroutines();
+            SetStatePattern<BossPig_Attack1State>();
+            _statePattern.StartState();
+        }
+
     }
 }

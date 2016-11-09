@@ -15,18 +15,28 @@ public partial class ExplosionPig : NormalPig {
         {
             _statePattern.StartState();
         }
+
+        if (_isSet)
+            Sprinkle();
+
         StartCoroutine(Explosion());
 
     }
 
     public override void Dead()
     {
-        if (!_isExplosion)
-            return;
-        GameObject obj = Instantiate(_explosionPrefab, transform.position, Quaternion.identity) as GameObject;
-        obj.GetComponent<Explosion>().pHitData = pHitData;
-        SetStatePattern<InitState>();
-        gameObject.SetActive(false);
+        if (_isExplosion)
+        {
+            _boss.NumChild--;
+            GameObject obj = Instantiate(_explosionPrefab, transform.position, Quaternion.identity) as GameObject;
+            obj.GetComponent<Explosion>().pHitData = pHitData;
+            SetStatePattern<InitState>();
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            base.Dead();
+        }
     }
 
     //protected override void InitCharacter()
@@ -50,8 +60,8 @@ public partial class ExplosionPig : NormalPig {
 
             if (delay <= 0)
             {
-                SetStatePattern<DeadState>();
                 _isExplosion = true;
+                SetStatePattern<DeadState>();
             }
             else
                 delay -= Time.deltaTime;
