@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour {
     int touchCount;
     bool isTouching;
 
+    Tip tip;
+
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour {
         currentStageNumber = 0;
         playerRespawnPos = new Vector2(1000, 0);
         touchCount = 0;
+        tip = GameObject.Find("Tip").GetComponent<Tip>();
     }
 	
 	// Update is called once per frame
@@ -112,6 +115,10 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EngageSquirrel()
     {
+        tip.ShowTip("팁1");
+        tip.ShowTip("팁2");
+        tip.ShowTip("팁3");
+
         player.isStop = true;
         cameraController.ZoomIn(squirrel.transform);
         yield return new WaitForSeconds(2.5f);

@@ -94,3 +94,8 @@ public struct CameraClamp
     public float yMin;
     public float yMax;
 }
+
+public class CommonFunction
+{
+
+}
