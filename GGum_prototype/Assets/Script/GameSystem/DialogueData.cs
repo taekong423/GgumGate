@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class EndEvent : UnityEvent { }
 
 public enum DialogueButtonType
 {
@@ -27,16 +30,21 @@ public class ContentData
 
 public class DialogueData : MonoBehaviour {
 
+    bool _isEnd;
+
     public string _ID;
 
     public ContentData[] _contents;
 
+    public EndEvent _endEvent;
+
+    public bool IsEnd { get { return _isEnd; } set { _isEnd = value; } }
 
     public string GetContentText(int index)
     {
         if (_contents.Length <= 0)
             return "No Content";
-
+        
         return _contents[index]._content;
     }
 
@@ -44,4 +52,10 @@ public class DialogueData : MonoBehaviour {
     {
         return _contents[index]._imgName;
     }
+
+    public void CallEndEvent()
+    {
+        _endEvent.Invoke();
+    }
+
 }

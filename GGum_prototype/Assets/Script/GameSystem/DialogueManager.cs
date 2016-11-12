@@ -33,54 +33,15 @@ public class DialogueManager : MonoBehaviour {
     public bool Displaying { get { return _displaying; } set { _displaying = value; } }
 
 
+    public bool _isEnd = false;
+
     void Awake()
     {
         _player = GameObject.FindObjectOfType<Player>();
         _dialogueDatas = Resources.LoadAll<DialogueData>("Prefab/Dialogue");
     }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        //if (GameButton.ButtonDown("DialogueSetActive"))
-        //{
-        //    if (_dialogueActive)
-        //    {
-        //        if (!_displaying)
-        //        {
-        //            //SetDIalogueText(_contentIndex);
-        //            if (_coroutine != null)
-        //                StopCoroutine(_coroutine);
-
-        //            _coroutine = SetDIalogueText_Coroutine(_contentIndex);
-
-        //            StartCoroutine(_coroutine);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        DisplayDialogue("0-0");
-        //    }
-            
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.Mouse0) && _displaying)
-        //{
-        //    if (_coroutine != null)
-        //        _displaying = false;
-        //}
-
-        //if (_coroutine != null)
-        //    Debug.Log("coroutine is Not Null : " + _coroutine.ToString());
-        //else
-        //    Debug.Log("coroutine is Null");
-
-    }
-
+        
     DialogueData GetDialogueData(string id)
     {
         DialogueData getdata = null;
@@ -100,6 +61,9 @@ public class DialogueManager : MonoBehaviour {
         {
             _contentIndex = 0;
             DialogueSetActive(false);
+            _currentDialogueData.IsEnd = true;
+            _currentDialogueData.CallEndEvent();
+            _currentDialogueData = null;
             return;
         }
 
@@ -129,6 +93,9 @@ public class DialogueManager : MonoBehaviour {
         {
             _contentIndex = 0;
             DialogueSetActive(false);
+            _currentDialogueData.IsEnd = true;
+            _currentDialogueData.CallEndEvent();
+            _currentDialogueData = null;
         }
 
         else
@@ -233,4 +200,10 @@ public class DialogueManager : MonoBehaviour {
         }
 
     }
+
+    public bool GetIsEnd(string id)
+    {
+        return GetDialogueData(id).IsEnd;
+    }
+
 }
