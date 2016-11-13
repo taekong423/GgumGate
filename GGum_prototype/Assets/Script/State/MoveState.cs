@@ -42,3 +42,38 @@ public class MoveState : EnemyState {
         yield return null;
     }
 }
+
+public class NewMoveState : State
+{
+    readonly NewEnemy _enemy;
+    readonly string _transition;
+
+    protected Transform _target;
+
+    public NewMoveState(NewEnemy enemy, string id, string transition) : base(id)
+    {
+        _enemy = enemy;
+        _transition = transition;
+    }
+
+    public override void Enter()
+    {
+        _target = _enemy._wayPoints[_enemy.PointIndex];
+        _enemy.PlayAnimation(GetID);
+    }
+
+    public override void Excute()
+    {        
+        if (_enemy.GoToTarget(_target.position))
+        {
+            _enemy.SetState(_transition);
+        }
+    }
+
+    public override void Exit()
+    {
+        _target = null;
+        _enemy.SetPointIndex();
+    }
+
+}

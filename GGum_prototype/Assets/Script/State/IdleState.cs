@@ -45,3 +45,46 @@ public class IdleState : EnemyState {
         yield return null;
     }
 }
+
+public class NewIdleState : State
+{
+    readonly NewEnemy _enemy;
+
+    readonly float _stayTime;
+
+    readonly string _transition;
+
+    float _currentTime;
+
+    public NewIdleState(NewEnemy enemy, string id, float stayTime, string transition) : base(id)
+    {
+        _enemy = enemy;
+        _stayTime = stayTime;
+        _transition = transition;
+        _currentTime = 0;
+    }
+
+    public override void Enter()
+    {
+        if(_stayTime > 0)
+            _enemy.PlayAnimation(GetID);
+    }
+
+    public override void Excute()
+    {
+        if (_currentTime >= _stayTime)
+        {
+            _enemy.SetState(_transition);
+        }
+        else
+        {
+            _currentTime += Time.fixedDeltaTime;
+        }
+    }
+
+    public override void Exit()
+    {
+        _currentTime = 0;
+    }
+
+}

@@ -4,20 +4,23 @@ using System.Collections;
 public class EventTrigger : MonoBehaviour {
 
         
-    public void PlayerTeleport(Vector3 teleportPoint)
+    public void PlayerTeleport(Transform teleportPoint)
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        player.transform.position = teleportPoint;
+        player.transform.position = teleportPoint.position;
 
     }
 
-    public void EnemyActive(string Name)
+    public void EnemyActive(string ID)
     {
-        GameObject enemy = GameObject.Find(Name);
+        Debug.Log("Acitve");
+        IEnemy enemy = EnemyManager.GetEnemy(ID);
 
-        enemy.SetActive(true);
+        if (enemy == null)
+            return;
+
+        enemy.Active(true);
     }
-
-
+    
 }

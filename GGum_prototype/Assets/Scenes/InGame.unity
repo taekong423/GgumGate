@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3735644, g: 0.38112032, b: 0.35887682, a: 1}
+  m_IndirectSpecularColor: {r: 0.37356448, g: 0.3811204, b: 0.35887685, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1812,7 +1812,7 @@ MonoBehaviour:
   _funcList:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1734831151}
+      - m_Target: {fileID: 0}
         m_MethodName: NextState
         m_Mode: 1
         m_Arguments:
@@ -8051,6 +8051,7 @@ GameObject:
   - 114: {fileID: 1635819607}
   - 82: {fileID: 1635819606}
   - 114: {fileID: 1635819605}
+  - 114: {fileID: 1635819611}
   m_Layer: 0
   m_Name: TutoSquirrel
   m_TagString: Enemy
@@ -8185,7 +8186,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1635819603}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4289efd52d45064a9daf865b11ea672, type: 3}
   m_Name: 
@@ -8260,6 +8261,31 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 6.5}
   serializedVersion: 2
   m_Size: {x: 12, y: 15}
+--- !u!114 &1635819611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1635819603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b131705f06253fb4fbb1d32445ba17a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyID: TestSquirrel
+  _maxHP: 10
+  _attackDamage: 0
+  _stayTime: 0
+  _moveSpeed: 20
+  _attackDelay: 0
+  _container: {fileID: 0}
+  _detectionRange: 100
+  _attackRange: 20
+  _moveType: 1
+  _wayPoints:
+  - {fileID: 737293805}
+  - {fileID: 29079184}
+  - {fileID: 1682636793}
 --- !u!1 &1636589663
 GameObject:
   m_ObjectHideFlags: 0
@@ -8678,9 +8704,9 @@ GameObject:
   - 4: {fileID: 1734831150}
   - 61: {fileID: 1734831155}
   - 50: {fileID: 1734831154}
-  - 114: {fileID: 1734831151}
   - 82: {fileID: 1734831153}
   - 114: {fileID: 1734831152}
+  - 114: {fileID: 1734831151}
   m_Layer: 0
   m_Name: Squirrel
   m_TagString: Enemy
@@ -8706,8 +8732,7 @@ Transform:
 --- !u!114 &1734831151
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114000010566980950, guid: d736de6d1b4dd8b4294fdb858ab26e6c,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1734831149}
   m_Enabled: 1
@@ -10713,3 +10738,43 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 5}
   serializedVersion: 2
   m_Radius: 5
+--- !u!1 &2146943237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2146943239}
+  - 114: {fileID: 2146943238}
+  m_Layer: 0
+  m_Name: EnemyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2146943238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2146943237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41cbb3d6836bb1b40863940b830bad2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2146943239
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2146943237}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2247.1067, y: 283, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15

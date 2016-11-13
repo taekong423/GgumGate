@@ -4,7 +4,7 @@ using System.Collections;
 using System.Reflection;
 using System.Collections.Generic;
 
-public class Character : MonoBehaviour {
+public class Character : MonoBehaviour, ICharacter {
 
     [HideInInspector]
     public Transform _transform;
