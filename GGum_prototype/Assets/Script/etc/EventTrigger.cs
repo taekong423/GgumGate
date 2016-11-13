@@ -3,12 +3,13 @@ using System.Collections;
 
 public class EventTrigger : MonoBehaviour {
 
+    public Vector2 _teleportPoint;
         
-    public void PlayerTeleport(Transform teleportPoint)
+    public void PlayerTeleport()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        player.transform.position = teleportPoint.position;
+        player.transform.position = _teleportPoint;
 
     }
 

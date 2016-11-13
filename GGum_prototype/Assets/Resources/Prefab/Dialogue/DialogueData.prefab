@@ -61,17 +61,5 @@ MonoBehaviour:
     _buttonData: []
   _endEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114000013942380092, guid: 86f72291ab780244eb3694dd18a67795,
-          type: 2}
-        m_MethodName: EnemyActive
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: TestSquirrel
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: EndEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
