@@ -594,6 +594,7 @@ public partial class BossPig {
             _boss.SetOrora(_boss._numPattern);
             _boss.OroraActive(true);
             BossHPBar.Display(_boss);
+            Buffer.InvincibleActive(true);
 
             Global.shared<SoundManager>().ChangeBGM("BossMode");
 
@@ -622,10 +623,16 @@ public partial class BossPig {
             if (_boss._numPattern == 0)
             {
                 if (!_boss._isHide)
+                {
+                    Buffer.InvincibleActive(true);
+                    Buffer.SuperArmourAcitve(false);
                     yield return _boss.Hide();
+                }
             }
             else
             {
+                Buffer.InvincibleActive(false);
+                Buffer.SuperArmourAcitve(true);
                 _boss.animator.SetTrigger("Rush");
                 _boss.OroraActive(true);
             }
@@ -648,10 +655,16 @@ public partial class BossPig {
             if (_boss._numPattern == 0)
             {
                 if (!_boss._isHide)
+                {
+                    Buffer.InvincibleActive(true);
+                    Buffer.SuperArmourAcitve(false);
                     yield return _boss.Hide();
+                }
             }
             else
             {
+                Buffer.InvincibleActive(false);
+                Buffer.SuperArmourAcitve(true);
                 _boss.animator.SetTrigger("Rush");
                 _boss.OroraActive(true);
             }
@@ -703,6 +716,9 @@ public partial class BossPig {
             _boss._isHide = false;
             _boss.isInvincible = false;
             _boss.m_collider.enabled = true;
+
+            Buffer.InvincibleActive(false);
+            Buffer.SuperArmourAcitve(true);
 
             _boss.LookTarget(_boss._player.transform);
 
@@ -757,6 +773,10 @@ public partial class BossPig {
             _boss._isHide = true;
             _boss.isInvincible = true;
             _boss.m_collider.enabled = false;
+
+            Buffer.InvincibleActive(true);
+            Buffer.SuperArmourAcitve(false);
+
             _boss.animator.SetTrigger("Hide2");
 
             yield return new WaitForSeconds(2.0f);
@@ -782,6 +802,9 @@ public partial class BossPig {
             _boss._isHide = false;
             _boss.isInvincible = false;
             _boss.m_collider.enabled = true;
+
+            Buffer.InvincibleActive(true);
+            Buffer.SuperArmourAcitve(false);
 
             _boss.OroraActive(true);
             _boss.animator.SetTrigger("Attack");
@@ -814,6 +837,9 @@ public partial class BossPig {
             _boss.isInvincible = false;
             _boss.m_collider.enabled = true;
             _boss.animator.SetTrigger("Hit");
+
+            Buffer.InvincibleActive(false);
+            Buffer.SuperArmourAcitve(true);
 
             yield return null;
         }
@@ -857,6 +883,9 @@ public partial class BossPig {
             _boss.isInvincible = true;
             _boss.m_collider.enabled = false;
             _boss.moveSpeed = _boss._baseMoveSpeed;
+
+            Buffer.InvincibleActive(false);
+            Buffer.SuperArmourAcitve(false);
 
             Global.shared<SoundManager>().ChangeBGM("Stage-000");
 

@@ -1,19 +1,40 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class Buffer : MonoBehaviour {
 
-    public Image _noteIcon;
-    public Image _superArmourIcon;
-    public Image _invincibleIcon;
-    public Image _exhaustionIcon;
+    static Buffer _instance;
+
+    public GameObject _noteIcon;
+    public GameObject _superArmourIcon;
+    public GameObject _invincibleIcon;
+    public GameObject _exhaustionIcon;
 
     public Text _noteText;
 
-    public void NoteActive(bool active)
+    void Awake()
     {
-        _noteIcon.gameObject.SetActive(active);
+        _instance = this;
     }
-     
+
+    public static void NoteActive(bool active)
+    {
+        _instance._noteIcon.SetActive(active);
+    }
+
+    public static void SuperArmourAcitve(bool active)
+    {
+        _instance._superArmourIcon.SetActive(active);
+    }
+
+    public static void InvincibleActive(bool active)
+    {
+        _instance._invincibleIcon.SetActive(active);
+    }
+
+    public static void Exhaustion(bool active)
+    {
+        _instance._exhaustionIcon.SetActive(active);
+    }
+
 }
