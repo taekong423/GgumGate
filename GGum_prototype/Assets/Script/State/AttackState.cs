@@ -81,3 +81,52 @@ public class AttackState : EnemyState {
 
 }
 
+public class NewAttackState : State
+{
+    readonly NewEnemy _enemy;
+
+    protected float _animationLength;
+
+    protected float _currentTime;
+
+    public NewAttackState(NewEnemy enemy, string id) : base(id)
+    {
+        _enemy = enemy;
+    }
+
+    public override void Enter()
+    {
+        if (_enemy.Attackable)
+        {
+            _enemy.PlayAnimation(GetID);
+            _currentTime = 0;
+            _animationLength = _enemy.GetAnimationLength();
+        }
+        else
+        {
+            _enemy.SetState("AttackIdle");
+        }
+    }
+
+    public override void Excute()
+    {
+        _currentTime += Time.fixedDeltaTime;
+
+        if (_currentTime >= _animationLength)
+        {
+            _enemy.SetState("AttackIdle");
+        }
+        else if (_enemy.Attackable &&_currentTime >= _animationLength * 0.5f)
+        {
+            _enemy.NoAttackForSecons();
+            _enemy.GetPlayer.OnHit(_enemy.pHitData);
+        }
+    }
+
+    public override void Exit()
+    {
+        _currentTime = 0;
+    }
+
+}
+

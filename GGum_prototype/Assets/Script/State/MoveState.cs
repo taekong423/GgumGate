@@ -63,7 +63,14 @@ public class NewMoveState : State
     }
 
     public override void Excute()
-    {        
+    {
+
+        if (_enemy.Search(_enemy.GetPlayer.transform, _enemy._detectionRange))
+        {
+            _enemy.SetState("Chase");
+            return;
+        }
+
         if (_enemy.GoToTarget(_target.position))
         {
             _enemy.SetState(_transition);

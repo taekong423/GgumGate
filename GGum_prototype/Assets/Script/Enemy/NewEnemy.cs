@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class NewEnemy : MonoBehaviour, IEnemy {
+
+    public string CurrentState;
 
     [Header("Chracter Setting")]
     [SerializeField]
     string _enemyID;
 
     bool _isInvincible;
+    bool _isSuperArmour;
+    bool _isExhaustion;
+    bool _attackable = true;
+
 
     [SerializeField]
     int _maxHP;
@@ -51,7 +58,11 @@ public class NewEnemy : MonoBehaviour, IEnemy {
     public Transform[] _wayPoints;
 
     public string GetID { get { return _enemyID; } }
-    public bool IsInvincible { get { return _isInvincible; } set { _isInvincible = value; } }
+    public virtual bool IsInvincible { get { return _isInvincible; } set { _isInvincible = value; } }
+    public virtual bool IsSuperArmour { get { return _isSuperArmour; } set { _isSuperArmour = value; } }
+    public virtual bool IsExhaustion { get { return _isExhaustion; } set { _isExhaustion = value; } }
+    public bool Attackable { get { return _attackable; } set { _attackable = value; } }
+
     public int MaxHP { get { return _maxHP; } protected set { _maxHP = value; } }
 
     public virtual int CurrentHP
@@ -59,21 +70,24 @@ public class NewEnemy : MonoBehaviour, IEnemy {
         get { return _currentHP; }
         set
         {
+            if (IsInvincible)
+                return;
+
             Mathf.Clamp(value, 0, MaxHP);
             _currentHP = value;
 
-            HitEvent();
-
-            //if(_currentHP <= 0)
-
-
+            if(_currentHP > 0)
+                HitEvent();
         }
+
     }
 
     public int PointIndex { get { return _pointIndex; } }
     public HitData pHitData { get { return _hitData; } protected set { _hitData = value; } }
 
     public string State { get { return _state.GetID; } }
+
+    public Player GetPlayer { get { return _player; } }
 
     void OnTriggerEnter2D(Collider2D coll)
     {
@@ -102,7 +116,7 @@ public class NewEnemy : MonoBehaviour, IEnemy {
     {
         _state.Excute();
     }
-
+        
     protected virtual void Init()
     {
         _stateList = new Dictionary<string, IState>();
@@ -113,6 +127,8 @@ public class NewEnemy : MonoBehaviour, IEnemy {
         _animator = GetComponentInChildren<Animator>();
         _soundPlayer = GetComponent<SoundPlayer>();
         _container = _transform.FindChild("Container");
+
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
         _hitData.attacker = gameObject;
         _hitData.damage = _attackDamage;
@@ -140,6 +156,7 @@ public class NewEnemy : MonoBehaviour, IEnemy {
 
             _state = _stateList[key];
             _state.Enter();
+            CurrentState = State;
         }
     }
 
@@ -236,6 +253,25 @@ public class NewEnemy : MonoBehaviour, IEnemy {
     public void PlayAnimation(string name)
     {
         _animator.SetTrigger(name);
+    }
+
+    public float GetAnimationLength()
+    {
+        return _animator.GetCurrentAnimatorStateInfo(0).length;
+    }
+
+    IEnumerator NoAttackForSecons(float delay)
+    {
+        Attackable = false;
+
+        yield return new WaitForSeconds(delay);
+
+        Attackable = true;
+    }
+
+    public void NoAttackForSecons()
+    {
+        StartCoroutine(NoAttackForSecons(_attackDelay));
     }
 
 }

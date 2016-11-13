@@ -141,14 +141,15 @@ Prefab:
       objectReference: {fileID: 1018365028}
     - target: {fileID: 1000013360029928, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114000013902529574, guid: dcfedd9ed3c30d845b94e8dc636634b3,
         type: 2}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114000013902529574, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &368937489 stripped
@@ -277,6 +278,10 @@ Prefab:
         type: 2}
       propertyPath: _isAuto
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012966605350, guid: 352e814f1758fde4fb878fc2562a610c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 352e814f1758fde4fb878fc2562a610c, type: 2}
@@ -1128,7 +1133,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000014056707122, guid: c7d1e0a80b293054f8c093ec44b8586e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 932.3
+      value: 2054
       objectReference: {fileID: 0}
     - target: {fileID: 4000014056707122, guid: c7d1e0a80b293054f8c093ec44b8586e, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1681,12 +1686,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b131705f06253fb4fbb1d32445ba17a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentState: 
   _enemyID: TestSquirrel
   _maxHP: 10
   _attackDamage: 0
   _stayTime: 0
   _moveSpeed: 20
-  _attackDelay: 0
+  _attackDelay: 1
   _container: {fileID: 0}
   _detectionRange: 100
   _attackRange: 20

@@ -40,6 +40,7 @@ GameObject:
   - 114: {fileID: 114000013902529574}
   - 82: {fileID: 82000012023729298}
   - 114: {fileID: 114000012729885714}
+  - 114: {fileID: 114000011493287522}
   m_Layer: 0
   m_Name: Squirrel
   m_TagString: Enemy
@@ -272,6 +273,32 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114000011493287522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013360029928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b131705f06253fb4fbb1d32445ba17a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentState: 
+  _enemyID: TestSquirrel
+  _maxHP: 10
+  _attackDamage: 0
+  _stayTime: 0
+  _moveSpeed: 20
+  _attackDelay: 1
+  _container: {fileID: 0}
+  _detectionRange: 100
+  _attackRange: 20
+  _moveType: 1
+  _wayPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  _isTuto: 0
 --- !u!114 &114000012729885714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -319,7 +346,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013360029928}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4289efd52d45064a9daf865b11ea672, type: 3}
   m_Name: 

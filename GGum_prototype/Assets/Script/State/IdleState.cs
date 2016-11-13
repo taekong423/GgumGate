@@ -72,6 +72,12 @@ public class NewIdleState : State
 
     public override void Excute()
     {
+        if (_enemy.Search(_enemy.GetPlayer.transform, _enemy._detectionRange))
+        {
+            _enemy.SetState("Chase");
+            return;
+        }
+
         if (_currentTime >= _stayTime)
         {
             _enemy.SetState(_transition);
@@ -85,6 +91,35 @@ public class NewIdleState : State
     public override void Exit()
     {
         _currentTime = 0;
+    }
+
+}
+
+
+public class AttackIdleState : State
+{
+    readonly NewEnemy _enemy;
+
+    public AttackIdleState(NewEnemy enemy, string id) : base(id)
+    {
+        _enemy = enemy;
+    }
+
+    public override void Enter()
+    {
+        _enemy.PlayAnimation(GetID);
+    }
+
+    public override void Excute()
+    {
+        if (!_enemy.Search(_enemy.GetPlayer.transform, _enemy._attackRange))
+        {
+            _enemy.SetState("Chase");
+        }
+        else if (_enemy.Attackable)
+        {
+            _enemy.SetState("Attack");
+        }
     }
 
 }
