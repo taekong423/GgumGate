@@ -373,7 +373,17 @@ public partial class Player : Character {
 
         if (other.CompareTag("Enemy"))
         {
-            HitData hitData = other.GetComponent<Enemy>().pHitData;
+            Enemy enemy = other.GetComponent<Enemy>();
+
+            HitData hitData;
+            if (enemy != null)
+            {
+                hitData = enemy.pHitData;
+            }
+            else
+            {
+                hitData = other.GetComponent<NewEnemy>().pHitData;
+            }
             OnHit(hitData);
         }
 
