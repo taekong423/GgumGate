@@ -1,13 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public partial class Deer : Enemy {
+public partial class Deer : Enemy, IEnemy {
 
     int _attackCount = 0;
 
     public GameObject[] _lightningRods;
 
     public int AttackCount { get { return _attackCount; } set { _attackCount = value; } }
+
+    public int CurrentHP { get; set; }
+    public int MaxHP { get; set; }
+
+    public string GetID { get { return id; } }
+
+    public void Active(bool active)
+    {
+        gameObject.SetActive(active);
+    }
 
     protected override void InitCharacter()
     {
@@ -149,7 +159,7 @@ public partial class Deer : Enemy {
                 foreach (GameObject lighningRod in _deer._lightningRods)
                 {
                     lighningRod.GetComponent<Bullet>().pHitData = _deer.pHitData;
-                    lighningRod.transform.position = new Vector3(lighningRod.transform.position.x, 200, lighningRod.transform.position.z);
+                    lighningRod.transform.localPosition = new Vector3(lighningRod.transform.localPosition.x, 200, lighningRod.transform.localPosition.z);
                     lighningRod.SetActive(true);
                 }
 

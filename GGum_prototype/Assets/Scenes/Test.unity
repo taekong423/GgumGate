@@ -141,7 +141,7 @@ Prefab:
       objectReference: {fileID: 1018365028}
     - target: {fileID: 1000013360029928, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114000013902529574, guid: dcfedd9ed3c30d845b94e8dc636634b3,
         type: 2}
@@ -1700,6 +1700,7 @@ MonoBehaviour:
   _wayPoints:
   - {fileID: 1084692983}
   - {fileID: 1018365028}
+  _isTuto: 0
 --- !u!1001 &1802398609
 Prefab:
   m_ObjectHideFlags: 0

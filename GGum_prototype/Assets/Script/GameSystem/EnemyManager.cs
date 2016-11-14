@@ -34,7 +34,7 @@ public class EnemyManager : MonoBehaviour {
 
     void Start()
     {
-        NewEnemy[] enemys = Resources.FindObjectsOfTypeAll<NewEnemy>();
+        IEnemy[] enemys = Resources.FindObjectsOfTypeAll<Deer>();
 
         _EnemyList.AddRange(enemys);
     }
