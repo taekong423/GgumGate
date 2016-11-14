@@ -12,12 +12,14 @@ public class SpeechBubble : MonoBehaviour {
 
     private Text petText;
     private Text playerText;
+    private Player player;
 
 
     // Use this for initialization
     void Start () {
         petText = petObject.GetComponentInChildren<Text>();
         playerText = playerObject.GetComponentInChildren<Text>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 	
 	// Update is called once per frame
@@ -37,8 +39,11 @@ public class SpeechBubble : MonoBehaviour {
         playerObject.SetActive(false);
     }
 
-    public IEnumerator StartSpeech(int number, SpeechData[] speechData)
+    public IEnumerator StartSpeech(int number, bool playerStop, SpeechData[] speechData)
     {
+        if (playerStop)
+            player.isStop = true;
+
         ClearSpeech();
         currentSpeech = number;
         yield return null;
@@ -47,7 +52,7 @@ public class SpeechBubble : MonoBehaviour {
         {
             if (currentSpeech == number)
             {
-                ShowSpeech(speechData[i]);
+                ShowSpeechBubble(speechData[i]);
                 yield return new WaitForSeconds(1.0f);
             }
             else
@@ -55,9 +60,12 @@ public class SpeechBubble : MonoBehaviour {
         }
 
         HideSpeechBubble();
+
+        if (playerStop)
+            player.isStop = false;
     }
 
-    void ShowSpeech(SpeechData data)
+    void ShowSpeechBubble(SpeechData data)
     {
         switch (data.type)
         {

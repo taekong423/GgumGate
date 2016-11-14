@@ -4,6 +4,7 @@ using System.Collections;
 public class Speech : MonoBehaviour {
 
     public int speechNumber;
+    public bool playerStop;
     public SpeechData[] speechList;
 
     [HideInInspector]
@@ -32,7 +33,7 @@ public class Speech : MonoBehaviour {
             if (other.CompareTag("Player"))
             {
                 check = false;
-                StartCoroutine(speechBubble.StartSpeech(speechNumber, speechList));
+                StartCoroutine(speechBubble.StartSpeech(speechNumber, playerStop, speechList));
             }
         }
     }
