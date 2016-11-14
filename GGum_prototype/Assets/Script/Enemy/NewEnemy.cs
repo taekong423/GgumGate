@@ -78,6 +78,9 @@ public class NewEnemy : MonoBehaviour, IEnemy {
 
             if(_currentHP > 0)
                 HitEvent();
+
+            if (_currentHP <= 0)
+                SetState("Dead");
         }
 
     }
