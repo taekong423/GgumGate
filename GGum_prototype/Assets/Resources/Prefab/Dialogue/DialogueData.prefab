@@ -179,6 +179,10 @@ MonoBehaviour:
   - _content: "\uC73C\uC751.. \uB178\uB825\uD574\uBCFC\uAC8C.."
     _imgName: Ju
     _buttonData: []
+  - _content: "\uC88C\uC6B0 \uC774\uB3D9\uC740 \uC88C\uCE21\uC758 \uC870\uC774\uC2A4\uD2F1\uC744
+      \uD65C\uC6A9\uD558\uBA74 \uC774\uB3D9\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    _imgName: G
+    _buttonData: []
   _endEvent:
     m_PersistentCalls:
       m_Calls: []

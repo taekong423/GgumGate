@@ -3605,6 +3605,66 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 5}
   serializedVersion: 2
   m_Size: {x: 10, y: 10}
+--- !u!1001 &383458794
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2072857914}
+    m_Modifications:
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 2264.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 12.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
+        type: 2}
+      propertyPath: _maxHP
+      value: 150
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &383458795 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4000010830861540, guid: c097522232fb6db47b117d7524121fcf,
+    type: 2}
+  m_PrefabInternal: {fileID: 383458794}
 --- !u!1 &387913185 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000014168362910, guid: 0a7034f1da20739419d0e33e6b777532,
@@ -8795,9 +8855,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 1400, y: -20}
+  m_Offset: {x: 1560.4062, y: -20}
   serializedVersion: 2
-  m_Size: {x: 3000, y: 30}
+  m_Size: {x: 3320.8125, y: 30}
 --- !u!1 &939507842
 GameObject:
   m_ObjectHideFlags: 0
@@ -11554,7 +11614,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1107567224}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 67.07727, y: 16.2, z: 0}
+  m_LocalPosition: {x: 91.2, y: 14.6, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -11610,7 +11670,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 3
 --- !u!1 &1136365937
 GameObject:
   m_ObjectHideFlags: 0
@@ -12955,6 +13015,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011899150148, guid: 0ee5c4aff4adcc741b95aac453531dd8, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012375577760, guid: 0ee5c4aff4adcc741b95aac453531dd8,
+        type: 2}
+      propertyPath: playerStop
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -18761,6 +18826,7 @@ Transform:
   - {fileID: 1222009970}
   - {fileID: 765439921}
   - {fileID: 888921718}
+  - {fileID: 383458795}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &2073593106

@@ -61,6 +61,10 @@ MonoBehaviour:
       \uAC19\uC740\uB370\u2026\r\n\uC190\uC744 \uBED7\uC5B4\uBCFC\uB798?\n"
     _imgName: G
     _buttonData: []
+  - _content: "\uACF5\uACA9\uC740 \uC6B0\uCE21 \uAC80\uBAA8\uC591 \uC544\uC774\uCF58\uC744
+      \uD074\uB9AD\uD558\uBA74 \uACF5\uACA9\uD560\uC218\uC788\uC2B5\uB2C8\uB2E4."
+    _imgName: G
+    _buttonData: []
   _endEvent:
     m_PersistentCalls:
       m_Calls: []

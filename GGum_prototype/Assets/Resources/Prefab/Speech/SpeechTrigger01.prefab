@@ -69,9 +69,10 @@ MonoBehaviour:
   speechNumber: 0
   speechList:
   - type: 0
-    text: "\uB108\uC640!"
+    text: "\uC800\uAC83 \uBD10. \uD30C\uD3B8\uC774\uC57C. \uC5B4\uC11C \uAC00\uC11C
+      \uC8FC\uC6CC"
   - type: 1
-    text: "\uB098\uC758!!"
+    text: 
   - type: 0
     text: "\uC5F0\uACB0!!!"
   - type: 0
@@ -82,6 +83,10 @@ MonoBehaviour:
     text: "\uC6B0\uB9AC!!"
   - type: 0
     text: "\uC548\uC758!!!"
+  - type: 1
+    text: "\uC18C\uB9AC!!!!"
+  - type: 1
+    text: "\uC18C\uB9AC!!!!"
   - type: 1
     text: "\uC18C\uB9AC!!!!"
   check: 0
