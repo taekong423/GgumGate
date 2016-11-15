@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public partial class BossPig : Enemy {
+public partial class BossPig : Enemy, IEnemy {
 
     CameraController _camera;
 
@@ -33,6 +33,16 @@ public partial class BossPig : Enemy {
     public GameObject _warringImg;
 
     public int NumChild { get { return _numChild; } set { _numChild = value; } }
+
+    public int CurrentHP { get { return currentHP; } set { currentHP = value; } }
+    public int MaxHP { get { return maxHP; } set { maxHP = value; } }
+
+    public string GetID { get { return id; } }
+
+    public void Active(bool active)
+    {
+        gameObject.SetActive(active);
+    }
 
     protected override void InitCharacter()
     {

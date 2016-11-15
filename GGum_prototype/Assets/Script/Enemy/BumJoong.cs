@@ -1,9 +1,21 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class BumJoong : NewEnemy {
 
     Dictionary<int, List<GameObject>> _noteList;
+
+    [SerializeField]
+    int _PageNum = 1;
+
+    int _bigNoteNum = 0;
+    int _bigNoteDeadCount = 0;
+    int _pattern2Num = 2;
+
+    float _centerPos;
+
+    bool _isCenter = false;
 
     [Header("BumJoong Setting")]
     public float _minX;
@@ -35,10 +47,11 @@ public class BumJoong : NewEnemy {
     public float _fallSpeed;
     
     public Animator _tornadoAnim;
+    public GameObject _tornadoBox;
 
     void OnEnable()
     {
-        SetState("Pattern_1");
+        SetState("Appear");
     }
 
     protected override void Init()
@@ -46,19 +59,30 @@ public class BumJoong : NewEnemy {
         base.Init();
 
         _noteList = new Dictionary<int, List<GameObject>>();
+        _centerPos = (_minX + _maxX) * 0.5f;
 
     }
 
     protected override void SetStateList()
     {
+        _stateList.Add("Appear", new AppearState(this, "Appear"));
         _stateList.Add("Pattern_1", new Pattern_1State(this, "Pattern_1"));
         _stateList.Add("Exhaustion", new ExhaustionState(this, "Exhaustion"));
         _stateList.Add("Pattern_2", new Pattern_2State(this, "Pattern_2"));
+        _stateList.Add("Idle", new Pattern_2IdleState(this, "Idle"));
+        _stateList.Add("OnPattern_3", new OnPattern_3State(this, "OnPattern_3"));
+        _stateList.Add("Pattern_3", new Pattern_3State(this, "Pattern_3"));
+        _stateList.Add("Dead", new BumJoong_DeadState(this, "Dead"));
     }
 
     void Teleport(Vector2 point)
     {
         point.x = Mathf.Clamp(point.x, _minX, _maxX);
+
+        if (point.x == _centerPos)
+            _isCenter = true;
+        else
+            _isCenter = false;
 
         _transform.position = point;
 
@@ -86,6 +110,8 @@ public class BumJoong : NewEnemy {
         }
         else
         {
+            obj.transform.position = _muzzle.transform.position;
+            obj.transform.rotation = _muzzle.transform.rotation;
             obj.SetActive(true);
         }
     }
@@ -95,9 +121,11 @@ public class BumJoong : NewEnemy {
         SpawnNote(Random.Range(0, 2));
     }
 
-    void SpawnBigNote()
+    void SpawnBigNote(float fallSpeed = 0)
     {
-        if (_noteList.ContainsKey(2))
+        _bigNoteNum++;
+
+        if (!_noteList.ContainsKey(2))
         {
             _noteList.Add(2, new List<GameObject>());
         }
@@ -109,21 +137,114 @@ public class BumJoong : NewEnemy {
             obj = _noteList[2].Find(x => x.activeSelf == false);
         }
 
+        Vector2 pos = new Vector2(Random.Range(_minX, _maxX), _spawnHeight);
+
         if (obj == null)
         {
-            Vector2 pos = new Vector2(Random.Range(_minX, _maxX), _spawnHeight);
             obj = Instantiate(_bigNotePrefab, pos, Quaternion.identity) as GameObject;
             //TODO : 오너 셋팅, 낙하스피드 셋팅.
+            obj.GetComponent<BigNote>().Setting(this, fallSpeed, _bigNoteSelftDamage);
 
             _noteList[2].Add(obj);
         }
         else
         {
+            obj.transform.position = pos;
             obj.SetActive(true);
         }
 
     }
 
+    IEnumerator HitAnimation()
+    {
+        IsSuperArmour = true;
+
+        PlayAnimation("Hit");
+
+        yield return new WaitForSeconds(1.0f);
+
+        IsSuperArmour = false;
+
+        PlayAnimation(State);
+    }
+
+    protected override void HitEvent()
+    {
+        if(!IsSuperArmour && !IsInvincible)
+            StartCoroutine(HitAnimation());
+
+        if (CurrentHP < MaxHP * 0.4f && _PageNum == 2)
+        {
+            _PageNum = 3;
+        }
+        else if (CurrentHP < MaxHP * 0.7f && _PageNum == 1)
+        {
+            _PageNum = 2;
+        }
+
+    }
+
+    public void BigNoteDead()
+    {
+        _bigNoteNum--;
+        _bigNoteDeadCount++;
+
+        int damage = (int)((float)MaxHP * _bigNoteSelftDamage);
+
+        damage = Mathf.Clamp(damage, 1, MaxHP);
+
+        CurrentHP -= damage;
+    }
+
+    public void BigNoteAllDead()
+    {
+        _bigNoteNum = 0;
+        _bigNoteDeadCount = 0;
+        foreach (GameObject note in _noteList[2])
+        {
+            if (note.activeSelf == true)
+            {
+                note.GetComponent<BigNote>().IsAllDead = true;
+                note.GetComponent<BigNote>().SetState("Dead");
+            }
+        }
+    }
+
+    class AppearState : State
+    {
+        readonly BumJoong _boss;
+
+        float _delay = 0;
+
+        public AppearState(BumJoong boss, string id) : base(id)
+        {
+            _boss = boss;
+        }
+
+        public override void Enter()
+        {
+            _boss.PlayAnimation("Attack1");
+        }
+
+        public override void Excute()
+        {
+            if (_delay >= 2.0f)
+            {
+                _delay = 0;
+                _boss.SetState("Pattern_1");
+            }
+            else
+            {
+                _delay += Time.fixedDeltaTime;
+            }
+        }
+
+        public override void Exit()
+        {
+            //BossHPBar.Display(_boss);
+        }
+
+    }
 
     class Pattern_1State : State
     {
@@ -145,6 +266,7 @@ public class BumJoong : NewEnemy {
 
         public override void Enter()
         {
+            _boss.IsSuperArmour = true;
             _boss.PlayAnimation("Attack0");
             _boss.LookTarget(_boss._player.transform);
         }
@@ -218,13 +340,13 @@ public class BumJoong : NewEnemy {
 
                 if (_delay >= _boss._teleportDelay && _isTeleporting)
                 {
-                    float center = (_boss._minX + _boss._maxX) * 0.5f;
                     Vector2 pos = _boss.transform.position;
-                    pos.x = center;
+                    pos.x = _boss._centerPos;
                     _boss.Teleport(pos);
 
                     _isTeleporting = false;
                     _boss._animator.gameObject.SetActive(true);
+                    _boss._teleportEffect.SetActive(false);
 
                     _boss.SetState("Exhaustion");
                 }
@@ -249,7 +371,6 @@ public class BumJoong : NewEnemy {
 
     }
 
-
     class ExhaustionState : State
     {
         readonly BumJoong _boss;
@@ -263,7 +384,9 @@ public class BumJoong : NewEnemy {
 
         public override void Enter()
         {
-            _boss.PlayAnimation("Idle");
+            _boss.IsSuperArmour = false;
+
+            _boss.PlayAnimation(GetID);
             //Buffer.Exhaustion(true);
         }
 
@@ -271,7 +394,20 @@ public class BumJoong : NewEnemy {
         {
             if (_delay >= _boss._exhaustionTime)
             {
-                _boss.SetState("Pattern_2");
+                switch (_boss._PageNum)
+                {
+                    case 1:
+                        _boss.SetState("Pattern_1");
+                        break;
+
+                    case 2:
+                        _boss.SetState("Pattern_2");
+                        break;
+
+                    case 3:
+                        _boss.SetState("OnPattern_3");
+                        break;
+                }
             }
             else
             {
@@ -288,9 +424,59 @@ public class BumJoong : NewEnemy {
 
     }
 
+    class Pattern_2IdleState : State
+    {
+        readonly BumJoong _boss;
+
+        float _delay = 0;
+
+        public Pattern_2IdleState(BumJoong boss, string id) : base(id)
+        {
+            _boss = boss;
+        }
+
+        public override void Enter()
+        {
+            _boss._pattern2Num--;
+            _boss.PlayAnimation(GetID);
+        }
+
+        public override void Excute()
+        {
+            if (_delay >= 1.0f)
+            {
+                _delay = 0;
+                if (_boss._pattern2Num > 0)
+                {
+                    if (_boss._PageNum == 3)
+                        _boss.SetState("OnPattern_3");
+                    else
+                        _boss.SetState("Pattern_2");
+                }
+                else
+                {
+                    _boss._pattern2Num = 2;
+                    if (_boss._PageNum == 3)
+                        _boss.SetState("OnPattern_3");
+                    else
+                        _boss.SetState("Pattern_1");
+                }
+            }
+            else
+            {
+                _delay += Time.fixedDeltaTime;
+            }
+        }
+
+    }
+
     class Pattern_2State : State
     {
         readonly BumJoong _boss;
+
+        float _delay = 0;
+
+        bool _isHit = false;
 
         public Pattern_2State(BumJoong boss, string id) : base(id)
         {
@@ -299,7 +485,259 @@ public class BumJoong : NewEnemy {
 
         public override void Enter()
         {
+            _boss.IsInvincible = true;
+            _boss._collider.enabled = false;
             _boss.PlayAnimation("Attack1");
+        }
+
+        public override void Excute()
+        {
+            if (_boss._bigNoteNum < _boss._spawnNum)
+            {
+
+                if (_boss._bigNoteDeadCount < 4 && !_isHit)
+                {
+                    if (_delay >= _boss._spawnDelay)
+                    {
+                        _delay = 0;
+                        _boss.SpawnBigNote();
+                    }
+                    else
+                    {
+                        _delay += Time.fixedDeltaTime;
+                    }
+                }
+                else
+                {
+                    if (!_isHit)
+                    {
+                        _isHit = true;
+                        _delay = 0;
+                        _boss.BigNoteAllDead();
+                        _boss.PlayAnimation("Hit");
+                    }
+
+                    if (_delay >= 1.0f)
+                    {
+                        _boss.SetState("Idle");
+                    }
+                    else
+                    {
+                        _delay += Time.fixedDeltaTime;
+                    }
+
+                }
+
+            }
+        }
+
+        public override void Exit()
+        {
+            _isHit = false;
+            _boss.IsInvincible = false;
+            _boss._collider.enabled = true;
+        }
+
+    }
+
+    class OnPattern_3State : State
+    {
+        readonly BumJoong _boss;
+
+        Transform _moveObj;
+        Vector3 _pos;
+
+        float _delay = 0;
+
+        bool _isTeleporting = false;
+
+        public OnPattern_3State(BumJoong boss, string id) : base(id)
+        {
+            _boss = boss;
+        }
+
+        public override void Enter()
+        {
+            _boss.IsInvincible = true;
+            _boss._collider.enabled = false;
+            _moveObj = _boss._animator.transform;
+            _pos = new Vector3(_moveObj.localPosition.x, _boss._height, _moveObj.localPosition.z);
+
+            if (_boss._isCenter)
+            {
+                _boss.PlayAnimation("Attack_Tornado");
+                _boss._tornadoAnim.gameObject.SetActive(true);
+            }
+            else
+            {
+                _isTeleporting = true;
+                _boss.PlayAnimation("SuperMove");
+                _boss._teleportEffect.SetActive(true);
+            }
+        }
+
+        public override void Excute()
+        {
+            if (_boss._isCenter)
+            {
+                if (_isTeleporting)
+                {
+                    _isTeleporting = false;
+                    _boss.PlayAnimation("Attack_Tornado");
+                    _boss._tornadoAnim.gameObject.SetActive(false);
+                }
+
+                if (_moveObj.localPosition == _pos)
+                {
+                    _boss.SetState("Pattern_3");
+                }
+                else
+                {
+                    _moveObj.localPosition = Vector3.MoveTowards(_moveObj.localPosition, _pos, _boss._speed * Time.fixedDeltaTime);
+                }
+            }
+            else
+            {
+                if (_delay >= _boss._teleportDelay)
+                {
+                    _delay = 0;
+                    Vector2 pos = _boss.transform.position;
+                    pos.x = _boss._centerPos;
+                    _boss.Teleport(pos);
+                }
+                else
+                {
+                    _delay += Time.fixedDeltaTime;
+                }
+            }
+
+        }
+
+    }
+
+    class Pattern_3State : State
+    {
+        readonly BumJoong _boss;
+
+        float _delay = 0;
+
+        public Pattern_3State(BumJoong boss, string id) : base(id)
+        {
+            _boss = boss;
+        }
+
+        public override void Enter()
+        {
+            _boss._tornadoBox.SetActive(true);
+        }
+
+        public override void Excute()
+        {
+
+            if (_boss._bigNoteNum < _boss._spawnNum)
+            {
+                if (_delay >= _boss._spawnDelay)
+                {
+                    _delay = 0;
+                    _boss.SpawnBigNote(_boss._fallSpeed);
+                }
+                else
+                {
+                    _delay += Time.fixedDeltaTime;
+                }
+            }
+
+        }
+
+    }
+
+    class BumJoong_DeadState : State
+    {
+        readonly BumJoong _boss;
+
+        bool _isTornadoEnd = false;
+
+        float _delay = 0;
+
+        Vector3 _pos;
+        Transform _moveObj;
+
+        int _prevIndex = 0;
+
+        public BumJoong_DeadState(BumJoong boss, string id) : base(id)
+        {
+            _boss = boss;
+        }
+
+        public override void Enter()
+        {
+            _pos = new Vector3(0, 9, 0);
+            _moveObj = _boss._animator.transform;
+            _boss.BigNoteAllDead();
+            _boss._tornadoAnim.SetTrigger("End");
+            _boss._tornadoBox.SetActive(false);
+        }
+
+        public override void Excute()
+        {
+
+            if (_isTornadoEnd)
+            {
+
+                if (_delay >= 2.0f)
+                {
+                    _delay = 0;
+
+                    int animIndex;
+
+                    do
+                    {
+                        animIndex = Random.Range(0, 4);
+                    }
+                    while (_prevIndex == animIndex);
+
+                    switch (animIndex)
+                    {
+                        case 0:
+                            _boss.PlayAnimation("Idle");
+                            break;
+
+                        case 1:
+                            _boss.PlayAnimation("Attack0");
+                            break;
+
+                        case 2:
+                            _boss.PlayAnimation("Attack1");
+                            break;
+
+                        case 3:
+                            _boss.PlayAnimation("Attack_Tornado");
+                            break;
+                    }
+
+                }
+                else
+                {
+                    _delay += Time.fixedDeltaTime;
+                }
+
+            }
+            else
+            {
+
+                if (_moveObj.localPosition == _pos)
+                {
+                    _isTornadoEnd = true;
+                    _boss._tornadoAnim.gameObject.SetActive(false);
+                    _boss.PlayAnimation("Idle");
+                }
+                else
+                {
+                    _moveObj.localPosition = Vector3.MoveTowards(_moveObj.localPosition, _pos, _boss._speed * Time.fixedDeltaTime);
+                }
+
+            }
+            
         }
 
     }

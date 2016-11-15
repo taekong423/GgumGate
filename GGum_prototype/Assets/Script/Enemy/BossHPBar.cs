@@ -6,7 +6,7 @@ public class BossHPBar : MonoBehaviour {
 
     static BossHPBar _instance;
 
-    Character _currentBoss;
+    IEnemy _currentBoss;
 
     bool _isDisplay = false;
 
@@ -31,13 +31,13 @@ public class BossHPBar : MonoBehaviour {
     {
         while (_isDisplay)
         {
-            _hpImg.fillAmount = (float)_currentBoss.currentHP / _currentBoss.maxHP;
+            _hpImg.fillAmount = (float)_currentBoss.CurrentHP / _currentBoss.MaxHP;
 
             yield return null;
         }
     }
 
-    public static void Display(Character boss)
+    public static void Display(IEnemy boss)
     {
         _instance._currentBoss = boss;
         _instance._isDisplay = true;

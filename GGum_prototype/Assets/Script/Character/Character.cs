@@ -22,7 +22,7 @@ public class Character : MonoBehaviour, ICharacter {
     public float moveSpeed;
     public float jumpForce;
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool isStop;
     [HideInInspector]
     public bool onGround;

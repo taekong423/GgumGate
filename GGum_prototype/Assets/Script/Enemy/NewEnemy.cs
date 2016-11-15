@@ -70,13 +70,10 @@ public class NewEnemy : MonoBehaviour, IEnemy {
         get { return _currentHP; }
         set
         {
-            if (IsInvincible)
-                return;
-
-            Mathf.Clamp(value, 0, MaxHP);
             _currentHP = value;
+            _currentHP = Mathf.Clamp(_currentHP, 0, MaxHP);
 
-            if(_currentHP > 0)
+            if (_currentHP > 0)
                 HitEvent();
 
             if (_currentHP <= 0)
@@ -105,7 +102,7 @@ public class NewEnemy : MonoBehaviour, IEnemy {
                 return;
 
             OnHit(hitdata);
-            Destroy(gameObject);
+            Destroy(coll.gameObject);
         }
     }
 
@@ -129,14 +126,21 @@ public class NewEnemy : MonoBehaviour, IEnemy {
         _collider = GetComponent<Collider2D>();
         _animator = GetComponentInChildren<Animator>();
         _soundPlayer = GetComponent<SoundPlayer>();
-        _container = _transform.FindChild("Container");
+        if(_container == null)
+            _container = _transform.FindChild("Container");
 
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 
         _hitData.attacker = gameObject;
         _hitData.damage = _attackDamage;
 
-        CurrentHP = MaxHP;
+        _currentHP = _maxHP;
+        _currentAttackDelay = 0;
+    }
+
+    protected virtual void Reset()
+    {
+        _currentHP = _maxHP;
         _currentAttackDelay = 0;
     }
 
@@ -250,6 +254,7 @@ public class NewEnemy : MonoBehaviour, IEnemy {
 
     public void OnHit(HitData hitdata)
     {
+        Debug.Log("OnHit");
         CurrentHP -= hitdata.damage;
     }
 

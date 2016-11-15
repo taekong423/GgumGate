@@ -192,7 +192,8 @@ public partial class Player : Character {
     {
         playerState = PCState.Ladder;
         SetTrigger("Ladder");
-        m_rigidbody.gravityScale = 0;
+        if(!isStop)
+            m_rigidbody.gravityScale = 0;
         m_rigidbody.velocity = Vector2.zero;
         gameObject.transform.position = new Vector3(ladder.transform.position.x, gameObject.transform.position.y, 0);
         ladder.GetComponent<LadderCollisionTrigger>().IgnorePlatform(true);
@@ -222,13 +223,14 @@ public partial class Player : Character {
                     SetAnimationBack();
                     playerState = PCState.Any;
                 }
-                m_rigidbody.gravityScale = 10;
+                if(!isStop)
+                    m_rigidbody.gravityScale = 10;
             }
             else
             {
                 playerState = PCState.Jump;
 
-                if (!canClimb)
+                if (!canClimb && !isStop)
                     m_rigidbody.gravityScale = 50;
             }
         }
@@ -305,10 +307,20 @@ public partial class Player : Character {
         if (playerState != PCState.Ladder)
         {
             SetTrigger("Hit");
-            isStop = true;
-            yield return new WaitForSeconds(0.5f);
-            isStop = false;
-            SetAnimationBack();
+            if (!isStop)
+            {
+                isStop = true;
+                yield return new WaitForSeconds(0.5f);
+                isStop = false;
+                SetAnimationBack();
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.5f);
+
+                SetAnimationBack();
+            }
+            
         }
  
         blinkOn = true;
