@@ -18,9 +18,10 @@ public class BumJoong : NewEnemy {
     bool _isCenter = false;
 
     [Header("BumJoong Setting")]
-    public float _minX;
-    public float _maxX;
     public float _teleportDelay = 0.5f;
+
+    public Transform _minTrans;
+    public Transform _maxTrans;
 
     public GameObject _teleportEffect;
 
@@ -62,7 +63,7 @@ public class BumJoong : NewEnemy {
         base.Init();
 
         _noteList = new Dictionary<int, List<GameObject>>();
-        _centerPos = (_minX + _maxX) * 0.5f;
+        _centerPos = (_minTrans.position.x + _maxTrans.position.x) * 0.5f;
 
     }
 
@@ -80,7 +81,8 @@ public class BumJoong : NewEnemy {
 
     void Teleport(Vector2 point)
     {
-        point.x = Mathf.Clamp(point.x, _minX, _maxX);
+        //point.x = Mathf.Clamp(point.x, _minX, _maxX);
+        point.x = Mathf.Clamp(point.x, _minTrans.position.x, _maxTrans.position.x);
 
         if (point.x == _centerPos)
             _isCenter = true;
@@ -140,7 +142,7 @@ public class BumJoong : NewEnemy {
             obj = _noteList[2].Find(x => x.activeSelf == false);
         }
 
-        Vector2 pos = new Vector2(Random.Range(_minX, _maxX), _spawnHeight);
+        Vector2 pos = new Vector2(Random.Range(_minTrans.position.x, _maxTrans.position.x), _spawnHeight);
 
         if (obj == null)
         {

@@ -145,7 +145,7 @@ public class BigNote : NewEnemy {
             {
                 _note._transform.Translate(_dir * Vector2.right * _note._moveSpeed * Time.fixedDeltaTime);
                 if(_note._owner != null)
-                    _note._transform.position = new Vector2(Mathf.Clamp(_note._transform.position.x, _note._owner._minX, _note._owner._maxX), _note.transform.position.y);
+                    _note._transform.position = new Vector2(Mathf.Clamp(_note._transform.position.x, _note._owner._minTrans.position.x, _note._owner._maxTrans.position.x), _note.transform.position.y);
             }
         }
 
