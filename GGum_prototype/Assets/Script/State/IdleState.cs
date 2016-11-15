@@ -12,7 +12,6 @@ public class IdleState : EnemyState {
 
     protected override IEnumerator Enter()
     {
-        Debug.Log("IdleEnter");
         _enemy.animator.SetTrigger("Idle");
 
         yield return null;

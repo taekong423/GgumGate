@@ -49,6 +49,9 @@ public class BumJoong : NewEnemy {
     public Animator _tornadoAnim;
     public GameObject _tornadoBox;
 
+    [Header("SpeechBubble")]
+    public SpeechBubble2 _sp;
+
     void OnEnable()
     {
         SetState("Appear");
@@ -224,6 +227,7 @@ public class BumJoong : NewEnemy {
         public override void Enter()
         {
             _boss.PlayAnimation("Attack1");
+            _boss._sp.AppearDisplay(1.9f);
         }
 
         public override void Excute()
@@ -269,6 +273,7 @@ public class BumJoong : NewEnemy {
             _boss.IsSuperArmour = true;
             _boss.PlayAnimation("Attack0");
             _boss.LookTarget(_boss._player.transform);
+            _boss._sp.Pattern1Display(1.0f);
         }
 
         public override void Excute()
@@ -388,6 +393,7 @@ public class BumJoong : NewEnemy {
 
             _boss.PlayAnimation(GetID);
             //Buffer.Exhaustion(true);
+            _boss._sp.ExhaustionDisplay(1.0f);
         }
 
         public override void Excute()
@@ -439,6 +445,7 @@ public class BumJoong : NewEnemy {
         {
             _boss._pattern2Num--;
             _boss.PlayAnimation(GetID);
+            
         }
 
         public override void Excute()
@@ -488,6 +495,7 @@ public class BumJoong : NewEnemy {
             _boss.IsInvincible = true;
             _boss._collider.enabled = false;
             _boss.PlayAnimation("Attack1");
+            _boss._sp.Pattern2Display(1.0f);
         }
 
         public override void Excute()
@@ -558,6 +566,7 @@ public class BumJoong : NewEnemy {
 
         public override void Enter()
         {
+            _boss._sp.OnPattern3Display(1.0f);
             _boss.IsInvincible = true;
             _boss._collider.enabled = false;
             _moveObj = _boss._animator.transform;
@@ -629,6 +638,7 @@ public class BumJoong : NewEnemy {
         public override void Enter()
         {
             _boss._tornadoBox.SetActive(true);
+            _boss._sp.Pattern3Display(1.0f);
         }
 
         public override void Excute()
@@ -695,6 +705,8 @@ public class BumJoong : NewEnemy {
                         animIndex = Random.Range(0, 4);
                     }
                     while (_prevIndex == animIndex);
+
+                    _boss._sp.DeadDisplay(1.0f);
 
                     switch (animIndex)
                     {

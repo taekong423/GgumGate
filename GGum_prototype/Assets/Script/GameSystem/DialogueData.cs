@@ -57,12 +57,10 @@ public class DialogueData : MonoBehaviour {
     {
         if (_endEvent == null)
         {
-            Debug.Log("EventNull");
             return;
         }
         else
         {
-            Debug.Log("EventCall");
             _endEvent.Invoke();
         }
     }

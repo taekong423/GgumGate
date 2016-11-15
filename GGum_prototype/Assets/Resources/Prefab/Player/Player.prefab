@@ -157,6 +157,8 @@ GameObject:
   - 50: {fileID: 50000010033777066}
   - 114: {fileID: 114000010211186468}
   - 114: {fileID: 114000013527000230}
+  - 82: {fileID: 82000010351481766}
+  - 114: {fileID: 114000012388835068}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -294,6 +296,80 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 5}
   serializedVersion: 2
   m_Radius: 5
+--- !u!82 &82000010351481766
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012966815682}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95000011402738354
 Animator:
   serializedVersion: 3
@@ -318,7 +394,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012221063680}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 870a28b459991bf4e8b0f2cb0876c0dd, type: 2}
   m_CullingMode: 0
@@ -398,7 +474,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 121a558d102842d4a85310391423f51e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 17d3ab8555c19e647a5fdd650e0d581d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -444,6 +520,25 @@ MonoBehaviour:
     min: 0
     max: 20
   yPos: 0
+--- !u!114 &114000012388835068
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012966815682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce4d0f094f93d341a7a39b5abfe6c45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioData:
+  - _name: Attack
+    _clip: {fileID: 8300000, guid: 1a4090cdd9592c846826b1235082fc3f, type: 3}
+  - _name: Hit
+    _clip: {fileID: 8300000, guid: bf60e09c475d3a34ea9a60fef3a95a0d, type: 3}
+  - _name: Jump
+    _clip: {fileID: 8300000, guid: 89eec9d5c3a3b5f48bdd8744fb6952b9, type: 3}
+  _source: {fileID: 0}
 --- !u!114 &114000012569305862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -456,14 +551,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6985294, g: 0.27735728, b: 0.27735728, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: a784b304df137f749b2040fbc0811792, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -517,7 +612,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 121a558d102842d4a85310391423f51e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2edb644dbfc34be4281ee2772f1aab45, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -611,8 +706,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_AnchoredPosition: {x: 0, y: 0.4}
+  m_SizeDelta: {x: 15.3, y: 14.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000012272728778
 RectTransform:
