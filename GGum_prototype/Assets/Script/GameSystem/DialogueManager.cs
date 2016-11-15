@@ -206,4 +206,14 @@ public class DialogueManager : MonoBehaviour {
         return GetDialogueData(id).IsEnd;
     }
 
+    public void Skip()
+    {
+        StopAllCoroutines();
+        _contentIndex = 0;
+        DialogueSetActive(false);
+        _currentDialogueData.IsEnd = true;
+        _currentDialogueData.CallEndEvent();
+        _currentDialogueData = null;
+    }
+
 }
