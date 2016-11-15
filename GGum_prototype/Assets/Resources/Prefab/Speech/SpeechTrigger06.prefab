@@ -22,7 +22,7 @@ GameObject:
   - 61: {fileID: 61000011541476422}
   - 114: {fileID: 114000010145733118}
   m_Layer: 0
-  m_Name: SpeechTrigger02
+  m_Name: SpeechTrigger06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,15 +66,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d038ecf10e5d284fb8c6f7d1878025b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speechNumber: 1
-  playerStop: 1
+  speechNumber: 3
+  playerStop: 0
   speechList:
-  - type: 0
-    text: "\uC800 \uB2E4\uB78C\uC950 \uBCF4\uC774\uC9C0?"
   - type: 1
-    text: "\uC751!"
+    text: "\uC640 \uBC9A\uAF43\uBD10! \uC0AC\uBC29\uD314\uBC29\uC774 \uBC9A\uAF43\uCC9C\uC9C0\uC57C.."
+  - type: 1
+    text: "\uB108\uBB34 \uC774\uC058\uB2E4"
+  - type: 1
+    text: "\uADF8\uCE58 \uACE0\uAD6C\uBBF8?"
   - type: 0
-    text: "\uC9C0\uAE08\uAE68\uC9C4 \uCC28\uC6D0\uC758 \uC601\uD5A5\uC73C\uB85C \uBCC0\uD588\uC5B4.."
-  - type: 0
-    text: "\uBE68\uB9AC \uC5C6\uC560!"
+    text: "\uACE0\uAD6C\uBBF8? \uADF8\uAC74\uB610\uBB50\uC57C?"
+  - type: 1
+    text: "\uB124\uAC00 \uBAB8\uB2F4\uC740 \uC778\uD615\uC774\uB984!"
   check: 0

@@ -69,27 +69,10 @@ MonoBehaviour:
   - _content: "\uB3C4\uC640\uC918\uC11C \uACE0\uB9C8\uC6B0\uC774...\n"
     _imgName: 
     _buttonData: []
-  - _content: "\uD558..\uD560\uBA38\uB2C8 \uC5EC\uAE30\uAE4C\uC9C4 \uC5B4\uB5BB\uAC8C\uC62C\uB77C\uC624\uC167\uC5B4\uC694...?"
-    _imgName: 
+  - _content: "\uC5B4\uC11C \uB0B4\uB824\uAC00\uC694 \uD560\uBA38\uB2C8!"
+    _imgName: Ju
     _buttonData: []
-  - _content: "\uC5B4\uB5BB\uAC8C \uC62C\uB77C\uC654\uB0D0\uBA70...\uC5B4\uC5B4\uC5B4\uC5B8...."
-    _imgName: 
-    _buttonData: []
-  - _content: "\uD560\uBA38\uB2C8 \uC774\uC57C\uAE30\uAC00 \uAD81\uAE08\uD558\uC2DC\uB2E4\uBA74
-      2\uC6D4 \uCD9C\uC2DC\uB97C \uAE30\uB2E4\uB824\uC8FC\uC138\uC694! \uD558\uD558\uD558\uD558\uD558"
-    _imgName: 
-    _buttonData: []
-  - _content: "\uC774\uC0C1 \uC2DC\uC5F0\uC6A9 \uBC84\uC804\uC774\uC5C8\uC2B5\uB2C8\uB2E4."
-    _imgName: 
-    _buttonData: []
-  - _content: "\uBCC4\uAC70\uC5C6\uC5B4\uC11C \uC8C4\uC1A1\uD569\uB2C8\uB2E4..\n"
-    _imgName: 
-    _buttonData: []
-  - _content: "17\uB144 2\uC6D4\uC911\uC21C\uACBD \uCD9C\uC2DC\uC608\uC815"
-    _imgName: 
-    _buttonData: []
-  - _content: "\uADFC\uB370 \uC5EC\uAE30\uAE4C\uC9C0\uC624\uB294\uB370 \uBA87\uBC88\uB9CC\uC5D0
-      \uC624\uC2E0\uAC74\uAC00\uC694 ?\n"
+  - _content: "\uADF8\uB824\uADF8\uB824 \uACE0\uB9C8\uC6B0\uC774.."
     _imgName: 
     _buttonData: []
   _endEvent:

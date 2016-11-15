@@ -22,7 +22,7 @@ GameObject:
   - 61: {fileID: 61000011541476422}
   - 114: {fileID: 114000010145733118}
   m_Layer: 0
-  m_Name: SpeechTrigger02
+  m_Name: SpeechTrigger03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,15 +66,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d038ecf10e5d284fb8c6f7d1878025b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speechNumber: 1
+  speechNumber: 3
   playerStop: 1
   speechList:
   - type: 0
-    text: "\uC800 \uB2E4\uB78C\uC950 \uBCF4\uC774\uC9C0?"
+    text: "\uC5B4\uB77C \uC800\uAE30\uC704\uC5D0 \uBB54\uAC00 \uC788\uC5B4!"
   - type: 1
-    text: "\uC751!"
-  - type: 0
-    text: "\uC9C0\uAE08\uAE68\uC9C4 \uCC28\uC6D0\uC758 \uC601\uD5A5\uC73C\uB85C \uBCC0\uD588\uC5B4.."
-  - type: 0
-    text: "\uBE68\uB9AC \uC5C6\uC560!"
+    text: "\uC73C\uC73C \uC800\uAC83\uB4E4 \uBAA8\uB450 \uC7A1\uC544\uC57C\uD558\uB2E4\uB2C8.."
   check: 0

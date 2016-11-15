@@ -67,26 +67,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speechNumber: 0
+  playerStop: 1
   speechList:
   - type: 0
     text: "\uC800\uAC83 \uBD10. \uD30C\uD3B8\uC774\uC57C. \uC5B4\uC11C \uAC00\uC11C
       \uC8FC\uC6CC"
-  - type: 1
-    text: 
   - type: 0
-    text: "\uC5F0\uACB0!!!"
+    text: "\uACF3\uACF3\uC5D0 \uD30C\uD3B8\uC774 \uB5A8\uC5B4\uC838 \uC788\uC744 \uC218
+      \uC788\uC5B4"
   - type: 0
-    text: "\uACE0\uB9AC!!!!"
+    text: "\uC798 \uB458\uB7EC\uBCF4\uBA74\uC11C \uAC00\uB3C4\uB85D \uD574"
   - type: 1
-    text: "\uC774\uAC74!"
-  - type: 1
-    text: "\uC6B0\uB9AC!!"
-  - type: 0
-    text: "\uC548\uC758!!!"
-  - type: 1
-    text: "\uC18C\uB9AC!!!!"
-  - type: 1
-    text: "\uC18C\uB9AC!!!!"
-  - type: 1
-    text: "\uC18C\uB9AC!!!!"
+    text: "\uC54C\uC558\uC5B4"
   check: 0
