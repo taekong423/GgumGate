@@ -56,7 +56,11 @@ public class SpeechBubble : MonoBehaviour {
                 yield return new WaitForSeconds(1.0f);
             }
             else
+            {
+                if (playerStop)
+                    player.isStop = false;
                 yield break;
+            }
         }
 
         HideSpeechBubble();

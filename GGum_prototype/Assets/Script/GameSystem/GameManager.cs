@@ -115,10 +115,6 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EngageSquirrel()
     {
-        tip.ShowTip("팁1");
-        tip.ShowTip("팁2");
-        tip.ShowTip("팁3");
-
         player.isStop = true;
         cameraController.ZoomIn(squirrel.transform);
         yield return new WaitForSeconds(2.5f);

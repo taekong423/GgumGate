@@ -20,12 +20,6 @@ public class Speech : MonoBehaviour {
         speechBubble = GameObject.Find("SpeechBubble").GetComponent<SpeechBubble>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (check)
