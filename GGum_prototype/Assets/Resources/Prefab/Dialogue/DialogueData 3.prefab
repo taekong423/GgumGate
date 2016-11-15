@@ -21,7 +21,7 @@ GameObject:
   - 4: {fileID: 4000011220146294}
   - 114: {fileID: 114000012858432304}
   m_Layer: 0
-  m_Name: DialogueData
+  m_Name: DialogueData 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfab25b5ace8584e9ea7882346c49f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1
+  _ID: 4
   _contents:
   - _content: "\uBB50\uC57C! \uBB34\uC2A8 \uC77C\uC774 \uC77C\uC5B4\uB09C\uAC70\uC57C?\n\uC5EC\uAE34
       .. \uB610\uC5B4\uB514\uC9C0??"
