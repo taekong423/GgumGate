@@ -11,6 +11,7 @@ public class BossHPBar : MonoBehaviour {
     bool _isDisplay = false;
 
     public Image _hpImg;
+    public Text _bossName;
 
     public static BossHPBar Instance
     {
@@ -41,6 +42,8 @@ public class BossHPBar : MonoBehaviour {
     {
         _instance._currentBoss = boss;
         _instance._isDisplay = true;
+
+        _instance._bossName.text = boss.GetID;
 
         _instance.gameObject.SetActive(true);
 

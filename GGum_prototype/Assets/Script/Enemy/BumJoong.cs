@@ -61,8 +61,8 @@ public class BumJoong : NewEnemy {
 
     void OnEnable()
     {
-        //SetState("Dialogue");
-        SetState("Appear");
+        SetState("Dialogue");
+        //SetState("Appear");
     }
 
     protected override void Init()
@@ -171,6 +171,7 @@ public class BumJoong : NewEnemy {
 
     IEnumerator HitAnimation()
     {
+        _soundPlayer.Play("Hit");
         IsSuperArmour = true;
 
         PlayAnimation("Hit");
@@ -180,6 +181,12 @@ public class BumJoong : NewEnemy {
         IsSuperArmour = false;
 
         PlayAnimation(State);
+    }
+
+    protected void StopHitAnimation()
+    {
+        StopAllCoroutines();
+        IsSuperArmour = false;
     }
 
     protected override void HitEvent()
@@ -274,6 +281,8 @@ public class BumJoong : NewEnemy {
 
         public override void Enter()
         {
+            _boss.IsInvincible = true;
+            _boss._collider.enabled = false;
             _boss.PlayAnimation("Attack1");
             _boss._sp.AppearDisplay(1.9f);
         }
@@ -293,7 +302,9 @@ public class BumJoong : NewEnemy {
 
         public override void Exit()
         {
-            //BossHPBar.Display(_boss);
+            _boss.IsInvincible = false;
+            _boss._collider.enabled = true;
+            BossHPBar.Display(_boss);
         }
 
     }
@@ -319,6 +330,7 @@ public class BumJoong : NewEnemy {
         public override void Enter()
         {
             _boss.IsSuperArmour = true;
+            Buffer.SuperArmourAcitve(true);
             _boss.PlayAnimation("Attack0");
             _boss.LookTarget(_boss._player.transform);
             _boss._sp.Pattern1Display(1.0f);
@@ -420,6 +432,8 @@ public class BumJoong : NewEnemy {
             _delay = -1.0f;
             _isTeleporting = false;
             _boss._animator.gameObject.SetActive(true);
+            Buffer.SuperArmourAcitve(false);
+            _boss.IsSuperArmour = false;
         }
 
     }
@@ -440,7 +454,7 @@ public class BumJoong : NewEnemy {
             _boss.IsSuperArmour = false;
 
             _boss.PlayAnimation(GetID);
-            //Buffer.Exhaustion(true);
+            Buffer.Exhaustion(true);
             _boss._sp.ExhaustionDisplay(1.0f);
         }
 
@@ -473,7 +487,8 @@ public class BumJoong : NewEnemy {
         public override void Exit()
         {
             _delay = 0;
-            //Buffer.Exhaustion(false);
+            Buffer.Exhaustion(false);
+            _boss.StopHitAnimation();
         }
 
     }
@@ -493,7 +508,6 @@ public class BumJoong : NewEnemy {
         {
             _boss._pattern2Num--;
             _boss.PlayAnimation(GetID);
-            
         }
 
         public override void Excute()
@@ -542,6 +556,8 @@ public class BumJoong : NewEnemy {
         {
             _boss.IsInvincible = true;
             _boss._collider.enabled = false;
+            Buffer.InvincibleActive(true);
+            Buffer.NoteActive(true);
             _boss.PlayAnimation("Attack1");
             _boss._sp.Pattern2Display(1.0f);
         }
@@ -551,7 +567,7 @@ public class BumJoong : NewEnemy {
             if (_boss._bigNoteNum < _boss._spawnNum)
             {
 
-                if (_boss._bigNoteDeadCount < 4 && !_isHit)
+                if (_boss._bigNoteDeadCount < 3 && !_isHit)
                 {
                     if (_delay >= _boss._spawnDelay)
                     {
@@ -592,6 +608,8 @@ public class BumJoong : NewEnemy {
             _isHit = false;
             _boss.IsInvincible = false;
             _boss._collider.enabled = true;
+            Buffer.InvincibleActive(false);
+            Buffer.NoteActive(false);
         }
 
     }
@@ -617,6 +635,7 @@ public class BumJoong : NewEnemy {
             _boss._sp.OnPattern3Display(1.0f);
             _boss.IsInvincible = true;
             _boss._collider.enabled = false;
+            Buffer.InvincibleActive(true);
             _moveObj = _boss._animator.transform;
             _pos = new Vector3(_moveObj.localPosition.x, _boss._height, _moveObj.localPosition.z);
 
@@ -734,6 +753,11 @@ public class BumJoong : NewEnemy {
             _boss.BigNoteAllDead();
             _boss._tornadoAnim.SetTrigger("End");
             _boss._tornadoBox.SetActive(false);
+            _boss.IsInvincible = false;
+            _boss._collider.enabled = false;
+            Buffer.InvincibleActive(false);
+            Buffer.SuperArmourAcitve(false);
+            BossHPBar.Conceal();
         }
 
         public override void Excute()

@@ -9,6 +9,8 @@ public class SpeechBubble2 : MonoBehaviour {
     public Text _speechText;
     public Image _speechBubbleImg;
 
+    public Transform _contaner;
+
     [Header("Appear")]
     int _appearIndex = 0;
     public bool _isAppearRandom = false;
@@ -59,6 +61,7 @@ public class SpeechBubble2 : MonoBehaviour {
 
     IEnumerator Display(string content, float time)
     {
+        _speechText.rectTransform.localEulerAngles = new Vector3(0, _contaner.localEulerAngles.y, 0);
         _speechText.text = "";
         _speechText.text = content;
         SpeechBubbeleActive(true);

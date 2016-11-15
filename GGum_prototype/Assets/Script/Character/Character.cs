@@ -32,7 +32,7 @@ public class Character : MonoBehaviour, ICharacter {
     public Collider2D m_collider;
     [HideInInspector]
     public StatePattern _statePattern;
-    [HideInInspector]
+    //[HideInInspector]
     public bool isInvincible;
     protected float invincibleTime;
     protected SoundPlayer soundPlayer;
