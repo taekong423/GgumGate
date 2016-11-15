@@ -16,6 +16,17 @@ public class TriggerChecker : MonoBehaviour {
 
     public CallBackFunction _callBack;
 
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.CompareTag(_tag))
+        {
+            if (_EnterCheck)
+            {
+                _callBack.Invoke();
+            }
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.collider.tag == _tag)

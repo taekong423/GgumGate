@@ -479,6 +479,11 @@ Prefab:
       propertyPath: _spawnNum
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
+        type: 2}
+      propertyPath: _maxTrans
+      value: 
+      objectReference: {fileID: 1084692983}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c097522232fb6db47b117d7524121fcf, type: 2}
   m_IsPrefabParent: 0

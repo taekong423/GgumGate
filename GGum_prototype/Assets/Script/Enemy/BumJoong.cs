@@ -16,14 +16,20 @@ public class BumJoong : NewEnemy {
     float _centerPos;
 
     bool _isCenter = false;
+    bool _isDialogue = false;
+
+    DialogueManager _dm;
 
     [Header("BumJoong Setting")]
+    public string _dialogueID;
     public float _teleportDelay = 0.5f;
 
     public Transform _minTrans;
     public Transform _maxTrans;
 
     public GameObject _teleportEffect;
+
+    public bool IsDialogue { get { return _isDialogue; } set { _isDialogue = value; } }
 
     [Header("Pattern1")]
     public float _exhaustionTime;
@@ -55,6 +61,7 @@ public class BumJoong : NewEnemy {
 
     void OnEnable()
     {
+        //SetState("Dialogue");
         SetState("Appear");
     }
 
@@ -64,11 +71,13 @@ public class BumJoong : NewEnemy {
 
         _noteList = new Dictionary<int, List<GameObject>>();
         _centerPos = (_minTrans.position.x + _maxTrans.position.x) * 0.5f;
+        _dm = GameObject.FindObjectOfType<DialogueManager>();
 
     }
 
     protected override void SetStateList()
     {
+        _stateList.Add("Dialogue", new DialogueState(this, "Dialogue"));
         _stateList.Add("Appear", new AppearState(this, "Appear"));
         _stateList.Add("Pattern_1", new Pattern_1State(this, "Pattern_1"));
         _stateList.Add("Exhaustion", new ExhaustionState(this, "Exhaustion"));
@@ -213,6 +222,43 @@ public class BumJoong : NewEnemy {
                 note.GetComponent<BigNote>().SetState("Dead");
             }
         }
+    }
+
+    class DialogueState : State
+    {
+        readonly BumJoong _boss;
+
+        public DialogueState(BumJoong boss, string id) : base(id)
+        {
+            _boss = boss;
+        }
+
+        public override void Excute()
+        {
+            if (_boss._isDialogue)
+            {
+                _boss._isDialogue = false;
+                _boss._dm.DisplayDialogue(_boss._dialogueID);
+            }
+
+            if (_boss._dm.GetIsEnd(_boss._dialogueID))
+            {
+                _boss.SetState("Appear");
+            }
+            else if(_boss._dm.Displaying)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _boss._dm.NextContent();
+
+                    if (_boss._dm.Displaying && _boss._dm._useDelay)
+                    {
+                        _boss._dm.Displaying = false;
+                    }
+                }
+            }
+        }
+
     }
 
     class AppearState : State
