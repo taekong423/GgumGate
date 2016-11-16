@@ -39,6 +39,12 @@ public class DialogueManager : MonoBehaviour {
     {
         _player = GameObject.FindObjectOfType<Player>();
         _dialogueDatas = Resources.LoadAll<DialogueData>("Prefab/Dialogue");
+
+        foreach (DialogueData data in _dialogueDatas)
+        {
+            data.IsEnd = false;
+        }
+
     }
 
         
@@ -214,6 +220,15 @@ public class DialogueManager : MonoBehaviour {
         _currentDialogueData.IsEnd = true;
         _currentDialogueData.CallEndEvent();
         _currentDialogueData = null;
+    }
+
+
+    void OnApplicationQuit()
+    {
+        //foreach (DialogueData data in _dialogueDatas)
+        //{
+        //    data.IsEnd = false;
+        //}
     }
 
 }
