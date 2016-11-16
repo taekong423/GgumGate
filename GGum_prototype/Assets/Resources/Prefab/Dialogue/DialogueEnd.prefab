@@ -20,9 +20,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011220146294}
   - 114: {fileID: 114000012858432304}
-  - 114: {fileID: 114000010782653550}
   m_Layer: 0
-  m_Name: DialogueData 2
+  m_Name: DialogueEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,18 +40,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &114000010782653550
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012172442588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a72eb3a905a73d34ebc24f47b17f4c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _teleportPoint: {x: 0, y: 0}
 --- !u!114 &114000012858432304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -64,40 +51,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfab25b5ace8584e9ea7882346c49f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4
+  _ID: End
   _contents:
-  - _content: "\uB3C4\uC640\uC918\uC11C \uACE0\uB9C8\uC6B0\uC774...\n"
-    _imgName: H
-    _buttonData: []
-  - _content: "\uC5B4\uC11C \uB0B4\uB824\uAC00\uC694 \uD560\uBA38\uB2C8!"
+  - _content: "\uD50C\uB808\uC774 \uD574\uC8FC\uC154\uC11C \uAC10\uC0AC\uD569\uB2C8\uB2E4."
     _imgName: Ju
     _buttonData: []
-  - _content: "\uADF8\uB824\uADF8\uB824 \uACE0\uB9C8\uC6B0\uC774.."
-    _imgName: H
+  - _content: "\uAECC \uC870\uC2EC\uD558\uC138\uC694...\n\uB2E4\uB978 \uCC28\uC6D0\uC73C\uB85C
+      \uAC11\uB2C8\uB2E4."
+    _imgName: Ju
     _buttonData: []
   _endEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114000010782653550}
-        m_MethodName: EnemyActive
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: QwestDeer
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 114000010782653550}
-        m_MethodName: EnemyActive
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: QwestDeer1
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: EndEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null

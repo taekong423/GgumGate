@@ -61,7 +61,7 @@ public class BumJoong : NewEnemy {
 
     void OnEnable()
     {
-        SetState("Dialogue");
+        SetState("Init");
         //SetState("Appear");
     }
 
@@ -77,6 +77,7 @@ public class BumJoong : NewEnemy {
 
     protected override void SetStateList()
     {
+        _stateList.Add("Init", new BumJoongInit(this, "Init"));
         _stateList.Add("Dialogue", new DialogueState(this, "Dialogue"));
         _stateList.Add("Appear", new AppearState(this, "Appear"));
         _stateList.Add("Pattern_1", new Pattern_1State(this, "Pattern_1"));
@@ -217,8 +218,28 @@ public class BumJoong : NewEnemy {
         CurrentHP -= damage;
     }
 
+    public void NoteAllDead()
+    {
+
+        if ((!_noteList.ContainsKey(0) && !_noteList.ContainsKey(1)))
+            return;
+
+
+        foreach (GameObject note in _noteList[0])
+        {
+            if (note.activeSelf == true)
+            {
+                note.GetComponent<Bullet_Note>().gameObject.SetActive(false);
+            }
+        }
+    }
+
     public void BigNoteAllDead()
     {
+
+        if (!_noteList.ContainsKey(2) || _noteList[2] == null)
+            return;
+
         _bigNoteNum = 0;
         _bigNoteDeadCount = 0;
         foreach (GameObject note in _noteList[2])
@@ -231,6 +252,32 @@ public class BumJoong : NewEnemy {
         }
     }
 
+    class BumJoongInit : State
+    {
+        readonly BumJoong _boss;
+
+        public BumJoongInit(BumJoong boss, string id) : base(id)
+        {
+            _boss = boss;
+        }
+
+        public override void Enter()
+        {
+            _boss.IsInvincible = true;
+            _boss._collider.enabled = false;
+        }
+
+        public override void Excute()
+        {
+            if (_boss.IsDialogue)
+            {
+                _boss.SetState("Dialogue");
+                return;
+            }
+        }
+
+    }
+
     class DialogueState : State
     {
         readonly BumJoong _boss;
@@ -240,24 +287,27 @@ public class BumJoong : NewEnemy {
             _boss = boss;
         }
 
+        public override void Enter()
+        {
+            _boss._dm.DisplayDialogue(_boss._dialogueID);
+        }
+
         public override void Excute()
         {
-            if (_boss._isDialogue)
-            {
-                _boss._isDialogue = false;
-                _boss._dm.DisplayDialogue(_boss._dialogueID);
-            }
 
             if (_boss._dm.GetIsEnd(_boss._dialogueID))
             {
                 _boss.SetState("Appear");
             }
-            else if(_boss._dm.Displaying)
+            else
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    _boss._dm.NextContent();
-
+                    if (!_boss._dm.Displaying)
+                    {
+                        _boss._dm.NextContent();
+                        return;
+                    }
                     if (_boss._dm.Displaying && _boss._dm._useDelay)
                     {
                         _boss._dm.Displaying = false;
@@ -752,6 +802,7 @@ public class BumJoong : NewEnemy {
             _pos = new Vector3(0, 9, 0);
             _moveObj = _boss._animator.transform;
             _boss.BigNoteAllDead();
+            _boss.NoteAllDead();
             _boss._tornadoAnim.SetTrigger("End");
             _boss._tornadoBox.SetActive(false);
             _boss.IsInvincible = false;
@@ -760,10 +811,29 @@ public class BumJoong : NewEnemy {
             Buffer.SuperArmourAcitve(false);
             BossHPBar.Conceal();
             Global.shared<SoundManager>().ChangeBGM("Stage-001");
+
+            _boss._dm.DisplayDialogue("End");
+
         }
 
         public override void Excute()
         {
+
+            if (!_boss._dm.GetIsEnd("End"))
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (!_boss._dm.Displaying)
+                    {
+                        _boss._dm.NextContent();
+                        return;
+                    }
+                    if (_boss._dm.Displaying && _boss._dm._useDelay)
+                    {
+                        _boss._dm.Displaying = false;
+                    }
+                }
+            }
 
             if (_isTornadoEnd)
             {

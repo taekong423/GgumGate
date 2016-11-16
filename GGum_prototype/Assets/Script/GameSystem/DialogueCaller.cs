@@ -75,11 +75,13 @@ public class DialogueCaller : MonoBehaviour {
             {
                 if (!_dm.Displaying)
                 {
+                    Debug.Log("true");
                     _dm.NextContent();
                     return;
                 }
-                else if (_dm.Displaying && _dm._useDelay)
+                if (_dm.Displaying && _dm._useDelay)
                 {
+                    Debug.Log("False");
                     _dm.Displaying = false;
                 }
 

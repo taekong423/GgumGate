@@ -93,6 +93,7 @@ public class DialogueManager : MonoBehaviour {
 
     IEnumerator SetDIalogueText_Coroutine(int index)
     {
+
         if (index >= _currentDialogueData._contents.Length)
         {
             _contentIndex = 0;
@@ -214,6 +215,7 @@ public class DialogueManager : MonoBehaviour {
 
     public void Skip()
     {
+        _displaying = false;
         StopAllCoroutines();
         _contentIndex = 0;
         DialogueSetActive(false);
