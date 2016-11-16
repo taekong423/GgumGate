@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour {
         */
         if (boss[0].activeInHierarchy)
         {
-            if (boss[0].GetComponent<Character>()._statePattern.CurrentState == "Dead")
+            if (boss[0].GetComponent<ICharacter>().CurrentState == "Dead")
             {
                 flags[flagKeys[2]] = true;
             }
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour {
 
         if (boss[1].activeInHierarchy)
         {
-            if (boss[1].GetComponent<Character>()._statePattern.CurrentState == "Dead")
+            if (boss[1].GetComponent<ICharacter>().CurrentState == "Dead")
             {
                 flags[flagKeys[6]] = true;
             }

@@ -64,7 +64,7 @@ public class Character : MonoBehaviour, ICharacter {
     //public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     //public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
-    //public State CurrentState { get { return state; } set { state = value; } }
+    public string CurrentState { get { return _statePattern.CurrentState; }  }
 
 
     protected virtual void InitCharacter()

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class NewEnemy : MonoBehaviour, IEnemy {
 
-    public string CurrentState;
+    public string _currentState;
 
     [Header("Chracter Setting")]
     [SerializeField]
@@ -89,6 +89,8 @@ public class NewEnemy : MonoBehaviour, IEnemy {
 
     public Player GetPlayer { get { return _player; } }
 
+    public string CurrentState { get { return State; } }
+
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.CompareTag("Bullet"))
@@ -163,7 +165,7 @@ public class NewEnemy : MonoBehaviour, IEnemy {
 
             _state = _stateList[key];
             _state.Enter();
-            CurrentState = State;
+            _currentState = State;
         }
     }
 
