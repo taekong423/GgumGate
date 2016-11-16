@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TempManager : MonoBehaviour {
 
@@ -20,5 +21,11 @@ public class TempManager : MonoBehaviour {
 #else
         Application.Quit();
 #endif
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("InGame");
     }
 }
