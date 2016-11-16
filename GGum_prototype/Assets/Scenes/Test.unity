@@ -484,6 +484,10 @@ Prefab:
       propertyPath: _maxTrans
       value: 
       objectReference: {fileID: 1084692983}
+    - target: {fileID: 1000010307751238, guid: c097522232fb6db47b117d7524121fcf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c097522232fb6db47b117d7524121fcf, type: 2}
   m_IsPrefabParent: 0
@@ -1200,10 +1204,6 @@ Prefab:
       propertyPath: _wayPoints.Array.data[1]
       value: 
       objectReference: {fileID: 1018365028}
-    - target: {fileID: 1000011009156038, guid: a12c14dec0dbc904aa135c1b28e76245, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a12c14dec0dbc904aa135c1b28e76245, type: 2}
   m_IsPrefabParent: 0

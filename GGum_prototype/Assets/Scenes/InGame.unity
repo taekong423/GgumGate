@@ -3745,6 +3745,16 @@ Prefab:
       propertyPath: _dialogueID
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
+        type: 2}
+      propertyPath: _spawnNum
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
+        type: 2}
+      propertyPath: _spawnHeight
+      value: 120
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c097522232fb6db47b117d7524121fcf, type: 2}
   m_IsPrefabParent: 0
@@ -13099,7 +13109,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1241694869}
-  - 65: {fileID: 1241694870}
+  - 61: {fileID: 1241694870}
   m_Layer: 10
   m_Name: GameObject
   m_TagString: Untagged
@@ -13114,24 +13124,26 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1241694868}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 95, y: -5.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1827030673}
   m_RootOrder: 0
---- !u!65 &1241694870
-BoxCollider:
+--- !u!61 &1241694870
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1241694868}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: -7.244568, y: -0.0000104904175}
   serializedVersion: 2
-  m_Size: {x: -68.018326, y: -5.7541504, z: 1}
-  m_Center: {x: 87.53424, y: -5.887108, z: 0}
+  m_Size: {x: 67.179115, y: 5.76}
 --- !u!1001 &1248137352
 Prefab:
   m_ObjectHideFlags: 0
@@ -18448,11 +18460,6 @@ Prefab:
       propertyPath: _wayPoints.Array.data[1]
       value: 
       objectReference: {fileID: 319331978}
-    - target: {fileID: 114000010915251612, guid: a12c14dec0dbc904aa135c1b28e76245,
-        type: 2}
-      propertyPath: id
-      value: QwestDeer
-      objectReference: {fileID: 0}
     - target: {fileID: 1000011009156038, guid: a12c14dec0dbc904aa135c1b28e76245, type: 2}
       propertyPath: m_IsActive
       value: 0
