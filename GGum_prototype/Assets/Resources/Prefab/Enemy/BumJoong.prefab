@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a016d450eaa64586f0f392107f650, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 
+  _currentState: 
   _enemyID: "\uBC94\uC911\uC774"
   _maxHP: 150
   _attackDamage: 1
@@ -564,21 +564,21 @@ MonoBehaviour:
   _moveType: 0
   _wayPoints: []
   _PageNum: 1
-  _dialogueID: 2
+  _dialogueID: 4
   _teleportDelay: 0.75
   _minTrans: {fileID: 0}
   _maxTrans: {fileID: 0}
   _teleportEffect: {fileID: 1000012573963306}
   _exhaustionTime: 3
-  _shootDelay: 0.5
-  _numShoot: 4
+  _shootDelay: 1
+  _numShoot: 3
   _muzzle: {fileID: 4000010140138116}
   _notePrefabs:
   - {fileID: 1000013358866742, guid: de3511c7068b0cf49a6c19ab6a6d0d06, type: 2}
   - {fileID: 1000013676500964, guid: f1f553b5e5dd84745bc2d70e0a152782, type: 2}
-  _spawnNum: 5
+  _spawnNum: 30
   _spawnDelay: 0.5
-  _spawnHeight: 200
+  _spawnHeight: 120
   _bigNoteSelftDamage: 0.05
   _bigNotePrefab: {fileID: 1000011665737488, guid: 304ffc790f000684ba140886fa18c1bc,
     type: 2}

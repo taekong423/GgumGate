@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour {
         {
             flags[flagKeys[5]] = false;
             cameraController.cameraClamp.xMin = 3170.0f;
-            cameraController.cameraClamp.xMin = 3515.0f;
+            cameraController.cameraClamp.xMax = 3515.0f;
         }
 
         if (flags[flagKeys[6]] == true)
