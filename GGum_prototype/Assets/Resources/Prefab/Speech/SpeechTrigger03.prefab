@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speechNumber: 3
+  speechTime: 1
   playerStop: 1
   speechList:
   - type: 0
