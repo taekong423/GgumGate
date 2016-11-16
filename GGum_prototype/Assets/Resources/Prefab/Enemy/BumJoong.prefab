@@ -553,7 +553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentState: 
   _enemyID: "\uBC94\uC911\uC774"
-  _maxHP: 150
+  _maxHP: 100
   _attackDamage: 1
   _stayTime: 0
   _moveSpeed: 0
@@ -564,7 +564,7 @@ MonoBehaviour:
   _moveType: 0
   _wayPoints: []
   _PageNum: 1
-  _dialogueID: 4
+  _dialogueID: BumJoong
   _teleportDelay: 0.75
   _minTrans: {fileID: 0}
   _maxTrans: {fileID: 0}
@@ -584,7 +584,7 @@ MonoBehaviour:
     type: 2}
   _height: 95
   _speed: 100
-  _fallSpeed: 30
+  _fallSpeed: 40
   _tornadoAnim: {fileID: 95000012964983534}
   _tornadoBox: {fileID: 1000011635982112}
   _sp: {fileID: 114000012908424442}

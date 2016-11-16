@@ -2243,7 +2243,7 @@ Transform:
   m_Children:
   - {fileID: 1778426209}
   m_Father: {fileID: 2072857914}
-  m_RootOrder: 12
+  m_RootOrder: 11
 --- !u!1 &310546972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2894,21 +2894,6 @@ Prefab:
       propertyPath: _maxTrans
       value: 
       objectReference: {fileID: 294857075}
-    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
-        type: 2}
-      propertyPath: _fallSpeed
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
-        type: 2}
-      propertyPath: _maxHP
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
-        type: 2}
-      propertyPath: _dialogueID
-      value: BumJoong
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c097522232fb6db47b117d7524121fcf, type: 2}
   m_IsPrefabParent: 0
@@ -14137,7 +14122,6 @@ Transform:
   - {fileID: 765439921}
   - {fileID: 888921718}
   - {fileID: 468961942}
-  - {fileID: 2111060259}
   - {fileID: 294857075}
   - {fileID: 383458795}
   m_Father: {fileID: 0}
@@ -14339,103 +14323,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2108560547}
---- !u!1 &2111060258
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2111060259}
-  - 61: {fileID: 2111060261}
-  - 114: {fileID: 2111060260}
-  m_Layer: 0
-  m_Name: BumJoongTrigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2111060259
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2111060258}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 2189, y: 12.799988, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 2072857914}
-  m_RootOrder: 11
---- !u!114 &2111060260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2111060258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a668adb200a242644a814044dfcf2805, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tag: Player
-  _EnterCheck: 1
-  _StayCheck: 0
-  _ExitCheck: 0
-  _callBack:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 490088185}
-        m_MethodName: set_IsDialogue
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 468961941}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 294857074}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-    m_TypeName: CallBackFunction, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
---- !u!61 &2111060261
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2111060258}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 44.940613}
-  serializedVersion: 2
-  m_Size: {x: 50, y: 139.88101}
 --- !u!1 &2118809858
 GameObject:
   m_ObjectHideFlags: 0
