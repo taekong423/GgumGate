@@ -56,7 +56,6 @@ public class DialogueCaller : MonoBehaviour {
                     }
                 }
 
-
             }
             else
             {
@@ -74,12 +73,17 @@ public class DialogueCaller : MonoBehaviour {
 
             if (Input.GetMouseButtonDown(0))
             {
-                _dm.NextContent();
-
-                if (_dm.Displaying && _dm._useDelay)
+                if (!_dm.Displaying)
+                {
+                    _dm.NextContent();
+                    return;
+                }
+                else if (_dm.Displaying && _dm._useDelay)
                 {
                     _dm.Displaying = false;
                 }
+
+                
             }
 
             

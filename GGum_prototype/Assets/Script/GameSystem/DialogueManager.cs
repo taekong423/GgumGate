@@ -93,8 +93,6 @@ public class DialogueManager : MonoBehaviour {
 
     IEnumerator SetDIalogueText_Coroutine(int index)
     {
-        yield return null;
-
         if (index >= _currentDialogueData._contents.Length)
         {
             _contentIndex = 0;
@@ -108,6 +106,8 @@ public class DialogueManager : MonoBehaviour {
         {
 
             _displaying = true;
+
+            yield return null;
 
             int textIndex = 0;
             string text = _currentDialogueData.GetContentText(index);
