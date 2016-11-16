@@ -52,8 +52,6 @@ public partial class Player : Character {
     bool blinkOn;
     bool check;
 
-    CameraController cameraController;
-    GameManager gm;
 
     // Use this for initialization
     void Awake()
@@ -96,9 +94,7 @@ public partial class Player : Character {
         rayPosY = 1.0f;
         invincibleTime = 2.0f;
 
-        cameraController = Camera.main.GetComponent<CameraController>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         soundPlayer = GetComponent<SoundPlayer>();
     }
 

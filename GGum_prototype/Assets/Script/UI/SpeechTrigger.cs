@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Speech : MonoBehaviour {
+public class SpeechTrigger : MonoBehaviour {
 
     public int speechNumber;
+    public float speechTime;
     public bool playerStop;
     public SpeechData[] speechList;
 
@@ -27,7 +28,7 @@ public class Speech : MonoBehaviour {
             if (other.CompareTag("Player"))
             {
                 check = false;
-                StartCoroutine(speechBubble.StartSpeech(speechNumber, playerStop, speechList));
+                StartCoroutine(speechBubble.StartSpeech(speechNumber, speechTime, playerStop, speechList));
             }
         }
     }

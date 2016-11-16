@@ -8,7 +8,6 @@ public class SpeechBubble : MonoBehaviour {
     public GameObject petObject;
     public GameObject playerObject;
     public int currentSpeech;
-    public Speech speech;
 
     private Text petText;
     private Text playerText;
@@ -39,7 +38,7 @@ public class SpeechBubble : MonoBehaviour {
         playerObject.SetActive(false);
     }
 
-    public IEnumerator StartSpeech(int number, bool playerStop, SpeechData[] speechData)
+    public IEnumerator StartSpeech(int number, float speechTime, bool playerStop, SpeechData[] speechData)
     {
         if (playerStop)
             player.isStop = true;
@@ -53,7 +52,7 @@ public class SpeechBubble : MonoBehaviour {
             if (currentSpeech == number)
             {
                 ShowSpeechBubble(speechData[i]);
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSeconds(speechTime);
             }
             else
             {

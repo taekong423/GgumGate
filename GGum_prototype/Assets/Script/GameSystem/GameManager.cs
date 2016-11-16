@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 
     public GameData gameData;
     public ScreenFade screen;
-    public GameObject boss;
+    public GameObject[] boss;
     public GameObject squirrel;
     CameraController cameraController;
 
@@ -29,8 +29,6 @@ public class GameManager : MonoBehaviour {
     int touchCount;
     bool isTouching;
 
-    Tip tip;
-
 	// Use this for initialization
 	void Start () {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -44,7 +42,6 @@ public class GameManager : MonoBehaviour {
         currentStageNumber = 0;
         playerRespawnPos = new Vector2(1000, 0);
         touchCount = 0;
-        tip = GameObject.Find("Tip").GetComponent<Tip>();
     }
 	
 	// Update is called once per frame
@@ -64,11 +61,19 @@ public class GameManager : MonoBehaviour {
             }
         }
         */
-        if (boss.activeInHierarchy)
+        if (boss[0].activeInHierarchy)
         {
-            if (boss.GetComponent<Character>()._statePattern.CurrentState == "Dead")
+            if (boss[0].GetComponent<Character>()._statePattern.CurrentState == "Dead")
             {
                 flags[flagKeys[2]] = true;
+            }
+        }
+
+        if (boss[1].activeInHierarchy)
+        {
+            if (boss[1].GetComponent<Character>()._statePattern.CurrentState == "Dead")
+            {
+                flags[flagKeys[6]] = true;
             }
         }
 
@@ -101,6 +106,19 @@ public class GameManager : MonoBehaviour {
         {
             flags[flagKeys[4]] = false;
             StartCoroutine(BackToLastStage());
+        }
+
+        if (flags[flagKeys[5]] == true)
+        {
+            flags[flagKeys[5]] = false;
+            cameraController.cameraClamp.xMin = 3170.0f;
+            cameraController.cameraClamp.xMin = 3515.0f;
+        }
+
+        if (flags[flagKeys[6]] == true)
+        {
+            flags[flagKeys[6]] = false;
+            cameraController.cameraClamp = gameData.cameraClamp[1];
         }
     }
 

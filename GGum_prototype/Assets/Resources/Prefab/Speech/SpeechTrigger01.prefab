@@ -66,7 +66,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d038ecf10e5d284fb8c6f7d1878025b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speechNumber: 0
+  speechNumber: 1
+  speechTime: 1
   playerStop: 1
   speechList:
   - type: 0
