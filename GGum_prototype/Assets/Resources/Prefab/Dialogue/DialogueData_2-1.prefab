@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1000012172442588}
+  m_IsPrefabParent: 1
+--- !u!1 &1000012172442588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011220146294}
+  - 114: {fileID: 114000012858432304}
+  m_Layer: 0
+  m_Name: DialogueData_2-1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000011220146294
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012172442588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 959.9999, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &114000012858432304
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012172442588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfab25b5ace8584e9ea7882346c49f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ID: 4
+  _contents:
+  - _content: "\uAC70\u2026\uAC70\uAE30 \uC80A\uC740\uC774\u2026"
+    _imgName: H
+    _buttonData: []
+  - _content: "\uB124? \uC800\uC694?"
+    _imgName: Ju
+    _buttonData: []
+  - _content: "\uC138\uC0C1\uC5D0! \uBB34\uC2A8 \uC77C\uC774\uC8E0!?"
+    _imgName: Ju
+    _buttonData: []
+  - _content: "\uC9C0\uAE08 \uC628 \uB9C8\uC744\uC774 \uC465\uB300\uBC2D\uC774\uB124\u2026\r\n\uD0A4\uC6B0\uB358
+      \uAC00\uCD95\uC774\uBA70 \uC57C\uC0DD \uB3D9\uBB3C\uB4E4 \uD558\uBA70 \r\n\uC2EC\uC9C0\uC5B4
+      \uC0AC\uB78C\uAE4C\uC9C0 \uC774\uC0C1\uD574\uC9C0\uB354\uB2C8 \uC6B0\uB9B4 \uACF5\uACA9\uD558\uACE0
+      \uC788\uB2E4\uB124\u2026\n"
+    _imgName: H
+    _buttonData: []
+  - _content: "\uBB50\uB77C\uAD6C\uC694!? \uD560\uC544\uBC84\uC9C0\uB3C4 \uBE68\uB9AC
+      \uB3C4\uB9DD\uCE58\uC138\uC694!!"
+    _imgName: Ju
+    _buttonData: []
+  - _content: "\uC544\uC774\uACE0\u2026 \uC6B0\uB9AC \uD560\uBA48\uC774\u2026 \uD070
+      \uB098\uBB34 \uC704\uC5D0 \uC62C\uB77C\uAC14\uB2E4\uAC00 \n\uB0B4\uB824\uC624\uC9C0
+      \uBABB\uD558\uACE0 \uC788\uB124\u2026\r\uC81C\uBC1C \uBD80\uD0C1\uC774\uB124\u2026
+      \n\uC6B0\uB9AC \uD560\uBA48\uC744 \uAD6C\uD574\uC8FC\uAC8C\r\n\n"
+    _imgName: H
+    _buttonData: []
+  _endEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: EndEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null

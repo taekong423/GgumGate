@@ -53,11 +53,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: End
   _contents:
-  - _content: "\uD50C\uB808\uC774 \uD574\uC8FC\uC154\uC11C \uAC10\uC0AC\uD569\uB2C8\uB2E4."
+  - _content: "\uC2DC\uC5F0\uC6A9\uC740 \uC5EC\uAE30\uAE4C\uC9C0 \uC785\uB2C8\uB2E4.
+      \uAC10\uC0AC\uD569\uB2C8\uB2E4."
     _imgName: Ju
     _buttonData: []
-  - _content: "\uAECC \uC870\uC2EC\uD558\uC138\uC694...\n\uB2E4\uB978 \uCC28\uC6D0\uC73C\uB85C
-      \uAC11\uB2C8\uB2E4."
+  - _content: "\uD53C\uB4DC\uBCA1 \uACF5\uCC45\uC5D0 \uC18C\uAC10\uC774\uB098 \uC870\uC5B8
+      \uC368\uC8FC\uC2DC\uBA74 \uAC10\uC0AC\uD558\uACA0\uC2B5\uB2C8\uB2E4!\n"
+    _imgName: Ju
+    _buttonData: []
+  - _content: "2017\uB144 3\uC6D4\uC5D0 \uCD9C\uC2DC\uB429\uB2C8\uB2E4."
+    _imgName: Ju
+    _buttonData: []
+  - _content: "\uB354\uC6B1 \uC54C\uCC2C \uC5F0\uCD9C \uD50C\uB808\uC774 \uC88B\uC740
+      \uAC8C\uC784\uB418\uB3C4\uB85D \uB178\uB825\uD558\uACA0\uC2B5\uB2C8\uB2E4."
     _imgName: Ju
     _buttonData: []
   _endEvent:
