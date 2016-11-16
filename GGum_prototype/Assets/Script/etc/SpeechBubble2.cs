@@ -194,10 +194,11 @@ public class SpeechBubble2 : MonoBehaviour {
         }
         else
         {
+            _deadIndex++;
+
             if (_deadIndex >= _deadContent.Length)
                 _deadIndex = 0;
 
-            _deadIndex++;
         }
 
         Stop();
