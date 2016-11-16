@@ -24,7 +24,7 @@ GameObject:
   - 114: {fileID: 114000013054835756}
   - 61: {fileID: 61000011284479934}
   - 50: {fileID: 50000014247210256}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Bullet_RedNote
   m_TagString: Bullet
   m_Icon: {fileID: 0}

@@ -38,7 +38,7 @@ GameObject:
   - 61: {fileID: 61000014059775540}
   - 50: {fileID: 50000010271421726}
   - 114: {fileID: 114000011617162448}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Figure
   m_TagString: Bullet
   m_Icon: {fileID: 0}
