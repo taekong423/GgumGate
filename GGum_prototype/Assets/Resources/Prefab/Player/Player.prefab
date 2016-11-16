@@ -417,7 +417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
   id: Player
-  maxHP: 5
+  maxHP: 1000
   currentHP: 0
   shield: 0
   attackDamage: 1
@@ -428,7 +428,7 @@ MonoBehaviour:
   onGround: 0
   m_rigidbody: {fileID: 0}
   m_collider: {fileID: 0}
-  isInvincible: 0
+  isInvincible: 1
   attackBox: {fileID: 4000014058740316}
   container: {fileID: 1000011920897534}
   effect: {fileID: 1000011961744424, guid: 39e426155c9138f4c8b4ba22d8297363, type: 2}
