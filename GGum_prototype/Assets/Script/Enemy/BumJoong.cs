@@ -285,6 +285,7 @@ public class BumJoong : NewEnemy {
             _boss._collider.enabled = false;
             _boss.PlayAnimation("Attack1");
             _boss._sp.AppearDisplay(1.9f);
+            Global.shared<SoundManager>().ChangeBGM("BossMode");
         }
 
         public override void Excute()
@@ -758,6 +759,7 @@ public class BumJoong : NewEnemy {
             Buffer.InvincibleActive(false);
             Buffer.SuperArmourAcitve(false);
             BossHPBar.Conceal();
+            Global.shared<SoundManager>().ChangeBGM("Stage-001");
         }
 
         public override void Excute()

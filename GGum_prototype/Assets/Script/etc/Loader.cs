@@ -47,6 +47,7 @@ public class Loader : MonoBehaviour {
             if (Input.GetMouseButtonDown(0))
             {
                 async.allowSceneActivation = true;
+                break;
             }
 
             yield return null;
