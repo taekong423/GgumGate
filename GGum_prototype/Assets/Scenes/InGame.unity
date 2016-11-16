@@ -2894,6 +2894,16 @@ Prefab:
       propertyPath: _maxTrans
       value: 
       objectReference: {fileID: 294857075}
+    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
+        type: 2}
+      propertyPath: _fallSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
+        type: 2}
+      propertyPath: _maxHP
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c097522232fb6db47b117d7524121fcf, type: 2}
   m_IsPrefabParent: 0
