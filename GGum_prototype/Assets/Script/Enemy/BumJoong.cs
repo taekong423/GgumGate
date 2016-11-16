@@ -172,7 +172,7 @@ public class BumJoong : NewEnemy {
 
     IEnumerator HitAnimation()
     {
-        _soundPlayer.Play("Hit");
+        
         IsSuperArmour = true;
 
         PlayAnimation("Hit");

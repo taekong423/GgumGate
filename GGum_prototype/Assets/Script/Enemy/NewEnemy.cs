@@ -257,6 +257,7 @@ public class NewEnemy : MonoBehaviour, IEnemy {
     public void OnHit(HitData hitdata)
     {
         Debug.Log("OnHit");
+        _soundPlayer.Play("Hit");
         CurrentHP -= hitdata.damage;
     }
 

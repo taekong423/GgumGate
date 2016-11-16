@@ -135,7 +135,7 @@ public class Character : MonoBehaviour, ICharacter {
             else
             {
                 currentHP -= hitInfo.damage;
-
+                PlaySound("Hit");
                 if (currentHP <= 0)
                 {
                     // When Dead
