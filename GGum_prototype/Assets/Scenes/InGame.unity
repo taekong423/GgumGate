@@ -928,6 +928,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 114000010738359298, guid: 2c6b2847df1c78b46af866c68ffa5280,
         type: 2}
+      propertyPath: boss.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010738359298, guid: 2c6b2847df1c78b46af866c68ffa5280,
+        type: 2}
       propertyPath: flagKeys.Array.size
       value: 7
       objectReference: {fileID: 0}
@@ -972,7 +977,7 @@ Prefab:
         type: 2}
       propertyPath: boss
       value: 
-      objectReference: {fileID: 387913185}
+      objectReference: {fileID: 0}
     - target: {fileID: 114000010738359298, guid: 2c6b2847df1c78b46af866c68ffa5280,
         type: 2}
       propertyPath: squirrel
@@ -1013,6 +1018,16 @@ Prefab:
       propertyPath: flagKeys.Array.data[6]
       value: DefeatStage1Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 114000010738359298, guid: 2c6b2847df1c78b46af866c68ffa5280,
+        type: 2}
+      propertyPath: boss.Array.data[0]
+      value: 
+      objectReference: {fileID: 387913185}
+    - target: {fileID: 114000010738359298, guid: 2c6b2847df1c78b46af866c68ffa5280,
+        type: 2}
+      propertyPath: boss.Array.data[1]
+      value: 
+      objectReference: {fileID: 645694019}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c6b2847df1c78b46af866c68ffa5280, type: 2}
   m_IsPrefabParent: 0
@@ -4786,6 +4801,11 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 612676661}
+--- !u!1 &645694019 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010307751238, guid: c097522232fb6db47b117d7524121fcf,
+    type: 2}
+  m_PrefabInternal: {fileID: 383458794}
 --- !u!1 &659419671
 GameObject:
   m_ObjectHideFlags: 0
