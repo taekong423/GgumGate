@@ -2132,6 +2132,11 @@ Prefab:
       propertyPath: maxHP
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 114000010211186468, guid: c7d1e0a80b293054f8c093ec44b8586e,
+        type: 2}
+      propertyPath: isInvincible
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c7d1e0a80b293054f8c093ec44b8586e, type: 2}
   m_IsPrefabParent: 0

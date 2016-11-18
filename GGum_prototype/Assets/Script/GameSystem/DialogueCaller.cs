@@ -71,7 +71,7 @@ public class DialogueCaller : MonoBehaviour {
                 }
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) || GameController.ButtonDown(EButtonCode.Attack))
             {
                 if (!_dm.Displaying)
                 {
