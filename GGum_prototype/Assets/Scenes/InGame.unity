@@ -2707,6 +2707,11 @@ Prefab:
       propertyPath: _power
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
+        type: 2}
+      propertyPath: _shootDelay
+      value: 1.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c097522232fb6db47b117d7524121fcf, type: 2}
   m_IsPrefabParent: 0
