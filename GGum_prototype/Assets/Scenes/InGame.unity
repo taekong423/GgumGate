@@ -417,6 +417,16 @@ Prefab:
       propertyPath: m_SizeDelta.x
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 114000013274510166, guid: 74e404669ea0c3d468646104f3202739,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Restart
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011784487742, guid: 74e404669ea0c3d468646104f3202739,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Exit
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74e404669ea0c3d468646104f3202739, type: 2}
   m_IsPrefabParent: 0
@@ -2130,12 +2140,22 @@ Prefab:
     - target: {fileID: 114000010211186468, guid: c7d1e0a80b293054f8c093ec44b8586e,
         type: 2}
       propertyPath: maxHP
-      value: 25
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114000010211186468, guid: c7d1e0a80b293054f8c093ec44b8586e,
         type: 2}
       propertyPath: isInvincible
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010211186468, guid: c7d1e0a80b293054f8c093ec44b8586e,
+        type: 2}
+      propertyPath: currentHP
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010211186468, guid: c7d1e0a80b293054f8c093ec44b8586e,
+        type: 2}
+      propertyPath: attackSpeed
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c7d1e0a80b293054f8c093ec44b8586e, type: 2}
