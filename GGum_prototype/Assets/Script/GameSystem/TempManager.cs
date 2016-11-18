@@ -26,6 +26,6 @@ public class TempManager : MonoBehaviour {
     public void Restart()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("InGame");
+        SceneManager.LoadScene("Loading");
     }
 }

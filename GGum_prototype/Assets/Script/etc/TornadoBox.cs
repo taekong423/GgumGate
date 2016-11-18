@@ -41,10 +41,8 @@ public class TornadoBox : MonoBehaviour {
     {
         if (coll.CompareTag("Player"))
         {
+            Debug.Log("Out");
             _isIn = false;
-            _isThrow = false;
-            _isThrowing = false;
-            
         }
     }
 
@@ -93,7 +91,8 @@ public class TornadoBox : MonoBehaviour {
     void Throw(float dirX)
     {
         Debug.Log("Throw");
-
+        _isThrow = false;
+        _isThrowing = false;
         _player.GetComponent<Player>().isStop = false;
         _player.GetComponent<Rigidbody2D>().gravityScale = 50;
 

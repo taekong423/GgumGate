@@ -32,6 +32,8 @@ public partial class BossPig : Enemy, IEnemy {
 
     public GameObject _warringImg;
 
+    public GameObject _arrow;
+
     public int NumChild { get { return _numChild; } set { _numChild = value; } }
 
     public int CurrentHP { get { return currentHP; } set { currentHP = value; } }

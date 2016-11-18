@@ -892,6 +892,9 @@ public partial class BossPig {
             _boss._camera.ShakeCamera(1.0f);
 
             yield return new WaitForSeconds(1.0f);
+
+            _boss._arrow.SetActive(true);
+
         }
     }
 
