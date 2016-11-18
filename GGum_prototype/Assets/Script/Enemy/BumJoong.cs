@@ -618,7 +618,7 @@ public class BumJoong : NewEnemy {
             if (_boss._bigNoteNum < _boss._spawnNum)
             {
 
-                if (_boss._bigNoteDeadCount < 3 && !_isHit)
+                if (_boss._bigNoteDeadCount < 6 && !_isHit)
                 {
                     if (_delay >= _boss._spawnDelay)
                     {
