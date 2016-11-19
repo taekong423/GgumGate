@@ -808,6 +808,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013360029928, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114000011493287522, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
@@ -1111,7 +1115,7 @@ GameObject:
   - 61: {fileID: 146079565}
   m_Layer: 10
   m_Name: CB_BT_6
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2487,7 +2491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
   id: 
-  maxHP: 3
+  maxHP: 6
   currentHP: 0
   shield: 0
   attackDamage: 1
@@ -2711,6 +2715,11 @@ Prefab:
         type: 2}
       propertyPath: _shootDelay
       value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011015198972, guid: c097522232fb6db47b117d7524121fcf,
+        type: 2}
+      propertyPath: _bigNoteSelftDamage
+      value: 0.025
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c097522232fb6db47b117d7524121fcf, type: 2}
@@ -3992,7 +4001,7 @@ GameObject:
   - 68: {fileID: 558725646}
   m_Layer: 10
   m_Name: CB_BT_1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5351,7 +5360,7 @@ GameObject:
   - 61: {fileID: 769427251}
   m_Layer: 10
   m_Name: CB_BT_4
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5802,6 +5811,10 @@ Prefab:
       propertyPath: _wayPoints.Array.data[1]
       value: 
       objectReference: {fileID: 801307386}
+    - target: {fileID: 1000011009156038, guid: a12c14dec0dbc904aa135c1b28e76245, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a12c14dec0dbc904aa135c1b28e76245, type: 2}
   m_IsPrefabParent: 0
@@ -5818,7 +5831,7 @@ GameObject:
   - 61: {fileID: 821484796}
   m_Layer: 10
   m_Name: CB_BT_2
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6120,6 +6133,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013360029928, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114000011493287522, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: dcfedd9ed3c30d845b94e8dc636634b3, type: 2}
@@ -6312,7 +6329,7 @@ GameObject:
   - 61: {fileID: 935249804}
   m_Layer: 10
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7138,7 +7155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
   id: 
-  maxHP: 3
+  maxHP: 6
   currentHP: 0
   shield: 0
   attackDamage: 1
@@ -7351,7 +7368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
   id: 
-  maxHP: 3
+  maxHP: 6
   currentHP: 0
   shield: 0
   attackDamage: 1
@@ -8374,7 +8391,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
   id: 
-  maxHP: 3
+  maxHP: 6
   currentHP: 0
   shield: 0
   attackDamage: 1
@@ -8619,7 +8636,7 @@ GameObject:
   - 61: {fileID: 1241694870}
   m_Layer: 10
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10556,7 +10573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
   id: 
-  maxHP: 3
+  maxHP: 6
   currentHP: 0
   shield: 0
   attackDamage: 1
@@ -11213,7 +11230,7 @@ GameObject:
   - 61: {fileID: 1827030671}
   m_Layer: 10
   m_Name: CB_BT_3
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12023,7 +12040,7 @@ GameObject:
   - 61: {fileID: 1963864999}
   m_Layer: 10
   m_Name: CB_BT_5
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

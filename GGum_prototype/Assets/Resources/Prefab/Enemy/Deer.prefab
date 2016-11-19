@@ -427,7 +427,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011009156038}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1393.4, y: 334.1, z: 0}
+  m_LocalPosition: {x: 1359.3208, y: -2.73938, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -876,6 +876,8 @@ MonoBehaviour:
   effect: {fileID: 1000011660030780}
   _fallDelay: 1
   _collider: {fileID: 61000011631793352}
+  _groundCollider: {fileID: 0}
+  _footCollider: {fileID: 58000010514577450}
 --- !u!114 &114000010807777406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -903,7 +905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 0}
-  id: QwestDeer
+  id: 
   maxHP: 10
   currentHP: 0
   shield: 0
@@ -1034,6 +1036,8 @@ MonoBehaviour:
   effect: {fileID: 1000012828160294}
   _fallDelay: 1
   _collider: {fileID: 61000012154518750}
+  _groundCollider: {fileID: 0}
+  _footCollider: {fileID: 58000013880034924}
 --- !u!114 &114000012674697612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1050,6 +1054,8 @@ MonoBehaviour:
   effect: {fileID: 1000013489790780}
   _fallDelay: 1
   _collider: {fileID: 61000013994957474}
+  _groundCollider: {fileID: 0}
+  _footCollider: {fileID: 58000010656453776}
 --- !u!212 &212000011454152850
 SpriteRenderer:
   m_ObjectHideFlags: 1

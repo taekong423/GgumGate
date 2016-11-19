@@ -13,7 +13,7 @@ public partial class Deer : Enemy, IEnemy {
     public int MaxHP { get; set; }
 
     public string GetID { get { return id; } }
-
+        
     public void Active(bool active)
     {
         gameObject.SetActive(active);
@@ -153,13 +153,13 @@ public partial class Deer : Enemy, IEnemy {
             {
                 _enemy.animator.SetTrigger("Attack");
                 _enemy._currentAttackDelay = 0.0f;
-
+                _enemy.LookTarget(_enemy._player.transform);
                 _onAttack = true;
 
                 foreach (GameObject lighningRod in _deer._lightningRods)
                 {
                     lighningRod.GetComponent<Bullet>().pHitData = _deer.pHitData;
-                    lighningRod.transform.localPosition = new Vector3(lighningRod.transform.localPosition.x, 200, lighningRod.transform.localPosition.z);
+                    lighningRod.transform.localPosition = new Vector3(lighningRod.transform.localPosition.x, 75, lighningRod.transform.localPosition.z);
                     lighningRod.SetActive(true);
                 }
 

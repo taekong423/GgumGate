@@ -9,6 +9,9 @@ public class LightningRod : Bullet {
 
     public bool IsGround { get; set; }
 
+    public Collider2D _groundCollider;
+
+    public Collider2D _footCollider;
 
     void OnEnable()
     {
