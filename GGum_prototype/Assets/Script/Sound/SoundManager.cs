@@ -4,9 +4,15 @@ using System.Collections;
 
 public class SoundManager : MonoBehaviour {
 
+    #region 변수
+
     public AudioMixer mixer;
 
     public SoundPlayer BGM;
+
+    #endregion
+
+    #region 메소드
 
     void Start()
     {
@@ -18,6 +24,8 @@ public class SoundManager : MonoBehaviour {
         if(BGM != null)
             BGM.Play(clipName);
     }
+
+    #region SetVolume
 
     public void SetMasterVolume(float volume)
     {
@@ -33,6 +41,10 @@ public class SoundManager : MonoBehaviour {
     {
         mixer.SetFloat("Effect", volume);
     }
+
+    #endregion
+
+    #region Toggle
 
     public void ToggleMasterVolume()
     {
@@ -66,5 +78,18 @@ public class SoundManager : MonoBehaviour {
 
         SetEffectVolume(volume);
     }
+
+    #endregion
+
+    #region Fade
+
+    public void FadeVolume()
+    {
+
+    }
+
+    #endregion
+
+    #endregion
 
 }

@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour {
     public bool CameraMoveOn;
 
     private bool shakeOn;
-    private float shakeFreq = 0.05f;
+    public float shakeFreq = 0.05f;
     public float shakeRange = 5.0f;
 
     private bool isZooming = true;
@@ -54,6 +54,11 @@ public class CameraController : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            ShakeCamera(10.0f);
+        }
+
         if(CameraMoveOn)
         {
             TrackTarget();
@@ -124,17 +129,21 @@ public class CameraController : MonoBehaviour {
 
     IEnumerator Shake()
     {
+        Vector3 originPosition = transform.position;
+
         while (shakeOn)
         {
-            float x = transform.position.x + Random.Range(-shakeRange, shakeRange);
-            float y = transform.position.y + Random.Range(-shakeRange, shakeRange);
+            float x = originPosition.x + Random.Range((int)-shakeRange, (int)shakeRange);
+            float y = originPosition.y + Random.Range((int)-shakeRange, (int)shakeRange);
 
-            x = Mathf.Clamp(x, cameraClamp.xMin, cameraClamp.xMax);
-            y = Mathf.Clamp(y, cameraClamp.yMin, cameraClamp.yMax);
+            //x = Mathf.Clamp(x, cameraClamp.xMin, cameraClamp.xMax);
+            //y = Mathf.Clamp(y, cameraClamp.yMin, cameraClamp.yMax);
 
-            transform.position = new Vector3(x, y, _transform.position.z);
+            transform.position = new Vector3(x, y, originPosition.z);
             yield return new WaitForSeconds(shakeFreq);
         }
+
+        transform.position = originPosition;
     }
 
     IEnumerator ShakeForSeconds(float time)
