@@ -7,23 +7,41 @@ public class CameraController : MonoBehaviour {
 
     Transform _transform;
 
-    [Header("Follow")]
-    public float _xMargin = 1.0f; // 카메라가 따라 가기 전에 플레이어가 이동할 수있는 x 축의 거리.
-    public float _yMargin = 1.0f; // 카메라가 따라 가기 전에 플레이어가 이동할 수있는 y 축의 거리.
-    public float _xSmooth = 1.0f; // 카메라가 x 축의 목표 이동을 따라잡는 속도
-    public float _ySmooth = 1.0f; // 카메라가 y 축의 목표 이동을 따라잡는 속도
+    Camera _camera;
 
-    public Transform _followtarget;
+    [Header("Follow")]
+    [SerializeField]
+    float _xMargin = 1.0f; // 카메라가 따라 가기 전에 플레이어가 이동할 수있는 x 축의 거리.
+    [SerializeField]
+    float _yMargin = 1.0f; // 카메라가 따라 가기 전에 플레이어가 이동할 수있는 y 축의 거리.
+    [SerializeField]
+    float _xSmooth = 1.0f; // 카메라가 x 축의 목표 이동을 따라잡는 속도
+    [SerializeField]
+    float _ySmooth = 1.0f; // 카메라가 y 축의 목표 이동을 따라잡는 속도
+    [SerializeField]
+    Transform _followTarget;
 
     bool _isFollowing = false;
 
     [Header("Shake")]
-    public float _shakeRange = 5.0f;
-    public float _shakeCycle = 0.05f;
+    [SerializeField]
+    float _shakeRange = 5.0f;
+    [SerializeField]
+    float _shakeCycle = 0.05f;
 
     bool _isShaking = false;
 
+    [Header("Focus")]
+    [SerializeField]
+    float _focusSpeed = 10.0f;
+    [SerializeField]
+    float _zoomOutSpeed = 30.0f;
+    [SerializeField]
+    Transform _focusTarget;
+
     bool _isFocusing = false;
+
+    float _originalSize;
 
     #endregion
 
@@ -32,16 +50,22 @@ public class CameraController : MonoBehaviour {
     void Awake()
     {
         _transform = transform;
+        _camera = GetComponent<Camera>();
         _isFollowing = true;
+        _originalSize = _camera.orthographicSize;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            FocusTarget(_focusTarget, 1.0f, 50, false);
+            //ShakeCamera(3.0f, _shakeRange);
+        }
     }
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            //ShakeCamera(3.0f, _shakeRange);
-        }
-
         FollowTarget();
     }
 
@@ -50,29 +74,29 @@ public class CameraController : MonoBehaviour {
     bool CheckXMargin()
     {
         // x 축에서 카메라와 플레이어 사이의 거리가 x 여백보다 큰 경우 true를 반환합니다.
-        return Mathf.Abs(_transform.position.x - _followtarget.position.x) > _xMargin;
+        return Mathf.Abs(_transform.position.x - _followTarget.position.x) > _xMargin;
     }
 
     bool CheckYMargin()
     {
         // x 축에서 카메라와 플레이어 사이의 거리가 x 여백보다 큰 경우 true를 반환합니다.
-        return Mathf.Abs(_transform.position.y - _followtarget.position.y) > _yMargin;
+        return Mathf.Abs(_transform.position.y - _followTarget.position.y) > _yMargin;
     }
 
     // 타겟을 따라가는 함수
     void FollowTarget()
     {
-        if (_followtarget == null || !_isFollowing)
+        if (_followTarget == null || !_isFollowing)
             return;
 
         float targetX = _transform.position.x;
         float targetY = _transform.position.y;
 
         if (CheckXMargin())
-            targetX = Mathf.Lerp(_transform.position.x, _followtarget.position.x, _xSmooth * Time.deltaTime);
+            targetX = Mathf.Lerp(_transform.position.x, _followTarget.position.x, _xSmooth * Time.deltaTime);
 
         if (CheckYMargin())
-            targetY = Mathf.Lerp(_transform.position.y, _followtarget.position.y, _ySmooth * Time.deltaTime);
+            targetY = Mathf.Lerp(_transform.position.y, _followTarget.position.y, _ySmooth * Time.deltaTime);
 
         _transform.position = new Vector3(targetX, targetY, transform.position.z);
 
@@ -152,22 +176,89 @@ public class CameraController : MonoBehaviour {
 
     #region Focus
 
-    IEnumerator Focus(Transform target, bool focusAfterArrival)
+    // 타겟을 포커싱하는 함수
+    IEnumerator Focus(Transform target, float waitTime, float zoomSize, bool focusAfterArrival)
     {
         _isFocusing = true;
 
+        SetFollowing(false);
+
+        // 타겟 지점까지 이동이 완료되면 true, 아니면 false
+        bool endMove = false;
+        // zoomIn이 완료되면 true, 아니면 false
+        bool endZoomIn = false;
+
+        // 카메라가 이동할 지점
+        Vector3 targetPos = new Vector3(target.position.x, target.position.y, _transform.position.z);
+
+        // 카메라와 타겟 포인트와의 거리(zoom을 할때 거리에 비례하여 zoomInOut을 위한 값)
+        float distance = Vector2.Distance(targetPos, _transform.position);
+
         while (_isFocusing)
         {
-            _transform.position = Vector3.MoveTowards(_transform.position, target, );
+            // 타겟까지 이동
+            if(!endMove)
+                _transform.position = Vector3.MoveTowards(_transform.position, targetPos, _focusSpeed * Time.fixedDeltaTime);
+
+            // 도착후 zoomIn을 할것인지 바로 zoomIn을 할것인지 검사
+            // FocusAfterArrival이 true면 도착후 zoomIn, false면 바로 zoomIn
+            if ((focusAfterArrival && endMove) || (!focusAfterArrival && !endMove))
+            {
+                // zoomIn(카메라 확대)
+                if (!endZoomIn)
+                    _camera.orthographicSize = Mathf.MoveTowards(_camera.orthographicSize, zoomSize, ((50 * _focusSpeed) / distance) * Time.fixedDeltaTime);
+
+                // 목표한 zoomSize까지 확대했으면 zoomIn을 끝냄
+                if (_camera.orthographicSize.Equals(zoomSize))
+                {
+                    endZoomIn = true;
+                }
+
+            }
+            
+            // 타겟까지 이동이 완료되면 이동 끝냄
+            if (_transform.position.Equals(targetPos))
+            {
+                endMove = true;
+            }
+
+            // 이동과 확대가 끝나면 루프를 종료 시킨다.
+            if (endMove && endZoomIn)
+            {
+                _isFocusing = false;
+            }
 
             yield return new WaitForFixedUpdate();
+        }
+
+        yield return new WaitForSeconds(waitTime);
+
+        SetFollowing(true);
+        StartCoroutine(ZoomOut());
+    }
+
+    // 확대된 화면을 다시 축소 시키는 코루틴 함수
+    IEnumerator ZoomOut()
+    {
+        while (!_isFocusing)
+        {
+            _camera.orthographicSize = Mathf.MoveTowards(_camera.orthographicSize, _originalSize, _zoomOutSpeed * Time.fixedDeltaTime);
+
+            if (_camera.orthographicSize.Equals(_originalSize))
+                break;
+
+            yield return null;
         }
     }
 
     // 타겟 포커스를 시작하는 함수
-    public void FocusTarget(Transform target, bool focusAfterArrival = false)
+    public void FocusTarget(Transform target, float waitTime = 1.0f, float zoomSize = 50.0f, bool focusAfterArrival = false)
     {
-
+        if (!_isFocusing)
+        {
+            StartCoroutine(Focus(target, waitTime, zoomSize, focusAfterArrival));
+        }
+        
     }
 
     #endregion
