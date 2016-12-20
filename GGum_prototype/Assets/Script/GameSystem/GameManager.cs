@@ -88,12 +88,12 @@ public class GameManager : MonoBehaviour {
 
         if (flags[flagKeys[1]] == true)
         {
-            cameraController.CurrTarget = cameraStopPoints[1];
+            //cameraController.CurrTarget = cameraStopPoints[1];
         }
 
         if (flags[flagKeys[2]] == true)
         {
-            cameraController.CurrTarget = cameraStopPoints[0];
+            //cameraController.CurrTarget = cameraStopPoints[0];
         }
 
         if (flags[flagKeys[3]] == true)
@@ -111,14 +111,14 @@ public class GameManager : MonoBehaviour {
         if (flags[flagKeys[5]] == true)
         {
             flags[flagKeys[5]] = false;
-            cameraController.cameraClamp.xMin = 3170.0f;
-            cameraController.cameraClamp.xMax = 3515.0f;
+            //cameraController.cameraClamp.xMin = 3170.0f;
+            //cameraController.cameraClamp.xMax = 3515.0f;
         }
 
         if (flags[flagKeys[6]] == true)
         {
             flags[flagKeys[6]] = false;
-            cameraController.cameraClamp = gameData.cameraClamp[1];
+            //cameraController.cameraClamp = gameData.cameraClamp[1];
         }
     }
 
@@ -134,10 +134,10 @@ public class GameManager : MonoBehaviour {
     IEnumerator EngageSquirrel()
     {
         player.isStop = true;
-        cameraController.ZoomIn(squirrel.transform);
+        //cameraController.ZoomIn(squirrel.transform);
         yield return new WaitForSeconds(2.5f);
         player.isStop = false;
-        cameraController.ZoomOut();
+        //cameraController.ZoomOut();
     }
 
     IEnumerator RestartGame()
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour {
         currentStageNumber = stageNumber;
         player.transform.position = playerRespawnPos;
         Camera.main.transform.position = new Vector3(1080, 0, Camera.main.transform.position.z);
-        cameraController.cameraClamp = gameData.cameraClamp[currentStageNumber];
+        //cameraController.cameraClamp = gameData.cameraClamp[currentStageNumber];
         lastStage.transform.position = new Vector2(1000, -1000);
         lastStage.SetActive(false);
         stages[stageNumber].transform.position = new Vector2(1000, 0);
@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour {
         currentStageNumber--;
         player.transform.position = gameData.entrancePositions[currentStageNumber].exit;
         Camera.main.transform.position = new Vector3(gameData.entrancePositions[currentStageNumber].exit.x, gameData.entrancePositions[currentStageNumber].exit.y, Camera.main.transform.position.z);
-        cameraController.cameraClamp = gameData.cameraClamp[currentStageNumber];
+        //cameraController.cameraClamp = gameData.cameraClamp[currentStageNumber];
         lastStage.transform.position = new Vector2(1000, -1000);
         lastStage.SetActive(false);
         stages[currentStageNumber].transform.position = new Vector2(1000, 0);

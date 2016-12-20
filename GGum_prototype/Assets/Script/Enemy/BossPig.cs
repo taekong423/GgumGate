@@ -75,7 +75,7 @@ public partial class BossPig : Enemy, IEnemy {
 
     IEnumerator Hide()
     {
-        _camera.ShakeCamera(1.0f);
+        //_camera.ShakeCamera(1.0f);
 
         yield return new WaitForSeconds(0.5f);
 

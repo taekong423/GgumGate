@@ -710,7 +710,7 @@ public partial class BossPig {
 
         protected override IEnumerator Enter()
         {
-            _boss._camera.ShakeCamera(1.0f);
+            //_boss._camera.ShakeCamera(1.0f);
             yield return new WaitForSeconds(1.0f);
 
             _boss._isHide = false;
@@ -766,7 +766,7 @@ public partial class BossPig {
 
         protected override IEnumerator Enter()
         {
-            _boss._camera.ShakeCamera(1.0f);
+            //_boss._camera.ShakeCamera(1.0f);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -784,7 +784,7 @@ public partial class BossPig {
 
         protected override IEnumerator Execute()
         {
-            _boss._camera.ShakeCamera(1.0f);
+            //_boss._camera.ShakeCamera(1.0f);
 
             yield return new WaitForSeconds(0.5f);
 
@@ -889,7 +889,7 @@ public partial class BossPig {
 
             Global.shared<SoundManager>().ChangeBGM("Stage-000");
 
-            _boss._camera.ShakeCamera(1.0f);
+            //_boss._camera.ShakeCamera(1.0f);
 
             yield return new WaitForSeconds(1.0f);
 

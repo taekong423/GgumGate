@@ -3,170 +3,178 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
-    public Transform _transform;
+    #region 변수
 
-    private float xMargin = 1f;
-    private float yMargin = 1f;
-    private float xSmooth = 2f;
-    private float ySmooth = 2f;
+    Transform _transform;
 
-    public CameraClamp cameraClamp;
-    
-    private float targetX;
-    private float targetY;
-    private float orthSize;
+    [Header("Follow")]
+    public float _xMargin = 1.0f; // 카메라가 따라 가기 전에 플레이어가 이동할 수있는 x 축의 거리.
+    public float _yMargin = 1.0f; // 카메라가 따라 가기 전에 플레이어가 이동할 수있는 y 축의 거리.
+    public float _xSmooth = 1.0f; // 카메라가 x 축의 목표 이동을 따라잡는 속도
+    public float _ySmooth = 1.0f; // 카메라가 y 축의 목표 이동을 따라잡는 속도
 
-    public bool CameraMoveOn;
+    public Transform _followtarget;
 
-    private bool shakeOn;
-    public float shakeFreq = 0.05f;
-    public float shakeRange = 5.0f;
+    bool _isFollowing = false;
 
-    private bool isZooming = true;
-    public float targetSize;
+    [Header("Shake")]
+    public float _shakeRange = 5.0f;
+    public float _shakeCycle = 0.05f;
 
-    private Transform currTarget;
-    public Transform CurrTarget { get { return currTarget; } set { currTarget = value; } }
+    bool _isShaking = false;
 
-    private GameManager gameManager;
-    private GameData gameData;
+    bool _isFocusing = false;
+
+    #endregion
+
+    #region 메소드
 
     void Awake()
     {
-        
-    }
-
-    void Start()
-    {
         _transform = transform;
-        currTarget = GameObject.Find("CameraPoint").transform;
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameData = GameObject.Find("GameData").GetComponent<GameData>();
-        cameraClamp = gameData.cameraClamp[gameManager.currentStageNumber];
-        targetSize = 100f;
-        Global.shared<CameraController>(this);
-    }
-
-    void OnDestroy ()
-    {
-        Global.remove_shared<CameraController>();
+        _isFollowing = true;
     }
 
     void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            ShakeCamera(10.0f);
+            //ShakeCamera(3.0f, _shakeRange);
         }
 
-        if(CameraMoveOn)
+        FollowTarget();
+    }
+
+    #region Follow
+
+    bool CheckXMargin()
+    {
+        // x 축에서 카메라와 플레이어 사이의 거리가 x 여백보다 큰 경우 true를 반환합니다.
+        return Mathf.Abs(_transform.position.x - _followtarget.position.x) > _xMargin;
+    }
+
+    bool CheckYMargin()
+    {
+        // x 축에서 카메라와 플레이어 사이의 거리가 x 여백보다 큰 경우 true를 반환합니다.
+        return Mathf.Abs(_transform.position.y - _followtarget.position.y) > _yMargin;
+    }
+
+    // 타겟을 따라가는 함수
+    void FollowTarget()
+    {
+        if (_followtarget == null || !_isFollowing)
+            return;
+
+        float targetX = _transform.position.x;
+        float targetY = _transform.position.y;
+
+        if (CheckXMargin())
+            targetX = Mathf.Lerp(_transform.position.x, _followtarget.position.x, _xSmooth * Time.deltaTime);
+
+        if (CheckYMargin())
+            targetY = Mathf.Lerp(_transform.position.y, _followtarget.position.y, _ySmooth * Time.deltaTime);
+
+        _transform.position = new Vector3(targetX, targetY, transform.position.z);
+
+    }
+
+    // Target Follow 기능을 활성화 또는 비활성화 하는 함수
+    public void SetFollowing(bool isFollowing)
+    {
+        _isFollowing = isFollowing;
+    }
+
+    #endregion
+
+
+    #region Shake
+
+    // 카메라를 흔드는 코루틴 함수
+    IEnumerator Shake(float shakeRange, float shakeCycle)
+    {
+        SetFollowing(false);
+
+        Vector3 originalPos = _transform.position;
+
+        float x;
+        float y;
+
+        while (_isShaking)
         {
-            TrackTarget();
+            x = originalPos.x + Random.Range(-shakeRange, shakeRange);
+            y = originalPos.y + Random.Range(-shakeRange, shakeRange);
+
+            _transform.position = new Vector3(x, y, originalPos.z);
+
+            yield return new WaitForSeconds(shakeCycle);
         }
 
-        if(isZooming)
+        SetFollowing(true);
+
+    }
+
+    // 카메라 쉐이크를 활성화 시키고 몇 초후 비활성화 시키는 코루틴 함수
+    IEnumerator ShakeForSeconds(float shakeTime)
+    {
+        _isShaking = true;
+
+        yield return new WaitForSeconds(shakeTime);
+
+        _isShaking = false;
+    }
+
+
+    // 카메라를 시간에 따라 흔드는 함수
+    public void ShakeCamera(float shakeTime, float shakeRange = 5.0f, float shakeCycle = 0.05f)
+    {
+        if (!_isShaking)
         {
-            Zooming();
+            StartCoroutine(ShakeForSeconds(shakeTime));
+            StartCoroutine(Shake(shakeRange, shakeCycle));
         }
     }
 
-   bool CheckXmargin()
+    // 카메라 흔들기를 활성화 또는 비활성화 하는 함수
+    public void ShakeCamera(bool isShaking, float shakeRange = 5.0f, float shakeCycle = 0.05f)
     {
-        return Mathf.Abs(transform.position.x - currTarget.position.x) > xMargin;
-    }
-   bool CheckYmargin()
-    {
-        return Mathf.Abs(transform.position.y - currTarget.position.y) > yMargin;
-    }
-
-    void TrackTarget()
-    {
-        targetX = _transform.position.x;
-        targetY = _transform.position.y;
-
-        if (CheckXmargin())
+        if (_isShaking)
         {
-            targetX = Mathf.Lerp(_transform.position.x, currTarget.position.x, xSmooth * Time.deltaTime);
-        }
-        if (CheckYmargin())
-        {
-            targetY = Mathf.Lerp(_transform.position.y, currTarget.position.y, ySmooth * Time.deltaTime);
-        }
-
-        targetX = Mathf.Clamp(targetX, cameraClamp.xMin, cameraClamp.xMax);
-        targetY = Mathf.Clamp(targetY, cameraClamp.yMin, cameraClamp.yMax);
-
-        _transform.position = new Vector3(targetX, targetY, _transform.position.z);
-    }
-
-    void Zooming()
-    {
-        orthSize = Mathf.Lerp(Camera.main.orthographicSize, targetSize, 5 * Time.deltaTime);
-
-        orthSize = Mathf.Clamp(orthSize, 50, 100);
-
-        Camera.main.orthographicSize = orthSize;
-    }
-
-    public void ShakeCamera(float time)
-    {
-        StartCoroutine(ShakeForSeconds(time));
-        StartCoroutine(Shake());
-    }
-
-    public void ShakeCamera(bool shake)
-    {
-        if (shake)
-        {
-            shakeOn = true;
-            StartCoroutine(Shake());
+            _isShaking = isShaking;
         }
         else
         {
-            shakeOn = false;
+            _isShaking = isShaking;
+            StartCoroutine(Shake(shakeRange, shakeCycle));
         }
     }
 
-    IEnumerator Shake()
-    {
-        Vector3 originPosition = transform.position;
+    #endregion
 
-        while (shakeOn)
+    #region Focus
+
+    IEnumerator Focus(Transform target, bool focusAfterArrival)
+    {
+        _isFocusing = true;
+
+        while (_isFocusing)
         {
-            float x = originPosition.x + Random.Range((int)-shakeRange, (int)shakeRange);
-            float y = originPosition.y + Random.Range((int)-shakeRange, (int)shakeRange);
+            _transform.position = Vector3.MoveTowards(_transform.position, target, );
 
-            //x = Mathf.Clamp(x, cameraClamp.xMin, cameraClamp.xMax);
-            //y = Mathf.Clamp(y, cameraClamp.yMin, cameraClamp.yMax);
-
-            transform.position = new Vector3(x, y, originPosition.z);
-            yield return new WaitForSeconds(shakeFreq);
+            yield return new WaitForFixedUpdate();
         }
-
-        transform.position = originPosition;
     }
 
-    IEnumerator ShakeForSeconds(float time)
+    // 타겟 포커스를 시작하는 함수
+    public void FocusTarget(Transform target, bool focusAfterArrival = false)
     {
-        shakeOn = true;
-        yield return new WaitForSeconds(time);
-        shakeOn = false;
+
     }
 
-    public void ZoomIn(Transform target)
-    {
-        currTarget = target;
-        targetSize = 50.0f;
-        cameraClamp.yMin -= 50.0f;
-        cameraClamp.yMax += 50.0f;
-        cameraClamp.xMin -= 80.0f;
-        cameraClamp.xMax += 80.0f;
-    }
+    #endregion
 
-    public void ZoomOut()
-    {
-        currTarget = GameObject.Find("CameraPoint").transform;
-        targetSize = 100.0f;
-        cameraClamp = gameManager.gameData.cameraClamp[gameManager.currentStageNumber];
-    }
+
+
+
+    #endregion
+
 }

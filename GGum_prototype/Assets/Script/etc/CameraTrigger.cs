@@ -23,11 +23,11 @@ public class CameraTrigger : MonoBehaviour {
         {
             if (Check)
             {
-                Cm.GetComponent<CameraController>().CameraMoveOn = true;
+                //Cm.GetComponent<CameraController>().CameraMoveOn = true;
             }
             else
             {
-                Cm.GetComponent<CameraController>().CameraMoveOn = false;
+                //Cm.GetComponent<CameraController>().CameraMoveOn = false;
             }
           
         }
