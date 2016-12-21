@@ -128,7 +128,7 @@ public partial class Squirrel{
             StateLog();
 
             _enemy.animator.SetTrigger("Attack");
-            _enemy._player.OnHit(_enemy.pHitData);
+            //_enemy._player.OnHit(_enemy.pHitData);
 
             yield return null;
 

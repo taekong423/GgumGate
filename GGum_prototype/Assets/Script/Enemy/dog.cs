@@ -21,6 +21,6 @@ public class dog : Enemy {
 
     protected override void Attack(HitData hitInfo)
     {
-        _player.OnHit(hitInfo);
+        //_player.OnHit(hitInfo);
     }
 }

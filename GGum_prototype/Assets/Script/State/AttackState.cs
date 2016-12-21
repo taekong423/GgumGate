@@ -118,7 +118,7 @@ public class NewAttackState : State
         else if (_enemy.Attackable &&_currentTime >= _animationLength * 0.5f)
         {
             _enemy.NoAttackForSecons();
-            _enemy.GetPlayer.OnHit(_enemy.pHitData);
+            //_enemy.GetPlayer.OnHit(_enemy.pHitData);
         }
     }
 

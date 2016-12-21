@@ -32,10 +32,10 @@ public class Fairy : Character {
         while (isFloating)
         {
             float x = Random.Range(-0.5f, 0.5f);
-            targetPos.position = new Vector2(player.fairyPoint.position.x + x, player.fairyPoint.position.y + 3.0f);
+            //targetPos.position = new Vector2(player.fairyPoint.position.x + x, player.fairyPoint.position.y + 3.0f);
             yield return new WaitForSeconds(0.5f);
             x = Random.Range(-0.5f, 0.5f);
-            targetPos.position = new Vector2(player.fairyPoint.position.x + x, player.fairyPoint.position.y - 3.0f);
+            //targetPos.position = new Vector2(player.fairyPoint.position.x + x, player.fairyPoint.position.y - 3.0f);
             yield return new WaitForSeconds(0.5f);
         }
     }

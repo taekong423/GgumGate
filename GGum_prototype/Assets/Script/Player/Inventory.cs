@@ -58,30 +58,30 @@ public class Inventory : MonoBehaviour {
 
     void ApplyConsumable(List<ItemEffect> list)
     {
-        foreach(ItemEffect ie in list)
-        {
-            switch (ie.effect)
-            {
-                case EItemEffect.Hp:
-                    player.currentHP += (int)ie.value;
-                    break;
-                case EItemEffect.MaxHp:
-                    player.maxHP += (int)ie.value;
-                    break;
-                case EItemEffect.Shield:
-                    player.shield += (int)ie.value;
-                    break;
-                case EItemEffect.AttackDamage:
-                    player.attackDamage += (int)ie.value;
-                    break;
-                case EItemEffect.AttackSpeed:
-                    player.attackSpeed += ie.value;
-                    break;
-                case EItemEffect.MoveSpeed:
-                    player.moveSpeed += ie.value;
-                    break;
-            }
-        }
+        //foreach(ItemEffect ie in list)
+        //{
+        //    switch (ie.effect)
+        //    {
+        //        case EItemEffect.Hp:
+        //            player.currentHP += (int)ie.value;
+        //            break;
+        //        case EItemEffect.MaxHp:
+        //            player.maxHP += (int)ie.value;
+        //            break;
+        //        case EItemEffect.Shield:
+        //            player.shield += (int)ie.value;
+        //            break;
+        //        case EItemEffect.AttackDamage:
+        //            player.attackDamage += (int)ie.value;
+        //            break;
+        //        case EItemEffect.AttackSpeed:
+        //            player.attackSpeed += ie.value;
+        //            break;
+        //        case EItemEffect.MoveSpeed:
+        //            player.moveSpeed += ie.value;
+        //            break;
+        //    }
+        //}
     }
 
     void OnTriggerEnter2D(Collider2D other)

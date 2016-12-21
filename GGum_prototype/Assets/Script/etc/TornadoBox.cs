@@ -79,8 +79,8 @@ public class TornadoBox : MonoBehaviour {
                 {
                     _isThrow = true;
                     _dist = 0;
-                    _player.GetComponent<Player>().isStop = true;
-                    _player.GetComponent<Rigidbody2D>().gravityScale = 0;
+                    //_player.GetComponent<Player>().isStop = true;
+                    //_player.GetComponent<Rigidbody2D>().gravityScale = 0;
                 }
 
             }
@@ -93,11 +93,11 @@ public class TornadoBox : MonoBehaviour {
         Debug.Log("Throw");
         _isThrow = false;
         _isThrowing = false;
-        _player.GetComponent<Player>().isStop = false;
-        _player.GetComponent<Rigidbody2D>().gravityScale = 50;
+        //_player.GetComponent<Player>().isStop = false;
+        //_player.GetComponent<Rigidbody2D>().gravityScale = 50;
 
-        Vector2 dir = new Vector2(dirX * 20, 10);
-        _player.GetComponent<Player>().m_rigidbody.AddForce(dir * _addForce, ForceMode2D.Force);
+        //Vector2 dir = new Vector2(dirX * 20, 10);
+        //_player.GetComponent<Player>().m_rigidbody.AddForce(dir * _addForce, ForceMode2D.Force);
     }
 
 }

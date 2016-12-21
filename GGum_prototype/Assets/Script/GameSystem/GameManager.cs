@@ -133,10 +133,10 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EngageSquirrel()
     {
-        player.isStop = true;
+        //player.isStop = true;
         //cameraController.ZoomIn(squirrel.transform);
         yield return new WaitForSeconds(2.5f);
-        player.isStop = false;
+        //player.isStop = false;
         //cameraController.ZoomOut();
     }
 
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator EnterOtherStage(int stageNumber)
     {
-        player.isStop = true;
+        //player.isStop = true;
         GameObject lastStage = stages[currentStageNumber];
         screen.FadeIn();
         yield return new WaitForSeconds(screen.fadeTime);
@@ -167,12 +167,12 @@ public class GameManager : MonoBehaviour {
 
         yield return new WaitForSeconds(0.5f);
         screen.FadeOut();
-        player.isStop = false;
+        //player.isStop = false;
     }
 
     IEnumerator BackToLastStage()
     {
-        player.isStop = true;
+        //player.isStop = true;
         GameObject lastStage = stages[currentStageNumber];
         screen.FadeIn();
         yield return new WaitForSeconds(screen.fadeTime);
@@ -189,6 +189,6 @@ public class GameManager : MonoBehaviour {
 
         yield return new WaitForSeconds(0.5f);
         screen.FadeOut();
-        player.isStop = false;
+        //player.isStop = false;
     }
 }

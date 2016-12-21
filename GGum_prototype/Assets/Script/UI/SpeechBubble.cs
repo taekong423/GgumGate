@@ -41,7 +41,7 @@ public class SpeechBubble : MonoBehaviour {
     public IEnumerator StartSpeech(int number, float speechTime, bool playerStop, SpeechData[] speechData)
     {
         if (playerStop)
-            player.isStop = true;
+            //player.isStop = true;
 
         ClearSpeech();
         currentSpeech = number;
@@ -57,15 +57,15 @@ public class SpeechBubble : MonoBehaviour {
             else
             {
                 if (playerStop)
-                    player.isStop = false;
+                    //player.isStop = false;
                 yield break;
             }
         }
 
         HideSpeechBubble();
 
-        if (playerStop)
-            player.isStop = false;
+        //if (playerStop)
+            //player.isStop = false;
     }
 
     void ShowSpeechBubble(SpeechData data)

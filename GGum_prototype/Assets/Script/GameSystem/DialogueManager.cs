@@ -155,7 +155,7 @@ public class DialogueManager : MonoBehaviour {
 
     public void DialogueSetActive(bool active)
     {
-        _player.isStop = active;
+        //_player.isStop = active;
         _dialogueActive = active;
         _dialogueUI.SetActive(active);
     }

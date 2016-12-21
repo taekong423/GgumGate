@@ -34,7 +34,7 @@ public class FairyState : StatePattern {
     IEnumerator InitState()
     {
         SetState("Idle");
-        fairy.targetPos = fairy.player.fairyPoint;
+        //fairy.targetPos = fairy.player.fairyPoint;
         yield return null;
 
         NextState(fState.ToString());

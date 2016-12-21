@@ -22,18 +22,18 @@ public class HpBar : MonoBehaviour {
     // Use this for initialization
     void Start () {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        hp = ((float)player.currentHP / player.maxHP);
-        lastHp = player.currentHP;
+        //hp = ((float)player.currentHP / player.maxHP);
+        //lastHp = player.currentHP;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (IsHpChanged(player.currentHP))
+        //if (IsHpChanged(player.currentHP))
         {
-            hp = ((float)player.currentHP / player.maxHP);
+            //hp = ((float)player.currentHP / player.maxHP);
             float y = yRange.max * hp;
             hpObject.anchoredPosition = new Vector2(0, y);
-            lastHp = player.currentHP;
+            //lastHp = player.currentHP;
         }
 	}
 

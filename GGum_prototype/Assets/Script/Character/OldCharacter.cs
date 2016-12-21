@@ -7,6 +7,14 @@ using System.Collections.Generic;
 
 public class Character : MonoBehaviour, ICharacter {
 
+    //public string CurrentState { get; }
+
+    //public void OnHit(HitData hitdata)
+    //{
+
+    //}
+
+    #region Old
     [HideInInspector]
     public Transform _transform;
 
@@ -38,7 +46,7 @@ public class Character : MonoBehaviour, ICharacter {
     protected float invincibleTime;
     protected SoundPlayer soundPlayer;
 
-    
+
 
     public Dictionary<Type, StatePattern> _statePatternList;
 
@@ -65,7 +73,7 @@ public class Character : MonoBehaviour, ICharacter {
     //public float MoveSpeed { get { return moveSpeed; } set { moveSpeed = value; } }
     //public float JumpForce { get { return jumpForce; } set { jumpForce = value; } }
 
-    public string CurrentState { get { return _statePattern.CurrentState; }  }
+    public string CurrentState { get { return _statePattern.CurrentState; } }
 
 
     protected virtual void InitCharacter()
@@ -169,7 +177,7 @@ public class Character : MonoBehaviour, ICharacter {
             {
                 point -= damage;
                 damage = 0;
-            } 
+            }
             else
             {
                 damage -= point;
@@ -185,4 +193,5 @@ public class Character : MonoBehaviour, ICharacter {
     }
 
     protected virtual void HitFunc() { }
+    #endregion
 }

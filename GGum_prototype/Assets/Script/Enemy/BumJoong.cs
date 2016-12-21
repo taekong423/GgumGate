@@ -426,8 +426,8 @@ public class BumJoong : NewEnemy {
                         _hit = Physics2D.Raycast(_boss._player.transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Ground"));
 
                         Vector3 pos = _hit.point;
-                        float dir = (_boss._player.container.rotation.y == 0) ? -1 : 1;
-                        pos.x += dir * 20;
+                        //float dir = (_boss._player.container.rotation.y == 0) ? -1 : 1;
+                        //pos.x += dir * 20;
 
                         _boss._animator.gameObject.SetActive(false);
                         _boss._teleportEffect.SetActive(false);

@@ -36,7 +36,7 @@ public partial class Squirrel : Enemy {
 
     protected override void Attack(HitData hitInfo)
     {
-        _player.OnHit(hitInfo);
+        //_player.OnHit(hitInfo);
     }
 
     class CinematicState : EnemyState
