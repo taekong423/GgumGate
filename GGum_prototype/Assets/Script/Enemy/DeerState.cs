@@ -159,7 +159,7 @@ public partial class Deer {
 
             foreach (GameObject lighningRod in _deer._lightningRods)
             {
-                lighningRod.GetComponent<Bullet>().pHitData = _deer.pHitData;
+                //lighningRod.GetComponent<Bullet>().pHitData = _deer.pHitData;
                 lighningRod.transform.position = new Vector3(lighningRod.transform.position.x, 200, lighningRod.transform.position.z);
                 lighningRod.SetActive(true);
             }

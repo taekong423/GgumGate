@@ -129,7 +129,7 @@ public class Character : MonoBehaviour, ICharacter {
     protected void CreateBullet(HitData hitInfo)
     {
         GameObject obj = (GameObject)Instantiate(bullet, attackBox.position, attackBox.rotation);
-        obj.GetComponent<Bullet>().pHitData = hitInfo;
+        //obj.GetComponent<Bullet>().pHitData = hitInfo;
     }
 
     public void OnHit(HitData hitInfo)

@@ -3,11 +3,13 @@ using System.Collections;
 
 public class test : MonoBehaviour {
 
-    public Transform[] _trans;
+    [SerializeField]
+    float velocity;
+
+
 
     private void Awake()
     {
-        _trans = transform.GetComponentsInChildren<Transform>();
     }
 
     // Use this for initialization
@@ -17,6 +19,5 @@ public class test : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 }

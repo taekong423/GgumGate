@@ -25,7 +25,7 @@ public class ThrowSquirrel : Enemy {
     {
         GameObject obj = Instantiate(bullet, attackBox.position, attackBox.rotation) as GameObject;
 
-        obj.GetComponent<Bullet>().pHitData = pHitData;
+        //obj.GetComponent<Bullet>().pHitData = pHitData;
     }
 
     public class ThrowIdleState : IdleState
@@ -168,7 +168,7 @@ public class ThrowSquirrel : Enemy {
 
             GameObject obj = Instantiate(_squirrel.bullet, _squirrel.attackBox.position, _squirrel.attackBox.rotation) as GameObject;
 
-            obj.GetComponent<Bullet>().pHitData = _squirrel.pHitData;
+            //obj.GetComponent<Bullet>().pHitData = _squirrel.pHitData;
 
             yield return null;
 

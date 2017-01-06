@@ -25,19 +25,19 @@ public class Rafflesia : MonoBehaviour {
         if (other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
         {
             Rigidbody2D m_rigidbody = other.gameObject.GetComponent<Rigidbody2D>();
-            if (gm.flags["DefeatBossPig"] == true)
-            {
-                m_rigidbody.velocity = Vector2.zero;
-                if (cliff)
-                    m_rigidbody.AddForce(Vector2.up * secondForce * (inventory.questItems[new ItemData(1, "Fragment")]/3.0f), ForceMode2D.Impulse);
-                else
-                    m_rigidbody.AddForce(Vector2.up * secondForce, ForceMode2D.Impulse);
-            }
-            else
-            {
-                m_rigidbody.velocity = Vector2.zero;
-                m_rigidbody.AddForce(pushDirection * firstForce, ForceMode2D.Impulse);
-            }
+            //if (gm.flags["DefeatBossPig"] == true)
+            //{
+            //    m_rigidbody.velocity = Vector2.zero;
+            //    if (cliff)
+            //        m_rigidbody.AddForce(Vector2.up * secondForce * (inventory.questItems[new ItemData(1, "Fragment")]/3.0f), ForceMode2D.Impulse);
+            //    else
+            //        m_rigidbody.AddForce(Vector2.up * secondForce, ForceMode2D.Impulse);
+            //}
+            //else
+            //{
+            //    m_rigidbody.velocity = Vector2.zero;
+            //    m_rigidbody.AddForce(pushDirection * firstForce, ForceMode2D.Impulse);
+            //}
             
         }
     }

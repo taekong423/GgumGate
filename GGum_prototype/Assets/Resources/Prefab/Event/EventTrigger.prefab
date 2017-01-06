@@ -24,7 +24,7 @@ GameObject:
   m_Layer: 0
   m_Name: EventTrigger
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -50,7 +50,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 213340d14e289c04e8e87aa83b23fcf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isOnce: 1
   _targetTag: 
   _checkEnter: 0
   _checkStay: 0

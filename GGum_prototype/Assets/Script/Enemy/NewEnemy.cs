@@ -98,12 +98,12 @@ public class NewEnemy : MonoBehaviour, IEnemy {
             if (IsInvincible)
                 return;
 
-            HitData hitdata = coll.GetComponent<Bullet>().pHitData;
+            //HitData hitdata = coll.GetComponent<Bullet>().pHitData;
 
-            if (hitdata.attacker.CompareTag("Enemy"))
-                return;
+            //if (hitdata.attacker.CompareTag("Enemy"))
+            //    return;
 
-            OnHit(hitdata);
+            //OnHit(hitdata);
             Destroy(coll.gameObject);
         }
     }

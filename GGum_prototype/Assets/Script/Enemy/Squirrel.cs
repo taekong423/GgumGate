@@ -57,10 +57,10 @@ public partial class Squirrel : Enemy {
 
         protected override IEnumerator Execute()
         {
-            while (!_gm.flags[_gm.flagKeys[0]])
-            {
-                yield return null;
-            }
+            //while (!_gm.flags[_gm.flagKeys[0]])
+            //{
+            //    yield return null;
+            //}
 
             yield return null;
 

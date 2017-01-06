@@ -29,7 +29,7 @@ public partial class ExplosionPig : NormalPig {
         {
             _boss.NumChild--;
             GameObject obj = Instantiate(_explosionPrefab, transform.position, Quaternion.identity) as GameObject;
-            obj.GetComponent<Explosion>().pHitData = pHitData;
+            //obj.GetComponent<Explosion>().pHitData = pHitData;
             SetStatePattern<InitState>();
             gameObject.SetActive(false);
         }

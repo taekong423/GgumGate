@@ -52,7 +52,7 @@ public partial class ExplosionPig
             else
             {
                 GameObject obj = Instantiate(_pig._explosionPrefab, _pig.transform.position, Quaternion.identity) as GameObject;
-                obj.GetComponent<Explosion>().pHitData = _pig.pHitData;
+                //obj.GetComponent<Explosion>().pHitData = _pig.pHitData;
                 SetState("Init");
                 _pig.gameObject.SetActive(false);
             }

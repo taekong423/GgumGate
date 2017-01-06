@@ -158,7 +158,7 @@ public partial class Deer : Enemy, IEnemy {
 
                 foreach (GameObject lighningRod in _deer._lightningRods)
                 {
-                    lighningRod.GetComponent<Bullet>().pHitData = _deer.pHitData;
+                    //lighningRod.GetComponent<Bullet>().pHitData = _deer.pHitData;
                     lighningRod.transform.localPosition = new Vector3(lighningRod.transform.localPosition.x, 75, lighningRod.transform.localPosition.z);
                     lighningRod.SetActive(true);
                 }

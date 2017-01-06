@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
-    protected HitData hitData;
+    protected New.HitData hitData;
 
     
 
@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
 
     public GameObject effect;
 
-    public HitData pHitData { get { return hitData; } set { hitData = value; } }
+    public New.HitData pHitData { get { return hitData; } set { hitData = value; } }
 
 
     protected void Move()

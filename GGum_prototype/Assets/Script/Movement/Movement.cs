@@ -15,11 +15,32 @@ public class Movement : MonoBehaviour {
 
     #region 메소드
 
+    void Awake()
+    {
+        Init();
+    }
+
+    protected virtual void Init()
+    {
+        _transfom = transform;
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
     // 기본 이동하는 함수
     protected void BaseMove(Vector2 direction, float scaleValue, float speed, Space space)
     {
-        //_transfom.Translate(direction * scaleValue * speed * Time.fixedDeltaTime, space);
-    } 
+        _transfom.Translate(direction * scaleValue * speed * Time.fixedDeltaTime, space);
+    }
+
+    protected void BasePhysicsXMove(float scaleValue, float speed)
+    {
+        _rigidbody.velocity = new Vector2(scaleValue * speed, _rigidbody.velocity.y);
+    }
+
+    protected void BasePhysicsYMove(float scaleValue, float speed)
+    {
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, scaleValue * speed);
+    }
 
     #endregion
 

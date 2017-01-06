@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
     #region 변수
 
-    Transform _transform;
+    static CameraController _instance;
 
+    Transform _transform;
+    BoxCollider _collider;
     Camera _camera;
 
     [Header("Follow")]
@@ -43,30 +46,58 @@ public class CameraController : MonoBehaviour {
 
     float _originalSize;
 
+    [Header("Fade")]
+    [SerializeField]
+    Image _fadeScreen;
+
+    bool _isFading = false;
+
+    #endregion
+
+    #region 프로퍼티
+
+    public static CameraController Instance
+    {
+        get
+        {
+            //if
+
+            return _instance;
+        }
+    }
+
     #endregion
 
     #region 메소드
 
     void Awake()
     {
+        if (_instance == null)
+            _instance = this;
+        else
+            Destroy(gameObject);
+
         _transform = transform;
         _camera = GetComponent<Camera>();
         _isFollowing = true;
         _originalSize = _camera.orthographicSize;
-    }
+        _collider = GetComponent<BoxCollider>();
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            FocusTarget(_focusTarget, 1.0f, 50, false);
-            //ShakeCamera(3.0f, _shakeRange);
-        }
+        SetColliderSize();
+
     }
 
     void FixedUpdate()
     {
         FollowTarget();
+    }
+
+    void SetColliderSize()
+    {
+        float height = _camera.orthographicSize * 2;
+        float width = _camera.aspect * height;
+
+        _collider.size = new Vector3(width, height, 100);
     }
 
     #region Follow
@@ -103,13 +134,12 @@ public class CameraController : MonoBehaviour {
     }
 
     // Target Follow 기능을 활성화 또는 비활성화 하는 함수
-    public void SetFollowing(bool isFollowing)
+    public static void SetFollowing(bool isFollowing)
     {
-        _isFollowing = isFollowing;
+        Instance._isFollowing = isFollowing;
     }
 
     #endregion
-
 
     #region Shake
 
@@ -149,26 +179,26 @@ public class CameraController : MonoBehaviour {
 
 
     // 카메라를 시간에 따라 흔드는 함수
-    public void ShakeCamera(float shakeTime, float shakeRange = 5.0f, float shakeCycle = 0.05f)
+    public static void ShakeCamera(float shakeTime, float shakeRange = 5.0f, float shakeCycle = 0.05f)
     {
-        if (!_isShaking)
+        if (!Instance._isShaking)
         {
-            StartCoroutine(ShakeForSeconds(shakeTime));
-            StartCoroutine(Shake(shakeRange, shakeCycle));
+            Instance.StartCoroutine(Instance.ShakeForSeconds(shakeTime));
+            Instance.StartCoroutine(Instance.Shake(shakeRange, shakeCycle));
         }
     }
 
     // 카메라 흔들기를 활성화 또는 비활성화 하는 함수
-    public void ShakeCamera(bool isShaking, float shakeRange = 5.0f, float shakeCycle = 0.05f)
+    public static void ShakeCamera(bool isShaking, float shakeRange = 5.0f, float shakeCycle = 0.05f)
     {
-        if (_isShaking)
+        if (Instance._isShaking)
         {
-            _isShaking = isShaking;
+            Instance._isShaking = isShaking;
         }
         else
         {
-            _isShaking = isShaking;
-            StartCoroutine(Shake(shakeRange, shakeCycle));
+            Instance._isShaking = isShaking;
+            Instance.StartCoroutine(Instance.Shake(shakeRange, shakeCycle));
         }
     }
 
@@ -206,8 +236,10 @@ public class CameraController : MonoBehaviour {
             {
                 // zoomIn(카메라 확대)
                 if (!endZoomIn)
+                {
                     _camera.orthographicSize = Mathf.MoveTowards(_camera.orthographicSize, zoomSize, ((50 * _focusSpeed) / distance) * Time.fixedDeltaTime);
-
+                    SetColliderSize();
+                }
                 // 목표한 zoomSize까지 확대했으면 zoomIn을 끝냄
                 if (_camera.orthographicSize.Equals(zoomSize))
                 {
@@ -243,7 +275,7 @@ public class CameraController : MonoBehaviour {
         while (!_isFocusing)
         {
             _camera.orthographicSize = Mathf.MoveTowards(_camera.orthographicSize, _originalSize, _zoomOutSpeed * Time.fixedDeltaTime);
-
+            SetColliderSize();
             if (_camera.orthographicSize.Equals(_originalSize))
                 break;
 
@@ -252,19 +284,56 @@ public class CameraController : MonoBehaviour {
     }
 
     // 타겟 포커스를 시작하는 함수
-    public void FocusTarget(Transform target, float waitTime = 1.0f, float zoomSize = 50.0f, bool focusAfterArrival = false)
+    public static void FocusTarget(Transform target, float waitTime = 1.0f, float zoomSize = 50.0f, bool focusAfterArrival = false)
     {
-        if (!_isFocusing)
+        if (!Instance._isFocusing)
         {
-            StartCoroutine(Focus(target, waitTime, zoomSize, focusAfterArrival));
+            Instance.StartCoroutine(Instance.Focus(target, waitTime, zoomSize, focusAfterArrival));
         }
         
     }
 
     #endregion
 
+    #region Fade
+
+    // 화면을 페이드하는 코루틴
+    IEnumerator FadeScreen(float fadeTime, bool isFadeIn)
+    {
+        _isFading = true;
+
+        float alpha = (isFadeIn) ? 0 : 1;
+        float currentAlpha = (isFadeIn) ? 1 : 0;
+
+        while (_isFading)
+        {
+            currentAlpha = Mathf.MoveTowards(currentAlpha, alpha, (1/fadeTime) * Time.deltaTime);
+
+            _fadeScreen.color = new Color(0, 0, 0, currentAlpha);
+
+            if (currentAlpha == alpha)
+            {
+                _isFading = false;
+            }
+
+            yield return null;
+        }
+        
+    }
+
+    // 일정 시간안에 페이드 하는 코루틴 호출 함수
+    public static void Fade(float fadeTime, bool isFadeIn = true)
+    {
+        if(!Instance._isFading && Instance._fadeScreen != null)
+        {
+            Instance.StartCoroutine(Instance.FadeScreen(fadeTime, isFadeIn));
+        }
+
+    }
 
 
+
+    #endregion
 
     #endregion
 

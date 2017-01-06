@@ -50,25 +50,25 @@ public class NewSquirrel : NewEnemy {
         public override void Excute()
         {
 
-            if (_gm.flags[_gm.flagKeys[0]])
-            {
-                if (!_onCineatic)
-                {
-                    _onCineatic = true;
-                    _enemy.PlayAnimation("TutoSturn");
-                }
-                else
-                {
+            //if (_gm.flags[_gm.flagKeys[0]])
+            //{
+            //    if (!_onCineatic)
+            //    {
+            //        _onCineatic = true;
+            //        _enemy.PlayAnimation("TutoSturn");
+            //    }
+            //    else
+            //    {
 
-                    _delay -= Time.fixedDeltaTime;
+            //        _delay -= Time.fixedDeltaTime;
 
-                    if (_delay <= 0)
-                    {
-                        _enemy.SetState("Idle");
-                    }
+            //        if (_delay <= 0)
+            //        {
+            //            _enemy.SetState("Idle");
+            //        }
 
-                }
-            }
+            //    }
+            //}
 
         }
 

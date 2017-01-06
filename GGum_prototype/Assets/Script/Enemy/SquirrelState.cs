@@ -211,10 +211,10 @@ public partial class Squirrel{
 
             yield return null;
 
-            while (!_enemy._gm.flags[_enemy._gm.flagKeys[0]])
-            {
-                yield return null;
-            }
+            //while (!_enemy._gm.flags[_enemy._gm.flagKeys[0]])
+            //{
+            //    yield return null;
+            //}
 
             _enemy.animator.SetTrigger("TutoSturn");
 

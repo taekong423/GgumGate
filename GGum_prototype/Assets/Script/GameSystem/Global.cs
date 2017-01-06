@@ -18,6 +18,11 @@ public class Global : MonoBehaviour
         {
             if (_instance == null)
             {
+                _instance = GameObject.FindObjectOfType<Global>();
+            }
+
+            if (_instance == null)
+            {
                 lock (synLock)
                 {
                     GameObject prefab = Resources.Load<GameObject>(prefab_path);
@@ -49,16 +54,18 @@ public class Global : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
 
         }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-
-        
 
         foreach (MonoBehaviour mono in this.GetComponentsInChildren<MonoBehaviour>())
         {
             _component_objects.Add(mono.GetType(), mono);
+        }
+    }
+
+    void Start()
+    {
+        if(_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
         }
     }
 
@@ -182,40 +189,5 @@ public class Global : MonoBehaviour
     {
         return _this == null;
     }
-
-    bool _onDecal = true;
-
-    public static bool OnDecal { get { return _this._onDecal; } set { _this._onDecal = value; } }
-
-    bool _onBullet = true;
-
-    public static bool OnBullet { get { return _this._onBullet; } set { _this._onBullet = value; } }
-
-
-    bool _onParticle = true;
-
-    public static bool OnParticle { get { return _this._onParticle; } set { _this._onParticle = value; } }
-
-
-
-    //FPS
-    bool _setFPS = false;
-    public static bool SetFPS { get { return _this._setFPS; } set { _this._setFPS = value; } }
-
-    float _maxFPS = -1.0f;
-    float _minFPS = 999999.0f;
-    float _averageFPS = 0.0f;
-
-    public static float MaxFPS { get { return _this._maxFPS; } set { _this._maxFPS = value; } }
-    public static float MinFPS { get { return _this._minFPS; } set { _this._minFPS = value; } }
-    public static float AverageFPS { get { return _this._averageFPS; } set { _this._averageFPS = value; } }
-
-    string _minFPSTIme = "";
-
-    public static string MinFPSTime { get { return _this._minFPSTIme; } set { _this._minFPSTIme = value; } }
-
-    List<string> _fps55 = new List<string>();
-
-    public static List<string> FPS55 { get { return _this._fps55; } set { _this._fps55 = value; } }
 
 }

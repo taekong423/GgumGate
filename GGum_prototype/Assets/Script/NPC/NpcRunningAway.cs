@@ -22,17 +22,17 @@ public class NpcRunningAway : Character {
 	
 	// Update is called once per frame
 	void Update () {
-        if (gm.flags["NpcRunningAway"] == true)
-        {
-            if (transform.position.x < (player.gameObject.transform.position.x - dist))
-            {
-                transform.position = initialPos;
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                Move(Axis.Horizontal, -1.0f);
-            }
-        }
+        //if (gm.flags["NpcRunningAway"] == true)
+        //{
+        //    if (transform.position.x < (player.gameObject.transform.position.x - dist))
+        //    {
+        //        transform.position = initialPos;
+        //        gameObject.SetActive(false);
+        //    }
+        //    else
+        //    {
+        //        Move(Axis.Horizontal, -1.0f);
+        //    }
+        //}
     }
 }

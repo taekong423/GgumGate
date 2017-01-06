@@ -17,10 +17,10 @@ public class StageCheck_Destroy : MonoBehaviour {
 
         if (_gm != null)
         {
-            if (!_gm.stages[_gm.currentStageNumber].name.Equals(_stageName))
-            {
-                Destroy(gameObject);
-            }
+            //if (!_gm.stages[_gm.currentStageNumber].name.Equals(_stageName))
+            //{
+            //    Destroy(gameObject);
+            //}
         }
 
 	}

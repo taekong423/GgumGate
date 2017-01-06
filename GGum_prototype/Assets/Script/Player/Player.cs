@@ -4,6 +4,12 @@ using New;
 
 public partial class Player : New.Character, IPlayer {
 
+    #region 변수
+
+    Animator _animator;
+
+    Rigidbody2D _rigidbody;
+
     [SerializeField]
     CharacterMovement _movement;
 
@@ -12,22 +18,98 @@ public partial class Player : New.Character, IPlayer {
 
     public float _test;
 
+    [SerializeField]
+    Weapon _weapon;
+
+    bool _canAttack = true;
+    bool _isAttacking = false;
+
+    #endregion
+
+    #region 프로퍼티
+
+    public bool CanAttack { get { return _canAttack; } set { _canAttack = value; } }
+
+    #endregion
+
+    #region 메소드
+
+    void Awake()
+    {
+        Global.shared<Player>(this);
+        _animator = GetComponent<Animator>();
+        _rigidbody = GetComponentInParent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        // Climb 가능한지, 지금 Climb하는 중이 아닌지 검사
+        if (_movement.CanClimbing && !_movement.IsClimbing)
+        {
+            if (_yAxis != 0)
+            {
+                _movement.OnClimb();
+                _animator.SetTrigger("Climb");
+            }
+        }
+        // Climb 가능하지 않은지, 지금 Climb하는 중인지 검사
+        else if(!_movement.CanClimbing && _movement.IsClimbing)
+        {
+            _movement.OffClimb();
+        }
+        PlayerAnimation();
+        _test = GetComponentInParent<Rigidbody2D>().velocity.y;
+    }
+
+
     void FixedUpdate()
     {
-        _test = GetComponentInParent<Rigidbody2D>().velocity.magnitude;
 
-        MoveHorizontal();
         MoveVertical();
+        MoveHorizontal();
+
+    }
+
+    public override void NoIgnoreCollision(Collider2D[] colliders)
+    {
+        base.NoIgnoreCollision(colliders);
+        _movement.CanCheckPlatform = true;
+    }
+
+    public override void IgnoreCollision(Collider2D[] colliders)
+    {
+        base.IgnoreCollision(colliders);
+        _movement.CanCheckPlatform = false;
+    }
+
+    void PlayerAnimation()
+    {
+        _animator.SetFloat("xSpeed", Mathf.Abs(_movement.GetVelocity.x));
+        _animator.SetFloat("ySpeed", Mathf.Abs(_movement.GetVelocity.y));
+        _animator.SetBool("IsGround", _movement.IsGround);
+        _animator.SetBool("IsClimbing", _movement.IsClimbing);
+        _animator.SetBool("CanAttack", _canAttack);
     }
 
     void MoveHorizontal()
     {
-        _movement.Move(Vector2.right, _xAxis);
+        if (!_movement.IsClimbing)
+        {
+            //_movement.Move(Vector2.right, _xAxis);
+            _movement.PhysicsXMove(_xAxis);
+        }
+        else
+        {
+            _movement.ClimbX(_xAxis);
+        }
     }
 
     void MoveVertical()
     {
-        _movement.Move(Vector2.up, _yAxis);
+        if (_movement.IsClimbing)
+        {
+            _movement.ClimbY(_yAxis);
+        }
     }
 
     public void Move(float xAxis, float yAxis)
@@ -35,6 +117,61 @@ public partial class Player : New.Character, IPlayer {
         _xAxis = xAxis;
         _yAxis = yAxis;
     }
+
+    public void Jump()
+    {
+        if (_yAxis < 0 && CanThrough)
+        {
+            _movement.Jump(2500);
+            IgnoreCollision(_ignoreColliders);
+        }
+
+        _movement.Jump();
+    }
+
+    public void OnFly()
+    {
+        _movement.OnFly();
+    }
+
+    public void OffFly()
+    {
+        _movement.OffFly();
+    }
+
+    IEnumerator AttackForSeconds()
+    {
+        _animator.SetTrigger("Attack");
+
+        _isAttacking = true;
+
+        yield return null;
+
+        _canAttack = false;
+
+        yield return new WaitForSeconds(_weapon.Delay);
+
+        _canAttack = true;
+        _isAttacking = false;
+
+    }
+
+    public void OnAttack()
+    {
+        if (_canAttack)
+        {
+            if(!_isAttacking)
+                StartCoroutine(AttackForSeconds());
+        }
+    }
+
+    public void Attack()
+    {
+        _weapon.Attack();
+    }
+
+    #endregion
+
 
     #region Old
     //enum PCState

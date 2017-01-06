@@ -27,6 +27,27 @@ public class PlayerController : MonoBehaviour {
         _yAxis = Input.GetAxisRaw("Vertical");
 
         _player.Move(_xAxis, _yAxis);
+        
+        if (Input.GetKey(KeyCode.C))
+        {
+            _player.OnAttack();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _player.Jump();
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            _player.OnFly();
+        }
+        else
+        {
+            _player.OffFly();
+        }
+
+
     }
 
     #endregion

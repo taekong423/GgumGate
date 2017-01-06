@@ -18,11 +18,11 @@ public partial class Enemy : AICharacter {
             if (isInvincible)
                 return;
 
-            HitData hitdata = other.GetComponent<Bullet>().pHitData;
+            //HitData hitdata = other.GetComponent<Bullet>().pHitData;
 
-            if (hitdata.attacker.CompareTag("Enemy"))
-                return;
-            OnHit(hitdata);
+            //if (hitdata.attacker.CompareTag("Enemy"))
+            //    return;
+            //OnHit(hitdata);
 
             Destroy(other.gameObject);
         }

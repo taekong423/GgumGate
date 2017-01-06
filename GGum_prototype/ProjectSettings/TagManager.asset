@@ -25,12 +25,12 @@ TagManager:
   - Ladder
   - Player
   - Enemy
-  - Foot
+  - CharacterCollider
   - Ball
   - Wall
   - Bullet
   - NPC
-  - 
+  - Platform
   - 
   - 
   - 

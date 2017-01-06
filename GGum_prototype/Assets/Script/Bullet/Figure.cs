@@ -18,7 +18,7 @@ public class Figure : Bullet {
 
     public override void DestroyBullet(float time)
     {
-        Destroy(gameObject, time);
+        //Destroy(gameObject, time);
     }
 
     void OnDestroy()
@@ -36,7 +36,7 @@ public class Figure : Bullet {
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            DestroyBullet(0);
+            //DestroyBullet(0);
         }
         if (other.CompareTag("Enemy"))
         {

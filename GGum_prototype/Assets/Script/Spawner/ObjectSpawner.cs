@@ -13,7 +13,7 @@ public class ObjectSpawner : Spawner {
     void SpawnObject()
     {
         GameObject obj = Instantiate(_spawnPrefab, _spawnPoint.position, _spawnPoint.rotation) as GameObject;
-        obj.GetComponent<Bullet>().pHitData = new HitData(gameObject, 1);
+        //obj.GetComponent<Bullet>().pHitData = new HitData(gameObject, 1);
     }
 
     
